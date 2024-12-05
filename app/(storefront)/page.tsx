@@ -9,6 +9,7 @@ export default function IndexPage() {
     <div>
       {/* <Hero /> */}
       {/* <LandingHeader /> */}
+      <LandingHeader />
       <CategoriesSelection />
       <FeaturedProducts />
     </div>

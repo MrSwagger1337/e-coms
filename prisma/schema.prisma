@@ -64,7 +64,7 @@ enum ProductStatus {
 }
 
 enum Category {
-  men
-  women
-  kids
+  cosmetics
+  perfume
+  beauty
 }
