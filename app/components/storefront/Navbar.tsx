@@ -23,7 +23,7 @@ export async function Navbar() {
     <nav className="w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between border-lg rounded-xl border-red-500">
       <div className="flex items-center">
         <Link href="/">
-          <img src="/logo.png" width="60%" />
+          <img src="https://i.ibb.co/Y08jgCb/Logo.png" width="60%" />
         </Link>
         <NavbarLinks />
       </div>
