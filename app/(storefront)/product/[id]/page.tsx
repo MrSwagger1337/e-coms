@@ -38,10 +38,10 @@ export default async function ProductIdRoute({
   const data = await getData(params.id);
   const addProducttoShoppingCart = addItem.bind(null, data.id);
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 max-w-7xl mx-auto md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
         <ImageSlider images={data.images} />
-        <div>
+        <div className="max-w-lg">
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
             {data.name}
           </h1>
@@ -64,6 +64,6 @@ export default async function ProductIdRoute({
       <div className="mt-16">
         <FeaturedProducts />
       </div>
-    </>
+    </div>
   );
 }

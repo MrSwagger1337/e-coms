@@ -2,9 +2,7 @@ import { ProductCard } from "@/app/components/storefront/ProductCard";
 import prisma from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
-import styles from './categories.module.css'
-
-
+import styles from "./categories.module.css";
 
 async function getData(productCategory: string) {
   switch (productCategory) {
@@ -101,8 +99,12 @@ export default async function CategoriesPage({
   noStore();
   const { data, title } = await getData(params.name);
   return (
-    <section>
-      <h1 className="my-5 py-10 px-5 border-b border-gray-900/10"><span className={`font-semibold text-3xl ${styles.textOutline}`}>{title}</span></h1>
+    <section className="max-w-7xl mx-auto">
+      <h1 className="my-5 py-10 px-5 border-b border-gray-900/10">
+        <span className={`font-semibold text-3xl ${styles.textOutline}`}>
+          {title}
+        </span>
+      </h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {data.map((item) => (
           <ProductCard item={item} key={item.id} />

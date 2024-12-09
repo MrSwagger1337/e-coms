@@ -10,8 +10,12 @@ export default function IndexPage() {
       {/* <Hero /> */}
       {/* <LandingHeader /> */}
       <LandingHeader />
-      <CategoriesSelection />
+
+      <div className="max-w-screen-2xl mx-auto my-12">
+        <img src="./hero_banner.png" className="w-full" />
+      </div>
       <FeaturedProducts />
+      <CategoriesSelection />
     </div>
   );
 }
