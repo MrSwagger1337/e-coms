@@ -4,13 +4,31 @@ import all from "@/public/all.jpeg";
 import men from "@/public/men.jpeg";
 import women from "@/public/women.jpeg";
 
+import { cn } from "@/lib/utils";
+
+function SaleHeading4({ className }: { className?: string }) {
+  return (
+    <h2
+      className={cn(
+        "text-4xl font-extrabold tracking-tight mb-5 relative",
+        className
+      )}
+    >
+      Shop by{" "}
+      <span className="relative inline-block">
+        <span className="relative z-10 text-white px-4 py-1">Category</span>
+        <span className="absolute inset-0 bg-pink-500 transform skew-x-12"></span>
+        <span className="absolute -left-2 -right-2 h-1/2 bg-pink-600 top-full"></span>
+      </span>
+    </h2>
+  );
+}
+
 export function CategoriesSelection() {
   return (
     <div className="py-24 sm:py-32">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-extrabold tracking-tight">
-          Shop by Category
-        </h2>
+        <SaleHeading4 />
 
         <Link
           className="text-sm font-semibold text-primary hover:text-primary/80"
