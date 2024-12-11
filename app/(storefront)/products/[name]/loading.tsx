@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LoadingFile() {
   return (
-    <div>
+    <div className="w-screen bg-white">
       <Skeleton className="h-10 w-56 my-5" />
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">

@@ -16,11 +16,13 @@ export default async function CategoriesPage({
   const { data, title } = await getProductsByCategory(params.name);
 
   return (
-    <section className="max-w-7xl mx-auto min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <AnimatedHeading title={title} />
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProductList initialProducts={data} />
-      </Suspense>
-    </section>
+    <div className=" bg-white">
+      <section className="max-w-7xl mx-auto min-h-screen py-12 px-4 sm:px-6 lg:px-8 ">
+        <AnimatedHeading title={title} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductList initialProducts={data} />
+        </Suspense>
+      </section>
+    </div>
   );
 }

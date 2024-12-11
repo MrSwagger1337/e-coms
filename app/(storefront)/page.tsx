@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export default function IndexPage() {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       {/* <Hero /> */}
       {/* <LandingHeader /> */}
       <LandingHeader />
