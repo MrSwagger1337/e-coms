@@ -11,8 +11,8 @@ export default function IndexPage() {
       {/* <LandingHeader /> */}
       <LandingHeader />
 
-      <div className="max-w-screen-2xl mx-auto my-12">
-        <img src="./hero_banner.png" className="w-full" />
+      <div className="max-w-screen-2xl mx-auto hidden md:block my-12">
+        <img src="./hero_banner.png" className=" md:w-full" />
       </div>
       <FeaturedProducts />
       <CategoriesSelection />

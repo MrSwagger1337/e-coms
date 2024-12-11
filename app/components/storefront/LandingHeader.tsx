@@ -19,8 +19,8 @@ export function LandingHeader() {
           Love <text className="text-black">With!</text>
         </h1>
       </div>
-      <div className="w-1/2 flex justify-center items-center flex-col">
-        <span className="w-[45vh] z-10 absolute h-[52vh] drop-shadow-md border rounded-xl shadow-lg shadow-[#c5c5c5]" />
+      <div className="w-1/2 hidden  md:flex justify-center items-center flex-col">
+        <span className="w-[42vh] z-10 absolute h-[52vh] drop-shadow-md border rounded-3xl shadow-lg shadow-[#c5c5c5]" />
         <img src="./header_img.png" alt="Main Image" className="z-20" />
       </div>
     </div>

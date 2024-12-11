@@ -29,7 +29,7 @@ export function FeaturedProducts() {
   return (
     <>
       <h2 className="text-4xl font-extrabold tracking-tight">
-        Items On Sale!!
+        Items On <text className="text-[#ED008C] text-4xl">Sale</text>!!
       </h2>
       <Suspense fallback={<LoadingRows />}>
         <LoadFeaturedproducts />

@@ -99,13 +99,13 @@ export default async function CategoriesPage({
   noStore();
   const { data, title } = await getData(params.name);
   return (
-    <section className="max-w-7xl mx-auto">
-      <h1 className="my-5 py-10 px-5 border-b border-gray-900/10">
+    <section className="max-w-7xl mx-auto min-h-screen bg-white/80 rounded-lg">
+      <h1 className="my-5 py-10 px-5 border-b border-gray-900/20">
         <span className={`font-semibold text-3xl ${styles.textOutline}`}>
           {title}
         </span>
       </h1>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 px-5">
         {data.map((item) => (
           <ProductCard item={item} key={item.id} />
         ))}
