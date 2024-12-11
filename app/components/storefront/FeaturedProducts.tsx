@@ -55,7 +55,7 @@ function SaleHeading4({ className }: { className?: string }) {
 async function FeaturedProductsContent() {
   const data = await getFeaturedProducts();
 
-  // if (data.length === 0) return null;
+  if (data.length === 0) return null;
 
   return (
     <>

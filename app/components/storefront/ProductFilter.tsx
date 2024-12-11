@@ -17,7 +17,7 @@ export function ProductFilter({ categories, onFilterChange }: FilterProps) {
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 mb-8">
+    <div className="flex flex-wrap justify-center gap-4 mb-8 pt-5 md:pt-0">
       {categories.map((category) => (
         <motion.button
           key={category}
