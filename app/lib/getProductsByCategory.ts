@@ -1,20 +1,20 @@
-import prisma from "@/app/lib/db";
-import { notFound } from "next/navigation";
-import { Prisma } from "@prisma/client";
+import prisma from "@/app/lib/db"
+import { notFound } from "next/navigation"
+import type { Prisma } from "@prisma/client"
 
 export type Product = {
-  id: string;
-  name: string;
-  images: string[];
-  price: number;
-  description: string;
-  category: string;
-};
+  id: string
+  name: string
+  images: string[]
+  price: number
+  description: string
+  category: string
+}
 
 export type CategoryData = {
-  title: string;
-  data: Product[];
-};
+  title: string
+  data: Product[]
+}
 
 export async function getProductsByCategory(productCategory: string): Promise<CategoryData> {
   const categories: { [key: string]: string } = {
@@ -22,18 +22,18 @@ export async function getProductsByCategory(productCategory: string): Promise<Ca
     cosmetics: "Cosmetics",
     perfume: "Perfumes",
     beauty: "Beauty products",
-  };
+  }
 
   if (!(productCategory in categories)) {
-    notFound();
+    notFound()
   }
 
   const whereClause: Prisma.ProductWhereInput = {
     status: "published",
-  };
+  }
 
   if (productCategory !== "all") {
-    whereClause.category = productCategory as Prisma.EnumCategoryFilter<"Product">;
+    whereClause.category = productCategory as Prisma.EnumCategoryFilter<"Product">
   }
 
   const data = await prisma.product.findMany({
@@ -46,11 +46,11 @@ export async function getProductsByCategory(productCategory: string): Promise<Ca
       description: true,
       category: true,
     },
-  });
+  })
 
   return {
     title: categories[productCategory],
     data: data as Product[],
-  };
+  }
 }
 

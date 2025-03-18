@@ -1,45 +1,38 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { ProductCard } from "@/app/components/storefront/ProductCard";
-import { ProductFilter } from "@/app/components/storefront/ProductFilter";
-import { motion, AnimatePresence } from "framer-motion";
-import { Product } from "@/app/lib/getProductsByCategory";
+import { useState } from "react"
+import { ProductCard } from "@/app/components/storefront/ProductCard"
+import { ProductFilter } from "@/app/components/storefront/ProductFilter"
+import { motion, AnimatePresence } from "framer-motion"
+import type { Product } from "@/app/lib/getProductsByCategory"
+import { useLanguage } from "@/app/context/LanguageContext"
 
 export function ProductList({
   initialProducts,
 }: {
-  initialProducts: Product[];
+  initialProducts: Product[]
 }) {
-  const [products] = useState<Product[]>(initialProducts);
-  const [filteredProducts, setFilteredProducts] =
-    useState<Product[]>(initialProducts);
-  const categories = [
-    "all",
-    ...Array.from(new Set(products.map((product) => product.category))),
-  ];
+  const [products] = useState<Product[]>(initialProducts)
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialProducts)
+  const { dictionary, isRtl } = useLanguage()
+
+  if (!dictionary) return null
+
+  const categories = ["all", ...Array.from(new Set(products.map((product) => product.category)))]
 
   const handleFilterChange = (category: string) => {
     if (category === "all") {
-      setFilteredProducts(products);
+      setFilteredProducts(products)
     } else {
-      setFilteredProducts(
-        products.filter((product) => product.category === category)
-      );
+      setFilteredProducts(products.filter((product) => product.category === category))
     }
-  };
+  }
 
   return (
     <>
-      <ProductFilter
-        categories={categories}
-        onFilterChange={handleFilterChange}
-      />
+      <ProductFilter categories={categories} onFilterChange={handleFilterChange} />
       <AnimatePresence>
-        <motion.div
-          layout
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((item) => (
             <motion.div
               key={item.id}
@@ -55,5 +48,6 @@ export function ProductList({
         </motion.div>
       </AnimatePresence>
     </>
-  );
+  )
 }
+

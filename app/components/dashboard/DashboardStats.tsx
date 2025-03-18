@@ -1,6 +1,6 @@
-import prisma from "@/app/lib/db";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, PartyPopper, ShoppingBag, User2 } from "lucide-react";
+import prisma from "@/app/lib/db"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DollarSign, PartyPopper, ShoppingBag, User2 } from "lucide-react"
 
 async function getData() {
   const [user, products, order] = await Promise.all([
@@ -21,21 +21,21 @@ async function getData() {
         amount: true,
       },
     }),
-  ]);
+  ])
 
   return {
     user,
     products,
     order,
-  };
+  }
 }
 
 export async function DashboardStats() {
-  const { products, user, order } = await getData();
+  const { products, user, order } = await getData()
 
   const totalAmount = order.reduce((accumalator, currentValue) => {
-    return accumalator + currentValue.amount;
-  }, 0);
+    return accumalator + currentValue.amount
+  }, 0)
   return (
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
       <Card>
@@ -44,9 +44,7 @@ export async function DashboardStats() {
           <DollarSign className="h-4 w-4 text-green-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold">
-            ${new Intl.NumberFormat("en-US").format(totalAmount / 100)}
-          </p>
+          <p className="text-2xl font-bold">${new Intl.NumberFormat("en-US").format(totalAmount / 100)}</p>
           <p className="text-xs text-muted-foreground">Based on 100 Charges</p>
         </CardContent>
       </Card>
@@ -57,9 +55,7 @@ export async function DashboardStats() {
         </CardHeader>
         <CardContent>
           <p className="text-2xl font-bold">+{order.length}</p>
-          <p className="text-xs text-muted-foreground">
-            Total Sales
-          </p>
+          <p className="text-xs text-muted-foreground">Total Sales</p>
         </CardContent>
       </Card>
       <Card>
@@ -69,9 +65,7 @@ export async function DashboardStats() {
         </CardHeader>
         <CardContent>
           <p className="text-2xl font-bold">{products.length}</p>
-          <p className="text-xs text-muted-foreground">
-            Total Products created
-          </p>
+          <p className="text-xs text-muted-foreground">Total Products created</p>
         </CardContent>
       </Card>
       <Card>
@@ -85,5 +79,6 @@ export async function DashboardStats() {
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
+

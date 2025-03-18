@@ -1,7 +1,6 @@
 .textOutline {
-    -webkit-text-stroke: 1px #fa4db2; /* Blue-600 color */
-    text-stroke: 1px #f735a7;
-    color: #ED008C;
-  }
-  
-  
+  -webkit-text-stroke: 1px #fa4db2; /* Blue-600 color */
+  text-stroke: 1px #f735a7;
+  color: #ed008c;
+}
+

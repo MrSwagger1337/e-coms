@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function ProductLoadingRoute() {
   return (
@@ -21,5 +21,6 @@ export default function ProductLoadingRoute() {
         <Skeleton className="w-full h-12 mt-5" />
       </div>
     </div>
-  );
+  )
 }
+

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod"
 
 export const productSchema = z.object({
   name: z.string(),
@@ -8,9 +8,10 @@ export const productSchema = z.object({
   images: z.array(z.string()).min(1, "At least one image is required"),
   category: z.enum(["cosmetics", "perfume", "beauty"]),
   isFeatured: z.boolean().optional(),
-});
+})
 
 export const bannerSchema = z.object({
   title: z.string(),
   imageString: z.string(),
-});
+})
+

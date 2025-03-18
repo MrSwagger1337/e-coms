@@ -1,69 +1,56 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, XIcon } from "lucide-react";
-import Link from "next/link";
-import { SubmitButton } from "../SubmitButtons";
-import { Switch } from "@/components/ui/switch";
-import Image from "next/image";
-import { UploadDropzone } from "@/app/lib/uplaodthing";
-import { categories } from "@/app/lib/categories";
-import { useState } from "react";
-import { useFormState } from "react-dom";
-import { createProduct, editProduct } from "@/app/actions";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { productSchema } from "@/app/lib/zodSchemas";
-import { type $Enums } from "@prisma/client";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { ChevronLeft, XIcon } from "lucide-react"
+import Link from "next/link"
+import { SubmitButton } from "../SubmitButtons"
+import { Switch } from "@/components/ui/switch"
+import Image from "next/image"
+import { UploadDropzone } from "@/app/lib/uplaodthing"
+import { categories } from "@/app/lib/categories"
+import { useState } from "react"
+import { useFormState } from "react-dom"
+import { editProduct } from "@/app/actions"
+import { useForm } from "@conform-to/react"
+import { parseWithZod } from "@conform-to/zod"
+import { productSchema } from "@/app/lib/zodSchemas"
+import type { $Enums } from "@prisma/client"
 
 interface iAppProps {
   data: {
-    id: string;
-    name: string;
-    description: string;
-    status: $Enums.ProductStatus;
-    price: number;
-    images: string[];
-    category: $Enums.Category;
-    isFeatured: boolean;
-  };
+    id: string
+    name: string
+    description: string
+    status: $Enums.ProductStatus
+    price: number
+    images: string[]
+    category: $Enums.Category
+    isFeatured: boolean
+  }
 }
 
 export function EditForm({ data }: iAppProps) {
-  const [images, setImages] = useState<string[]>(data.images);
-  const [lastResult, action] = useFormState(editProduct, undefined);
+  const [images, setImages] = useState<string[]>(data.images)
+  const [lastResult, action] = useFormState(editProduct, undefined)
   const [form, fields] = useForm({
     lastResult,
 
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: productSchema });
+      return parseWithZod(formData, { schema: productSchema })
     },
 
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
-  });
+  })
 
   const handleDelete = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
-  };
+    setImages(images.filter((_, i) => i !== index))
+  }
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
       <input type="hidden" name="productId" value={data.id} />
@@ -79,9 +66,7 @@ export function EditForm({ data }: iAppProps) {
       <Card className="mt-5">
         <CardHeader>
           <CardTitle>Product Details</CardTitle>
-          <CardDescription>
-            In this form you can update your product
-          </CardDescription>
+          <CardDescription>In this form you can update your product</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
@@ -123,21 +108,13 @@ export function EditForm({ data }: iAppProps) {
 
             <div className="flex flex-col gap-3">
               <Label>Featured Product</Label>
-              <Switch
-                key={fields.isFeatured.key}
-                name={fields.isFeatured.name}
-                defaultChecked={data.isFeatured}
-              />
+              <Switch key={fields.isFeatured.key} name={fields.isFeatured.name} defaultChecked={data.isFeatured} />
               <p className="text-red-500">{fields.isFeatured.errors}</p>
             </div>
 
             <div className="flex flex-col gap-3">
               <Label>Status</Label>
-              <Select
-                key={fields.status.key}
-                name={fields.status.name}
-                defaultValue={data.status}
-              >
+              <Select key={fields.status.key} name={fields.status.name} defaultValue={data.status}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
@@ -152,11 +129,7 @@ export function EditForm({ data }: iAppProps) {
 
             <div className="flex flex-col gap-3">
               <Label>Category</Label>
-              <Select
-                key={fields.category.key}
-                name={fields.category.name}
-                defaultValue={data.category}
-              >
+              <Select key={fields.category.key} name={fields.category.name} defaultValue={data.category}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
@@ -206,10 +179,10 @@ export function EditForm({ data }: iAppProps) {
                 <UploadDropzone
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    setImages(res.map((r) => r.url));
+                    setImages(res.map((r) => r.url))
                   }}
                   onUploadError={() => {
-                    alert("Something went wrong");
+                    alert("Something went wrong")
                   }}
                 />
               )}
@@ -223,5 +196,6 @@ export function EditForm({ data }: iAppProps) {
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }
+

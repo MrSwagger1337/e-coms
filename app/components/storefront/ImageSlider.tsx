@@ -1,32 +1,30 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
+import { useState } from "react"
+import { useLanguage } from "@/app/context/LanguageContext"
 
 interface iAppProps {
-  images: string[];
+  images: string[]
 }
 
 export function ImageSlider({ images }: iAppProps) {
-  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const [mainImageIndex, setMainImageIndex] = useState(0)
+  const { isRtl } = useLanguage()
 
   function handlePreviousClick() {
-    setMainImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
+    setMainImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1))
   }
 
   function handleNextClick() {
-    setMainImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setMainImageIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1))
   }
 
   function handleImageClick(index: number) {
-    setMainImageIndex(index);
+    setMainImageIndex(index)
   }
 
   return (
@@ -35,16 +33,16 @@ export function ImageSlider({ images }: iAppProps) {
         <Image
           width={600}
           height={600}
-          src={images[mainImageIndex]}
+          src={images[mainImageIndex] || "/placeholder.svg"}
           alt="Product image"
           className="object-cover w-[600px] h-[600px]"
         />
 
         <div className="absolute inset-0 flex items-center justify-between px-4">
-          <Button onClick={handlePreviousClick} variant="ghost" size="icon">
+          <Button onClick={isRtl ? handleNextClick : handlePreviousClick} variant="ghost" size="icon">
             <ChevronLeft className="w-6 h-6" />
           </Button>
-          <Button onClick={handleNextClick} variant="ghost" size="icon">
+          <Button onClick={isRtl ? handlePreviousClick : handleNextClick} variant="ghost" size="icon">
             <ChevronRight className="w-6 h-6" />
           </Button>
         </div>
@@ -54,16 +52,14 @@ export function ImageSlider({ images }: iAppProps) {
         {images.map((image, index) => (
           <div
             className={cn(
-              index === mainImageIndex
-                ? "border-2 border-primary"
-                : "border border-gray-200",
-              "relative overflow-hidden rounded-lg cursor-pointer"
+              index === mainImageIndex ? "border-2 border-primary" : "border border-gray-200",
+              "relative overflow-hidden rounded-lg cursor-pointer",
             )}
             key={index}
             onClick={() => handleImageClick(index)}
           >
             <Image
-              src={image}
+              src={image || "/placeholder.svg"}
               alt="Product Image"
               width={100}
               height={100}
@@ -73,5 +69,6 @@ export function ImageSlider({ images }: iAppProps) {
         ))}
       </div>
     </div>
-  );
+  )
 }
+

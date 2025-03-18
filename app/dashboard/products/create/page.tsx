@@ -1,56 +1,43 @@
-"use client";
+"use client"
 
-import { createProduct } from "@/app/actions";
-import { UploadDropzone } from "@/app/lib/uplaodthing";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, XIcon } from "lucide-react";
-import Link from "next/link";
-import { useFormState } from "react-dom";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { productSchema } from "@/app/lib/zodSchemas";
-import { useState } from "react";
+import { createProduct } from "@/app/actions"
+import { UploadDropzone } from "@/app/lib/uplaodthing"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
+import { ChevronLeft, XIcon } from "lucide-react"
+import Link from "next/link"
+import { useFormState } from "react-dom"
+import { useForm } from "@conform-to/react"
+import { parseWithZod } from "@conform-to/zod"
+import { productSchema } from "@/app/lib/zodSchemas"
+import { useState } from "react"
 
-import Image from "next/image";
-import { categories } from "@/app/lib/categories";
-import { SubmitButton } from "@/app/components/SubmitButtons";
+import Image from "next/image"
+import { categories } from "@/app/lib/categories"
+import { SubmitButton } from "@/app/components/SubmitButtons"
 
 export default function ProductCreateRoute() {
-  const [images, setImages] = useState<string[]>([]);
-  const [lastResult, action] = useFormState(createProduct, undefined);
+  const [images, setImages] = useState<string[]>([])
+  const [lastResult, action] = useFormState(createProduct, undefined)
   const [form, fields] = useForm({
     lastResult,
 
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: productSchema });
+      return parseWithZod(formData, { schema: productSchema })
     },
 
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
-  });
+  })
 
   const handleDelete = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
-  };
+    setImages(images.filter((_, i) => i !== index))
+  }
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
@@ -66,9 +53,7 @@ export default function ProductCreateRoute() {
       <Card className="mt-5">
         <CardHeader>
           <CardTitle>Product Details</CardTitle>
-          <CardDescription>
-            In this form you can create your product
-          </CardDescription>
+          <CardDescription>In this form you can create your product</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-6">
@@ -120,11 +105,7 @@ export default function ProductCreateRoute() {
 
             <div className="flex flex-col gap-3">
               <Label>Status</Label>
-              <Select
-                key={fields.status.key}
-                name={fields.status.name}
-                defaultValue={fields.status.initialValue}
-              >
+              <Select key={fields.status.key} name={fields.status.name} defaultValue={fields.status.initialValue}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
@@ -139,11 +120,7 @@ export default function ProductCreateRoute() {
 
             <div className="flex flex-col gap-3">
               <Label>Category</Label>
-              <Select
-                key={fields.category.key}
-                name={fields.category.name}
-                defaultValue={fields.category.initialValue}
-              >
+              <Select key={fields.category.key} name={fields.category.name} defaultValue={fields.category.initialValue}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
@@ -193,10 +170,10 @@ export default function ProductCreateRoute() {
                 <UploadDropzone
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    setImages(res.map((r) => r.url));
+                    setImages(res.map((r) => r.url))
                   }}
                   onUploadError={() => {
-                    alert("Something went wrong");
+                    alert("Something went wrong")
                   }}
                 />
               )}
@@ -210,5 +187,6 @@ export default function ProductCreateRoute() {
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }
+

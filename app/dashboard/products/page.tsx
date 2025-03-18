@@ -1,12 +1,6 @@
-import prisma from "@/app/lib/db";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import prisma from "@/app/lib/db"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,33 +8,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { MoreHorizontal, PlusCircle, UserIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { unstable_noStore as noStore } from "next/cache";
+} from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { MoreHorizontal, PlusCircle } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { unstable_noStore as noStore } from "next/cache"
 
 async function getData() {
   const data = await prisma.product.findMany({
     orderBy: {
       createdAt: "desc",
     },
-  });
+  })
 
-  return data;
+  return data
 }
 
 export default async function ProductsRoute() {
-  noStore();
-  const data = await getData();
+  noStore()
+  const data = await getData()
   return (
     <>
       <div className="flex items-center justify-end">
@@ -54,9 +41,7 @@ export default async function ProductsRoute() {
       <Card className="mt-5">
         <CardHeader>
           <CardTitle>Products</CardTitle>
-          <CardDescription>
-            Manage your products and view their sales performance
-          </CardDescription>
+          <CardDescription>Manage your products and view their sales performance</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -85,9 +70,7 @@ export default async function ProductsRoute() {
                   <TableCell>{item.name}</TableCell>
                   <TableCell>{item.status}</TableCell>
                   <TableCell>${item.price}</TableCell>
-                  <TableCell>
-                    {new Intl.DateTimeFormat("en-US").format(item.createdAt)}
-                  </TableCell>
+                  <TableCell>{new Intl.DateTimeFormat("en-US").format(item.createdAt)}</TableCell>
                   <TableCell className="text-end">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -99,14 +82,10 @@ export default async function ProductsRoute() {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/products/${item.id}`}>
-                            Edit
-                          </Link>
+                          <Link href={`/dashboard/products/${item.id}`}>Edit</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/products/${item.id}/delete`}>
-                            Delete
-                          </Link>
+                          <Link href={`/dashboard/products/${item.id}/delete`}>Delete</Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -118,5 +97,6 @@ export default async function ProductsRoute() {
         </CardContent>
       </Card>
     </>
-  );
+  )
 }
+

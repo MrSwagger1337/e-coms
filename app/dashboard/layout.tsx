@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
-import { DashboardNavigation } from "../components/dashboard/DasboardNavigation";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { CircleUser, MenuIcon } from "lucide-react";
+import type { ReactNode } from "react"
+import { DashboardNavigation } from "../components/dashboard/DasboardNavigation"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button"
+import { CircleUser, MenuIcon } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,23 +10,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { redirect } from "next/navigation";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { unstable_noStore as noStore } from "next/cache";
+} from "@/components/ui/dropdown-menu"
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import { redirect } from "next/navigation"
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components"
+import { unstable_noStore as noStore } from "next/cache"
 
 export default async function DashboardLayout({
   children,
 }: {
-  children: ReactNode;
+  children: ReactNode
 }) {
-  noStore();
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  noStore()
+  const { getUser } = getKindeServerSession()
+  const user = await getUser()
 
   if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/");
+    return redirect("/")
   }
   return (
     <div className="flex w-full flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,11 +37,7 @@ export default async function DashboardLayout({
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button
-              className="shrink-0 md:hidden"
-              variant="outline"
-              size="icon"
-            >
+            <Button className="shrink-0 md:hidden" variant="outline" size="icon">
               <MenuIcon className="h-5 w-5" />
             </Button>
           </SheetTrigger>
@@ -69,5 +65,6 @@ export default async function DashboardLayout({
       </header>
       <main className="my-5">{children}</main>
     </div>
-  );
+  )
 }
+

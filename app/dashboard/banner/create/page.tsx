@@ -1,42 +1,35 @@
-"use client";
+"use client"
 
-import { createBanner } from "@/app/actions";
-import { SubmitButton } from "@/app/components/SubmitButtons";
-import { UploadDropzone } from "@/app/lib/uplaodthing";
-import { bannerSchema } from "@/app/lib/zodSchemas";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useForm } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import { ChevronLeft } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-import { useFormState } from "react-dom";
+import { createBanner } from "@/app/actions"
+import { SubmitButton } from "@/app/components/SubmitButtons"
+import { UploadDropzone } from "@/app/lib/uplaodthing"
+import { bannerSchema } from "@/app/lib/zodSchemas"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useForm } from "@conform-to/react"
+import { parseWithZod } from "@conform-to/zod"
+import { ChevronLeft } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { useState } from "react"
+import { useFormState } from "react-dom"
 
 export default function BannerRoute() {
-  const [image, setImages] = useState<string | undefined>(undefined);
-  const [lastResult, action] = useFormState(createBanner, undefined);
+  const [image, setImages] = useState<string | undefined>(undefined)
+  const [lastResult, action] = useFormState(createBanner, undefined)
 
   const [form, fields] = useForm({
     lastResult,
 
     onValidate({ formData }) {
-      return parseWithZod(formData, { schema: bannerSchema });
+      return parseWithZod(formData, { schema: bannerSchema })
     },
 
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
-  });
+  })
 
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
@@ -88,10 +81,10 @@ export default function BannerRoute() {
               ) : (
                 <UploadDropzone
                   onClientUploadComplete={(res) => {
-                    setImages(res[0].url);
+                    setImages(res[0].url)
                   }}
                   onUploadError={() => {
-                    alert("Something went wrong");
+                    alert("Something went wrong")
                   }}
                   endpoint="bannerImageRoute"
                 />
@@ -106,5 +99,6 @@ export default function BannerRoute() {
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }
+

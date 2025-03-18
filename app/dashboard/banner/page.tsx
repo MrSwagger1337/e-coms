@@ -1,12 +1,6 @@
-import prisma from "@/app/lib/db";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import prisma from "@/app/lib/db"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,33 +8,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { MoreHorizontal, PlusCircle, User2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { unstable_noStore as noStore } from "next/cache";
+} from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { MoreHorizontal, PlusCircle } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { unstable_noStore as noStore } from "next/cache"
 
 async function getData() {
   const data = await prisma.banner.findMany({
     orderBy: {
       createdAt: "desc",
     },
-  });
+  })
 
-  return data;
+  return data
 }
 
 export default async function BannerRoute() {
-  noStore();
-  const data = await getData();
+  noStore()
+  const data = await getData()
   return (
     <>
       <div className="flex items-center justify-end">
@@ -92,9 +79,7 @@ export default async function BannerRoute() {
                         <DropdownMenuSeparator />
 
                         <DropdownMenuItem asChild>
-                          <Link href={`/dashboard/banner/${item.id}/delete`}>
-                            Delete
-                          </Link>
+                          <Link href={`/dashboard/banner/${item.id}/delete`}>Delete</Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -106,5 +91,6 @@ export default async function BannerRoute() {
         </CardContent>
       </Card>
     </>
-  );
+  )
 }
+

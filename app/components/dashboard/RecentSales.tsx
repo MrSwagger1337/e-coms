@@ -1,6 +1,6 @@
-import prisma from "@/app/lib/db";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import prisma from "@/app/lib/db"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 async function getData() {
   const data = await prisma.order.findMany({
@@ -19,13 +19,13 @@ async function getData() {
       createdAt: "desc",
     },
     take: 7,
-  });
+  })
 
-  return data;
+  return data
 }
 
 export async function RecentSales() {
-  const data = await getData();
+  const data = await getData()
   return (
     <Card>
       <CardHeader>
@@ -36,22 +36,17 @@ export async function RecentSales() {
           <div className="flex items-center gap-4" key={item.id}>
             <Avatar className="hidden sm:flex h-9 w-9">
               <AvatarImage src={item.User?.profileImage} alt="Avatar Image" />
-              <AvatarFallback>
-                {item.User?.firstName.slice(0, 3)}
-              </AvatarFallback>
+              <AvatarFallback>{item.User?.firstName.slice(0, 3)}</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
               <p className="text-sm font-medium">{item.User?.firstName}</p>
-              <p className="text-sm text-muted-foreground">
-                {item.User?.email}
-              </p>
+              <p className="text-sm text-muted-foreground">{item.User?.email}</p>
             </div>
-            <p className="ml-auto font-medium">
-              +${new Intl.NumberFormat("en-US").format(item.amount / 100)}
-            </p>
+            <p className="ml-auto font-medium">+${new Intl.NumberFormat("en-US").format(item.amount / 100)}</p>
           </div>
         ))}
       </CardContent>
     </Card>
-  );
+  )
 }
+

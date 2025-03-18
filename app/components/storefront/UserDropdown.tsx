@@ -1,5 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,16 +9,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+} from "@/components/ui/dropdown-menu"
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components"
+import { useLanguage } from "@/app/context/LanguageContext"
 
 interface iAppProps {
-  email: string;
-  name: string;
-  userImage: string;
+  email: string
+  name: string
+  userImage: string
 }
 
 export function UserDropdown({ email, name, userImage }: iAppProps) {
+  const { isRtl } = useLanguage()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,16 +32,17 @@ export function UserDropdown({ email, name, userImage }: iAppProps) {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
+      <DropdownMenuContent className="w-56" align={isRtl ? "start" : "end"} forceMount>
         <DropdownMenuLabel className="flex flex-col space-y-1">
           <p className="text-sm font-medium leading-none">{name}</p>
           <p className="text-xs leading-none text-muted-foreground">{email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <LogoutLink>Log out</LogoutLink>
+          <LogoutLink>{isRtl ? "تسجيل الخروج" : "Log out"}</LogoutLink>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }
+

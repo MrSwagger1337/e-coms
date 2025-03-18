@@ -14,4 +14,5 @@ export const categories = [
     title: "Beauty",
     name: "beauty",
   },
-];
+]
+

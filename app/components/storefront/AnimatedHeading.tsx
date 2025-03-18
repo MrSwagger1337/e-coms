@@ -1,30 +1,23 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+import { useLanguage } from "@/app/context/LanguageContext"
 
 interface AnimatedHeadingProps {
-  title: string;
-  className?: string;
+  title: string
+  className?: string
 }
 
 export function AnimatedHeading({ title, className }: AnimatedHeadingProps) {
-  const words = title.split(" ");
-  const lastWord = words.pop();
-  const restOfTitle = words.join(" ");
+  const { isRtl } = useLanguage()
+  const words = title.split(" ")
+  const lastWord = words.pop()
+  const restOfTitle = words.join(" ")
 
   return (
-    <h2
-      className={cn(
-        "text-4xl font-extrabold tracking-tight mb-5 relative",
-        className
-      )}
-    >
-      <motion.span
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+    <h2 className={cn("text-4xl font-extrabold tracking-tight mb-5 relative", className)}>
+      <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {restOfTitle}{" "}
       </motion.span>
       <span className="relative inline-block">
@@ -43,12 +36,13 @@ export function AnimatedHeading({ title, className }: AnimatedHeadingProps) {
           transition={{ duration: 0.5, delay: 0.1 }}
         ></motion.span>
         <motion.span
-          className="absolute -left-2 -right-2 h-1/2 bg-pink-600 top-full"
+          className={`absolute ${isRtl ? "-right-2 -left-2" : "-left-2 -right-2"} h-1/2 bg-pink-600 top-full`}
           initial={{ scaleY: 0 }}
           animate={{ scaleY: 1 }}
           transition={{ duration: 0.3, delay: 0.3 }}
         ></motion.span>
       </span>
     </h2>
-  );
+  )
 }
+

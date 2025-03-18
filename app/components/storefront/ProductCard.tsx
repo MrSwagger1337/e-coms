@@ -1,26 +1,27 @@
-import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Skeleton } from "@/components/ui/skeleton";
-import Image from "next/image";
-import Link from "next/link";
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Skeleton } from "@/components/ui/skeleton"
+import Image from "next/image"
+import Link from "next/link"
+import { useLanguage } from "@/app/context/LanguageContext"
 
 interface iAppProps {
   item: {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    images: string[];
-  };
+    id: string
+    name: string
+    description: string
+    price: number
+    images: string[]
+  }
 }
 
 export function ProductCard({ item }: iAppProps) {
+  const { dictionary, isRtl } = useLanguage()
+
+  if (!dictionary) return null
+
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Carousel className="w-full mx-auto">
@@ -29,7 +30,7 @@ export function ProductCard({ item }: iAppProps) {
             <CarouselItem key={index}>
               <div className="relative h-[330px]">
                 <Image
-                  src={image}
+                  src={image || "/placeholder.svg"}
                   alt="Product Image"
                   fill
                   className="object-cover object-center w-full h-full rounded-t-lg"
@@ -38,13 +39,11 @@ export function ProductCard({ item }: iAppProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="ml-16" />
-        <CarouselNext className="mr-16" />
+        <CarouselPrevious className={`${isRtl ? "mr-16" : "ml-16"}`} />
+        <CarouselNext className={`${isRtl ? "ml-16" : "mr-16"}`} />
       </Carousel>
       <div className="px-5 pb-5">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          {item.name}
-        </h5>
+        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
         <div className="flex items-center mt-2.5 mb-5">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             {/* Placeholder for Ratings */}
@@ -65,23 +64,21 @@ export function ProductCard({ item }: iAppProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            AED {item.price}
+            {isRtl ? `${item.price} ${dictionary.product.price}` : `${dictionary.product.price} ${item.price}`}
           </span>
           <Button asChild>
             <Link
               href={`/product/${item.id}`}
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Buy
+              {dictionary.product.buy}
             </Link>
           </Button>
         </div>
-        <p className="text-gray-600 text-sm mt-2 line-clamp-2">
-          {item.description}
-        </p>
+        <p className="text-gray-600 text-sm mt-2 line-clamp-2">{item.description}</p>
       </div>
     </div>
-  );
+  )
 }
 
 export function LoadingProductCard() {
@@ -94,5 +91,6 @@ export function LoadingProductCard() {
       </div>
       <Skeleton className="w-full h-10 mt-5" />
     </div>
-  );
+  )
 }
+
