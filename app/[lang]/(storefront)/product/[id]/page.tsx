@@ -60,7 +60,7 @@ export default async function ProductIdRoute({
           <p className="text-base text-gray-700 mt-6">{data.description}</p>
 
           <form action={addProducttoShoppingCart}>
-            <ShoppingBagButton lang={params.lang} />
+            <ShoppingBagButton />
           </form>
         </div>
       </div>
