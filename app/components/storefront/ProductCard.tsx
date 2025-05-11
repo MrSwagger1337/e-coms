@@ -16,74 +16,89 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star } from "lucide-react";
+import { Star, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
 interface iAppProps {
-  item: {
+  data: {
     id: string;
     name: string;
+    nameAr?: string;
     description: string;
+    descriptionAr?: string;
     price: number;
     images: string[];
+    category: string;
   };
+  lang: "en" | "ar";
 }
 
-export function ProductCard({ item }: iAppProps) {
+export function ProductCard({ data, lang }: iAppProps) {
   const { dictionary, isRtl } = useLanguage();
+  const dict = dictionary || {};
+  const isRtl = lang === "ar";
+  const addProducttoShoppingCart = addItem.bind(null, data.id);
 
   if (!dictionary) return null;
 
   return (
-    <Card className="overflow-hidden">
-      <Carousel className="w-full">
-        <CarouselContent>
-          {item.images.map((image, index) => (
-            <CarouselItem key={index}>
-              <div className="relative aspect-square">
-                <Image
-                  src={image || "/placeholder.svg"}
-                  alt="Product Image"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious
-          className={cn("left-4", isRtl ? "left-auto right-4" : "left-4")}
-        />
-        <CarouselNext
-          className={cn("right-4", isRtl ? "right-auto left-4" : "right-4")}
-        />
-      </Carousel>
-
-      <CardHeader className="space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{item.name}</h3>
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Star className="h-3 w-3 fill-current" />
-            <span>5.0</span>
-          </Badge>
+    <Card className="group overflow-hidden">
+      <CardContent className="p-0">
+        <div className="relative aspect-square">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {data.images.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div className="relative aspect-square">
+                    <Image
+                      fill
+                      src={image}
+                      alt="Product Image"
+                      className="object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-2" />
+            <CarouselNext className="right-2" />
+          </Carousel>
+          <form action={addProducttoShoppingCart}>
+            <Button
+              size="icon"
+              className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ShoppingBag className="w-4 h-4" />
+            </Button>
+          </form>
         </div>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {item.description}
-        </p>
-      </CardHeader>
-
-      <CardFooter className="flex items-center justify-between">
-        <span className="text-2xl font-bold">
-          {isRtl
-            ? `${item.price} ${dictionary.product.price}`
-            : `${dictionary.product.price} ${item.price}`}
-        </span>
-        <Button asChild>
-          <Link href={`/product/${item.id}`}>{dictionary.product.buy}</Link>
-        </Button>
+      </CardContent>
+      <CardFooter className="p-4">
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-lg">
+              {isRtl ? data.nameAr || data.name : data.name}
+            </h3>
+            <Badge variant="secondary">{data.category}</Badge>
+          </div>
+          <p className="text-muted-foreground line-clamp-2">
+            {isRtl ? data.descriptionAr || data.description : data.description}
+          </p>
+          <p className="font-semibold">
+            {isRtl
+              ? `${data.price} ${dict.product.price}`
+              : `${dict.product.price}${data.price}`}
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );

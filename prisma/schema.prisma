@@ -28,7 +28,9 @@ model User {
 model Product {
   id          String        @id @default(uuid())
   name        String
+  name_ar     String?       // Optional Arabic name
   description String
+  description_ar String?     // Optional Arabic description
   status      ProductStatus
   price       Int
   images      String[]
@@ -41,6 +43,7 @@ model Product {
 model Banner {
   id          String @id @default(uuid())
   title       String
+  title_ar    String?       // Optional Arabic title
   imageString String
 
   createdAt DateTime @default(now())

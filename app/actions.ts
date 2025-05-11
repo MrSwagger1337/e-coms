@@ -1,290 +1,354 @@
-"use server"
+"use server";
 
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { redirect } from "next/navigation"
-import { parseWithZod } from "@conform-to/zod"
-import { bannerSchema, productSchema } from "./lib/zodSchemas"
-import prisma from "./lib/db"
-import { redis } from "./lib/redis"
-import type { Cart } from "./lib/interfaces"
-import { revalidatePath } from "next/cache"
-import { stripe } from "./lib/stripe"
-import type Stripe from "stripe"
-import { locales } from "@/middleware"
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
+import { parseWithZod } from "@conform-to/zod";
+import { bannerSchema, productSchema } from "./lib/zodSchemas";
+import prisma from "./lib/db";
+import { redis } from "./lib/redis";
+import type { Cart } from "./lib/interfaces";
+import { revalidatePath } from "next/cache";
+import { stripe } from "./lib/stripe";
+import type Stripe from "stripe";
+import { locales } from "@/middleware";
+import { z } from "zod";
 
-export async function createProduct(prevState: unknown, formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+// Helper function to check admin access
+async function checkAdminAccess() {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
   if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/")
+    throw new Error("Unauthorized access");
   }
 
-  const submission = parseWithZod(formData, {
-    schema: productSchema,
-  })
+  return user;
+}
 
-  if (submission.status !== "success") {
-    return submission.reply()
+// Helper function to handle database errors
+async function handleDatabaseOperation<T>(
+  operation: () => Promise<T>
+): Promise<T> {
+  try {
+    return await operation();
+  } catch (error) {
+    console.error("Database operation failed:", error);
+    throw new Error("Failed to perform database operation");
   }
+}
 
-  const flattenUrls = submission.value.images.flatMap((urlString) => urlString.split(",").map((url) => url.trim()))
+export async function createProduct(prevState: unknown, formData: FormData) {
+  try {
+    await checkAdminAccess();
 
-  await prisma.product.create({
-    data: {
-      name: submission.value.name,
-      description: submission.value.description,
-      status: submission.value.status,
-      price: submission.value.price,
-      images: flattenUrls,
-      category: submission.value.category,
-      isFeatured: submission.value.isFeatured === true ? true : false,
-    },
-  })
+    const submission = parseWithZod(formData, {
+      schema: productSchema,
+    });
 
-  redirect("/dashboard/products")
+    if (submission.status !== "success") {
+      return submission.reply();
+    }
+
+    const flattenUrls = submission.value.images.flatMap((urlString) =>
+      urlString.split(",").map((url) => url.trim())
+    );
+
+    await handleDatabaseOperation(async () => {
+      await prisma.product.create({
+        data: {
+          name: submission.value.name,
+          name_ar: submission.value.nameAr,
+          description: submission.value.description,
+          description_ar: submission.value.descriptionAr,
+          status: submission.value.status,
+          price: submission.value.price,
+          images: flattenUrls,
+          category: submission.value.category,
+          isFeatured: submission.value.isFeatured === true,
+        },
+      });
+    });
+
+    revalidatePath("/dashboard/products");
+    redirect("/dashboard/products");
+  } catch (error) {
+    console.error("Failed to create product:", error);
+    throw new Error("Failed to create product");
+  }
 }
 
 export async function editProduct(prevState: any, formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    await checkAdminAccess();
 
-  if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/")
+    const submission = parseWithZod(formData, {
+      schema: productSchema,
+    });
+
+    if (submission.status !== "success") {
+      return submission.reply();
+    }
+
+    const flattenUrls = submission.value.images.flatMap((urlString) =>
+      urlString.split(",").map((url) => url.trim())
+    );
+
+    const productId = formData.get("productId") as string;
+
+    await handleDatabaseOperation(async () => {
+      await prisma.product.update({
+        where: { id: productId },
+        data: {
+          name: submission.value.name,
+          name_ar: submission.value.nameAr,
+          description: submission.value.description,
+          description_ar: submission.value.descriptionAr,
+          category: submission.value.category,
+          price: submission.value.price,
+          isFeatured: submission.value.isFeatured === true,
+          status: submission.value.status,
+          images: flattenUrls,
+        },
+      });
+    });
+
+    revalidatePath("/dashboard/products");
+    redirect("/dashboard/products");
+  } catch (error) {
+    console.error("Failed to edit product:", error);
+    throw new Error("Failed to edit product");
   }
-
-  const submission = parseWithZod(formData, {
-    schema: productSchema,
-  })
-
-  if (submission.status !== "success") {
-    return submission.reply()
-  }
-
-  const flattenUrls = submission.value.images.flatMap((urlString) => urlString.split(",").map((url) => url.trim()))
-
-  const productId = formData.get("productId") as string
-  await prisma.product.update({
-    where: {
-      id: productId,
-    },
-    data: {
-      name: submission.value.name,
-      description: submission.value.description,
-      category: submission.value.category,
-      price: submission.value.price,
-      isFeatured: submission.value.isFeatured === true ? true : false,
-      status: submission.value.status,
-      images: flattenUrls,
-    },
-  })
-
-  redirect("/dashboard/products")
 }
 
 export async function deleteProduct(formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    await checkAdminAccess();
+    const productId = formData.get("productId") as string;
 
-  if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/")
+    await handleDatabaseOperation(async () => {
+      await prisma.product.delete({
+        where: { id: productId },
+      });
+    });
+
+    revalidatePath("/dashboard/products");
+    redirect("/dashboard/products");
+  } catch (error) {
+    console.error("Failed to delete product:", error);
+    throw new Error("Failed to delete product");
   }
-
-  await prisma.product.delete({
-    where: {
-      id: formData.get("productId") as string,
-    },
-  })
-
-  redirect("/dashboard/products")
 }
 
 export async function createBanner(prevState: any, formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    await checkAdminAccess();
 
-  if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/")
+    const submission = parseWithZod(formData, {
+      schema: bannerSchema,
+    });
+
+    if (submission.status !== "success") {
+      return submission.reply();
+    }
+
+    await handleDatabaseOperation(async () => {
+      await prisma.banner.create({
+        data: {
+          title: submission.value.title,
+          titleAr: submission.value.titleAr,
+          imageString: submission.value.imageString,
+        },
+      });
+    });
+
+    revalidatePath("/dashboard/banner");
+    redirect("/dashboard/banner");
+  } catch (error) {
+    console.error("Failed to create banner:", error);
+    throw new Error("Failed to create banner");
   }
-
-  const submission = parseWithZod(formData, {
-    schema: bannerSchema,
-  })
-
-  if (submission.status !== "success") {
-    return submission.reply()
-  }
-
-  await prisma.banner.create({
-    data: {
-      title: submission.value.title,
-      imageString: submission.value.imageString,
-    },
-  })
-
-  redirect("/dashboard/banner")
 }
 
 export async function deleteBanner(formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    await checkAdminAccess();
+    const bannerId = formData.get("bannerId") as string;
 
-  if (!user || user.email !== "elsaady.eweeda@gmail.com") {
-    return redirect("/")
+    await handleDatabaseOperation(async () => {
+      await prisma.banner.delete({
+        where: { id: bannerId },
+      });
+    });
+
+    revalidatePath("/dashboard/banner");
+    redirect("/dashboard/banner");
+  } catch (error) {
+    console.error("Failed to delete banner:", error);
+    throw new Error("Failed to delete banner");
   }
-
-  await prisma.banner.delete({
-    where: {
-      id: formData.get("bannerId") as string,
-    },
-  })
-
-  redirect("/dashboard/banner")
 }
 
 export async function addItem(productId: string) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
-  if (!user) {
-    return redirect("/")
-  }
+    if (!user) {
+      return redirect("/");
+    }
 
-  const cart: Cart | null = await redis.get(`cart-${user.id}`)
+    const cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-  const selectedProduct = await prisma.product.findUnique({
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      images: true,
-    },
-    where: {
-      id: productId,
-    },
-  })
+    const selectedProduct = await handleDatabaseOperation(async () => {
+      return await prisma.product.findUnique({
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          images: true,
+        },
+        where: {
+          id: productId,
+        },
+      });
+    });
 
-  if (!selectedProduct) {
-    throw new Error("No product with this id")
-  }
-  let myCart = {} as Cart
+    if (!selectedProduct) {
+      throw new Error("No product with this id");
+    }
 
-  if (!cart || !cart.items) {
-    myCart = {
-      userId: user.id,
-      items: [
-        {
-          price: selectedProduct.price,
+    let myCart = {} as Cart;
+
+    if (!cart || !cart.items) {
+      myCart = {
+        userId: user.id,
+        items: [
+          {
+            price: selectedProduct.price,
+            id: selectedProduct.id,
+            imageString: selectedProduct.images[0],
+            name: selectedProduct.name,
+            quantity: 1,
+          },
+        ],
+      };
+    } else {
+      myCart = { ...cart };
+      let itemFound = false;
+
+      myCart.items = cart.items.map((item) => {
+        if (item.id === productId) {
+          itemFound = true;
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+
+      if (!itemFound) {
+        myCart.items.push({
           id: selectedProduct.id,
           imageString: selectedProduct.images[0],
           name: selectedProduct.name,
+          price: selectedProduct.price,
           quantity: 1,
-        },
-      ],
-    }
-  } else {
-    myCart = { ...cart }
-    let itemFound = false
-
-    myCart.items = cart.items.map((item) => {
-      if (item.id === productId) {
-        itemFound = true
-        return { ...item, quantity: item.quantity + 1 }
+        });
       }
-      return item
-    })
-
-    if (!itemFound) {
-      myCart.items.push({
-        id: selectedProduct.id,
-        imageString: selectedProduct.images[0],
-        name: selectedProduct.name,
-        price: selectedProduct.price,
-        quantity: 1,
-      })
     }
+
+    await redis.set(`cart-${user.id}`, myCart);
+
+    const headers = new Headers();
+    const referer = headers.get("referer") || "";
+    const locale = locales.find((loc) => referer.includes(`/${loc}/`)) || "en";
+
+    revalidatePath("/", "layout");
+    redirect(`/${locale}/bag`);
+  } catch (error) {
+    console.error("Failed to add item to cart:", error);
+    throw new Error("Failed to add item to cart");
   }
-
-  await redis.set(`cart-${user.id}`, myCart)
-
-  // Get the current URL to determine the locale
-  const headers = new Headers()
-  const referer = headers.get("referer") || ""
-  const locale = locales.find((loc) => referer.includes(`/${loc}/`)) || "en"
-
-  revalidatePath("/", "layout")
-  redirect(`/${locale}/bag`)
 }
 
 export async function delItem(formData: FormData) {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
-  if (!user) {
-    return redirect("/")
-  }
-
-  const productId = formData.get("productId")
-
-  const cart: Cart | null = await redis.get(`cart-${user.id}`)
-
-  if (cart && cart.items) {
-    const updateCart: Cart = {
-      userId: user.id,
-      items: cart.items.filter((item) => item.id !== productId),
+    if (!user) {
+      return redirect("/");
     }
 
-    await redis.set(`cart-${user.id}`, updateCart)
-  }
+    const productId = formData.get("productId");
+    const cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-  revalidatePath("/bag")
+    if (cart && cart.items) {
+      const updateCart: Cart = {
+        userId: user.id,
+        items: cart.items.filter((item) => item.id !== productId),
+      };
+
+      await redis.set(`cart-${user.id}`, updateCart);
+    }
+
+    revalidatePath("/bag");
+  } catch (error) {
+    console.error("Failed to delete item from cart:", error);
+    throw new Error("Failed to delete item from cart");
+  }
 }
 
 export async function checkOut() {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  try {
+    const { getUser } = getKindeServerSession();
+    const user = await getUser();
 
-  if (!user) {
-    return redirect("/")
-  }
+    if (!user) {
+      return redirect("/");
+    }
 
-  const cart: Cart | null = await redis.get(`cart-${user.id}`)
+    const cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-  if (cart && cart.items) {
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cart.items.map((item) => ({
-      price_data: {
-        currency: "usd",
-        unit_amount: item.price * 100,
-        product_data: {
-          name: item.name,
-          images: [item.imageString],
+    if (!cart || !cart.items || cart.items.length === 0) {
+      throw new Error("Cart is empty");
+    }
+
+    const total = cart.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+
+    const order = await handleDatabaseOperation(async () => {
+      return await prisma.order.create({
+        data: {
+          userId: user.id,
+          amount: total,
+          status: "pending",
         },
-      },
-      quantity: item.quantity,
-    }))
-
-    // Get the current URL to determine the locale
-    const headers = new Headers()
-    const referer = headers.get("referer") || ""
-    const locale = locales.find((loc) => referer.includes(`/${loc}/`)) || "en"
+      });
+    });
 
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: cart.items.map((item) => ({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
+            images: [item.imageString],
+          },
+          unit_amount: item.price * 100,
+        },
+        quantity: item.quantity,
+      })),
       mode: "payment",
-      line_items: lineItems,
-      success_url:
-        process.env.NODE_ENV === "development"
-          ? `http://localhost:3001/${locale}/payment/success`
-          : `https://shoe-marshal.vercel.app/${locale}/payment/success`,
-      cancel_url:
-        process.env.NODE_ENV === "development"
-          ? `http://localhost:3001/${locale}/payment/cancel`
-          : `https://shoe-marshal.vercel.app/${locale}/payment/cancel`,
-      metadata: {
-        userId: user.id,
-      },
-    })
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success?orderId=${order.id}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
+    });
 
-    return redirect(session.url as string)
+    await redis.del(`cart-${user.id}`);
+    redirect(session.url as string);
+  } catch (error) {
+    console.error("Checkout failed:", error);
+    throw new Error("Checkout failed");
   }
 }
-
