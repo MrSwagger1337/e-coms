@@ -317,10 +317,23 @@ export async function checkOut() {
       0
     );
 
+    // First, ensure the user exists in the database
+    const dbUser = await prisma.user.upsert({
+      where: { id: user.id },
+      update: {},
+      create: {
+        id: user.id,
+        email: user.email || "",
+        firstName: user.given_name || "",
+        lastName: user.family_name || "",
+        profileImage: user.picture || "",
+      },
+    });
+
     const order = await handleDatabaseOperation(async () => {
       return await prisma.order.create({
         data: {
-          userId: user.id,
+          userId: dbUser.id,
           amount: total,
           status: "pending",
         },
