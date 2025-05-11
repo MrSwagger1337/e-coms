@@ -19,14 +19,14 @@ export function LandingHeader() {
         transition={{ duration: 0.5 }}
       >
         <h1
-          className={`text-3xl md:text-6xl font-semibold text-center ${
+          className={`text-3xl md:text-5xl font-semibold text-center ${
             isRtl ? "md:text-right mr-12" : "md:text-left -ml-12"
           } mb-4`}
         >
           {dictionary.landing.discover}
         </h1>
         <span
-          className={`block mt-2 text-2xl md:text-6xl font-bold text-[#ED008C] ${
+          className={`block mt-2 text-2xl md:text-5xl font-bold text-[#ED008C] ${
             isRtl ? "-mr-12" : "ml-12"
           }`}
         >
@@ -38,7 +38,7 @@ export function LandingHeader() {
           } mt-4`}
         >
           {dictionary.landing.youWill}
-          <span className="block mt-2 text-3xl md:text-6xl font-bold">
+          <span className="block mt-2 text-3xl md:text-5xl font-bold">
             <span className="text-[#ED008C]">
               {dictionary.landing.fallInLove}
             </span>{" "}
