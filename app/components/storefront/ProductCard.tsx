@@ -1,96 +1,110 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Skeleton } from "@/components/ui/skeleton"
-import Image from "next/image"
-import Link from "next/link"
-import { useLanguage } from "@/app/context/LanguageContext"
+import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Star } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useLanguage } from "@/app/context/LanguageContext";
+import { cn } from "@/lib/utils";
 
 interface iAppProps {
   item: {
-    id: string
-    name: string
-    description: string
-    price: number
-    images: string[]
-  }
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    images: string[];
+  };
 }
 
 export function ProductCard({ item }: iAppProps) {
-  const { dictionary, isRtl } = useLanguage()
+  const { dictionary, isRtl } = useLanguage();
 
-  if (!dictionary) return null
+  if (!dictionary) return null;
 
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Carousel className="w-full mx-auto">
+    <Card className="overflow-hidden">
+      <Carousel className="w-full">
         <CarouselContent>
           {item.images.map((image, index) => (
             <CarouselItem key={index}>
-              <div className="relative h-[330px]">
+              <div className="relative aspect-square">
                 <Image
                   src={image || "/placeholder.svg"}
                   alt="Product Image"
                   fill
-                  className="object-cover object-center w-full h-full rounded-t-lg"
+                  className="object-cover"
                 />
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className={`${isRtl ? "mr-16" : "ml-16"}`} />
-        <CarouselNext className={`${isRtl ? "ml-16" : "mr-16"}`} />
+        <CarouselPrevious
+          className={cn("left-4", isRtl ? "left-auto right-4" : "left-4")}
+        />
+        <CarouselNext
+          className={cn("right-4", isRtl ? "right-auto left-4" : "right-4")}
+        />
       </Carousel>
-      <div className="px-5 pb-5">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
-        <div className="flex items-center mt-2.5 mb-5">
-          <div className="flex items-center space-x-1 rtl:space-x-reverse">
-            {/* Placeholder for Ratings */}
-            <svg
-              className="w-4 h-4 text-yellow-300"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 22 20"
-            >
-              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-            </svg>
-            {/* Repeat as needed */}
-          </div>
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
-            5.0
-          </span>
-        </div>
+
+      <CardHeader className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            {isRtl ? `${item.price} ${dictionary.product.price}` : `${dictionary.product.price} ${item.price}`}
-          </span>
-          <Button asChild>
-            <Link
-              href={`/product/${item.id}`}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              {dictionary.product.buy}
-            </Link>
-          </Button>
+          <h3 className="text-lg font-semibold">{item.name}</h3>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Star className="h-3 w-3 fill-current" />
+            <span>5.0</span>
+          </Badge>
         </div>
-        <p className="text-gray-600 text-sm mt-2 line-clamp-2">{item.description}</p>
-      </div>
-    </div>
-  )
+        <p className="text-sm text-muted-foreground line-clamp-2">
+          {item.description}
+        </p>
+      </CardHeader>
+
+      <CardFooter className="flex items-center justify-between">
+        <span className="text-2xl font-bold">
+          {isRtl
+            ? `${item.price} ${dictionary.product.price}`
+            : `${dictionary.product.price} ${item.price}`}
+        </span>
+        <Button asChild>
+          <Link href={`/product/${item.id}`}>{dictionary.product.buy}</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
 }
 
 export function LoadingProductCard() {
   return (
-    <div className="flex flex-col">
-      <Skeleton className="w-full h-[330px]" />
-      <div className="flex flex-col mt-2 gap-y-2">
+    <Card className="overflow-hidden">
+      <Skeleton className="aspect-square w-full" />
+      <CardHeader className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-5 w-16" />
+        </div>
         <Skeleton className="h-4 w-full" />
-        <Skeleton className="w-full h-6" />
-      </div>
-      <Skeleton className="w-full h-10 mt-5" />
-    </div>
-  )
+        <Skeleton className="h-4 w-3/4" />
+      </CardHeader>
+      <CardFooter className="flex items-center justify-between">
+        <Skeleton className="h-8 w-24" />
+        <Skeleton className="h-10 w-24" />
+      </CardFooter>
+    </Card>
+  );
 }
-

@@ -71,161 +71,195 @@ export default function ProductCreateRoute() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <Label>Name</Label>
-              <Input
-                type="text"
-                key={fields.name.key}
-                name={fields.name.name}
-                defaultValue={fields.name.initialValue}
-                className="w-full"
-                placeholder="Product Name"
-              />
+          <div className="flex flex-col gap-8">
+            {/* English Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold">English Content</h3>
+                <div className="h-px flex-1 bg-border" />
+              </div>
 
-              <p className="text-red-500">{fields.name.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Name in arabic</Label>
-              <Input
-                type="text"
-                key={fields.name.key}
-                name={fields.name.name}
-                defaultValue={fields.name.initialValue}
-                className="w-full"
-                placeholder="Product Name in arabic"
-              />
-
-              <p className="text-red-500">{fields.name.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Description</Label>
-              <Textarea
-                key={fields.description.key}
-                name={fields.description.name}
-                defaultValue={fields.description.initialValue}
-                placeholder="Write your description right here..."
-              />
-              <p className="text-red-500">{fields.description.errors}</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label>Description in arabic</Label>
-              <Textarea
-                key={fields.description.key}
-                name={fields.description.name}
-                defaultValue={fields.description.initialValue}
-                placeholder="Write your description right here..."
-              />
-              <p className="text-red-500">{fields.description.errors}</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label>Price</Label>
-              <Input
-                key={fields.price.key}
-                name={fields.price.name}
-                defaultValue={fields.price.initialValue}
-                type="number"
-                placeholder="$55"
-              />
-              <p className="text-red-500">{fields.price.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Featured Product</Label>
-              <Switch
-                key={fields.isFeatured.key}
-                name={fields.isFeatured.name}
-                defaultValue={fields.isFeatured.initialValue}
-              />
-              <p className="text-red-500">{fields.isFeatured.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Status</Label>
-              <Select
-                key={fields.status.key}
-                name={fields.status.name}
-                defaultValue={fields.status.initialValue}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="draft">Draft</SelectItem>
-                  <SelectItem value="published">Published</SelectItem>
-                  <SelectItem value="archived">Archived</SelectItem>
-                </SelectContent>
-              </Select>
-              <p className="text-red-500">{fields.status.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Category</Label>
-              <Select
-                key={fields.category.key}
-                name={fields.category.name}
-                defaultValue={fields.category.initialValue}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.name}>
-                      {category.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <p className="text-red-500">{fields.category.errors}</p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Label>Images</Label>
-              <input
-                type="hidden"
-                value={images}
-                key={fields.images.key}
-                name={fields.images.name}
-                defaultValue={fields.images.initialValue as any}
-              />
-              {images.length > 0 ? (
-                <div className="flex gap-5">
-                  {images.map((image, index) => (
-                    <div key={index} className="relative w-[100px] h-[100px]">
-                      <Image
-                        height={100}
-                        width={100}
-                        src={image}
-                        alt="Product Image"
-                        className="w-full h-full object-cover rounded-lg border"
-                      />
-
-                      <button
-                        onClick={() => handleDelete(index)}
-                        type="button"
-                        className="absolute -top-3 -right-3 bg-red-500 p-2 rounded-lg text-white"
-                      >
-                        <XIcon className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <UploadDropzone
-                  endpoint="imageUploader"
-                  onClientUploadComplete={(res) => {
-                    setImages(res.map((r) => r.url));
-                  }}
-                  onUploadError={() => {
-                    alert("Something went wrong");
-                  }}
+              <div className="flex flex-col gap-3">
+                <Label>Name</Label>
+                <Input
+                  type="text"
+                  key={fields.name.key}
+                  name={fields.name.name}
+                  defaultValue={fields.name.initialValue}
+                  className="w-full"
+                  placeholder="Product Name"
                 />
-              )}
+                <p className="text-red-500 text-sm">{fields.name.errors}</p>
+              </div>
 
-              <p className="text-red-500">{fields.images.errors}</p>
+              <div className="flex flex-col gap-3">
+                <Label>Description</Label>
+                <Textarea
+                  key={fields.description.key}
+                  name={fields.description.name}
+                  defaultValue={fields.description.initialValue}
+                  placeholder="Write your description right here..."
+                  className="min-h-[100px]"
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.description.errors}
+                </p>
+              </div>
+            </div>
+
+            {/* Arabic Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold">Arabic Content</h3>
+                <div className="h-px flex-1 bg-border" />
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Name in Arabic</Label>
+                <Input
+                  type="text"
+                  key={fields.nameAr.key}
+                  name={fields.nameAr.name}
+                  defaultValue={fields.nameAr.initialValue}
+                  className="w-full"
+                  placeholder="Product Name in Arabic"
+                  dir="rtl"
+                />
+                <p className="text-red-500 text-sm">{fields.nameAr.errors}</p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Description in Arabic</Label>
+                <Textarea
+                  key={fields.descriptionAr.key}
+                  name={fields.descriptionAr.name}
+                  defaultValue={fields.descriptionAr.initialValue}
+                  placeholder="Write your description in Arabic right here..."
+                  className="min-h-[100px]"
+                  dir="rtl"
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.descriptionAr.errors}
+                </p>
+              </div>
+            </div>
+
+            {/* Common Fields Section */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-semibold">Product Details</h3>
+                <div className="h-px flex-1 bg-border" />
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Price</Label>
+                <Input
+                  key={fields.price.key}
+                  name={fields.price.name}
+                  defaultValue={fields.price.initialValue}
+                  type="number"
+                  placeholder="$55"
+                />
+                <p className="text-red-500 text-sm">{fields.price.errors}</p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Featured Product</Label>
+                <Switch
+                  key={fields.isFeatured.key}
+                  name={fields.isFeatured.name}
+                  defaultValue={fields.isFeatured.initialValue}
+                />
+                <p className="text-red-500 text-sm">
+                  {fields.isFeatured.errors}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Status</Label>
+                <Select
+                  key={fields.status.key}
+                  name={fields.status.name}
+                  defaultValue={fields.status.initialValue}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="archived">Archived</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-red-500 text-sm">{fields.status.errors}</p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Category</Label>
+                <Select
+                  key={fields.category.key}
+                  name={fields.category.name}
+                  defaultValue={fields.category.initialValue}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.name}>
+                        {category.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-red-500 text-sm">{fields.category.errors}</p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Label>Images</Label>
+                <input
+                  type="hidden"
+                  value={images}
+                  key={fields.images.key}
+                  name={fields.images.name}
+                  defaultValue={fields.images.initialValue as any}
+                />
+                {images.length > 0 ? (
+                  <div className="flex gap-5">
+                    {images.map((image, index) => (
+                      <div key={index} className="relative w-[100px] h-[100px]">
+                        <Image
+                          height={100}
+                          width={100}
+                          src={image}
+                          alt="Product Image"
+                          className="w-full h-full object-cover rounded-lg border"
+                        />
+
+                        <button
+                          onClick={() => handleDelete(index)}
+                          type="button"
+                          className="absolute -top-3 -right-3 bg-red-500 p-2 rounded-lg text-white hover:bg-red-600 transition-colors"
+                        >
+                          <XIcon className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <UploadDropzone
+                    endpoint="imageUploader"
+                    onClientUploadComplete={(res) => {
+                      setImages(res.map((r) => r.url));
+                    }}
+                    onUploadError={() => {
+                      alert("Something went wrong");
+                    }}
+                  />
+                )}
+
+                <p className="text-red-500 text-sm">{fields.images.errors}</p>
+              </div>
             </div>
           </div>
         </CardContent>

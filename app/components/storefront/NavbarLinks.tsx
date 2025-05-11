@@ -1,15 +1,16 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useLanguage } from "@/app/context/LanguageContext"
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useLanguage } from "@/app/context/LanguageContext";
+import { Button } from "@/components/ui/button";
 
 export function NavbarLinks() {
-  const location = usePathname()
-  const { dictionary, isRtl } = useLanguage()
+  const location = usePathname();
+  const { dictionary, isRtl } = useLanguage();
 
-  if (!dictionary) return null
+  if (!dictionary) return null;
 
   const navbarLinks = [
     {
@@ -37,23 +38,26 @@ export function NavbarLinks() {
       name: dictionary.navigation.beauty,
       href: "/products/beauty",
     },
-  ]
+  ];
 
   return (
-    <div className={`hidden md:flex justify-center items-center gap-x-2 ${isRtl ? "mr-8" : "ml-8"}`}>
+    <div
+      className={cn(
+        "hidden md:flex items-center gap-1",
+        isRtl ? "mr-8" : "ml-8"
+      )}
+    >
       {navbarLinks.map((item) => (
-        <Link
-          href={item.href}
+        <Button
           key={item.id}
-          className={cn(
-            location === item.href ? "bg-muted" : "hover:bg-muted hover:bg-opacity-75",
-            "group p-2 font-medium rounded-md",
-          )}
+          variant="ghost"
+          size="sm"
+          asChild
+          className={cn("h-9 px-3", location === item.href && "bg-accent")}
         >
-          {item.name}
-        </Link>
+          <Link href={item.href}>{item.name}</Link>
+        </Button>
       ))}
     </div>
-  )
+  );
 }
-
