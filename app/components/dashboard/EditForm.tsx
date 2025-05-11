@@ -34,13 +34,13 @@ import { parseWithZod } from "@conform-to/zod";
 import { productSchema } from "@/app/lib/zodSchemas";
 import type { $Enums } from "@prisma/client";
 
-interface iAppProps {
+interface EditFormProps {
   data: {
     id: string;
     name: string;
-    nameAr?: string;
+    name_ar?: string;
     description: string;
-    descriptionAr?: string;
+    description_ar?: string;
     status: $Enums.ProductStatus;
     price: number;
     images: string[];
@@ -49,7 +49,7 @@ interface iAppProps {
   };
 }
 
-export function EditForm({ data }: iAppProps) {
+export function EditForm({ data }: EditFormProps) {
   const [images, setImages] = useState<string[]>(data.images);
   const [lastResult, action] = useFormState(editProduct, undefined);
   const [form, fields] = useForm({
@@ -130,26 +130,26 @@ export function EditForm({ data }: iAppProps) {
                 <Label>Name in Arabic</Label>
                 <Input
                   type="text"
-                  key={fields.nameAr.key}
-                  name={fields.nameAr.name}
-                  defaultValue={data.nameAr}
+                  key={fields.name_ar.key}
+                  name={fields.name_ar.name}
+                  defaultValue={data.name_ar}
                   className="w-full"
                   placeholder="Product Name in Arabic"
                   dir="rtl"
                 />
-                <p className="text-red-500">{fields.nameAr.errors}</p>
+                <p className="text-red-500">{fields.name_ar.errors}</p>
               </div>
 
               <div className="flex flex-col gap-3">
                 <Label>Description in Arabic</Label>
                 <Textarea
-                  key={fields.descriptionAr.key}
-                  name={fields.descriptionAr.name}
-                  defaultValue={data.descriptionAr}
+                  key={fields.description_ar.key}
+                  name={fields.description_ar.name}
+                  defaultValue={data.description_ar}
                   placeholder="Write your description in Arabic right here..."
                   dir="rtl"
                 />
-                <p className="text-red-500">{fields.descriptionAr.errors}</p>
+                <p className="text-red-500">{fields.description_ar.errors}</p>
               </div>
             </div>
 

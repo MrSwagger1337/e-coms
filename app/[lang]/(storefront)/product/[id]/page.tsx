@@ -17,7 +17,9 @@ async function getData(productId: string) {
       price: true,
       images: true,
       description: true,
+      description_ar: true,
       name: true,
+      name_ar: true,
       id: true,
     },
   });
@@ -51,7 +53,7 @@ export default async function ProductIdRoute({
         <ImageSlider images={data.images} lang={params.lang} />
         <div className="max-w-lg">
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            {isRtl ? data.nameAr || data.name : data.name}
+            {isRtl ? data.name_ar || data.name : data.name}
           </h1>
           <p className="text-3xl mt-2 text-gray-900">
             {isRtl
@@ -70,7 +72,7 @@ export default async function ProductIdRoute({
             <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
           </div>
           <p className="text-base text-gray-700 mt-6">
-            {isRtl ? data.descriptionAr || data.description : data.description}
+            {isRtl ? data.description_ar || data.description : data.description}
           </p>
 
           <form action={addProducttoShoppingCart}>

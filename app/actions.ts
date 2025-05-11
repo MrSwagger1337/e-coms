@@ -57,9 +57,9 @@ export async function createProduct(prevState: unknown, formData: FormData) {
       await prisma.product.create({
         data: {
           name: submission.value.name,
-          name_ar: submission.value.nameAr,
+          name_ar: submission.value.name_ar,
           description: submission.value.description,
-          description_ar: submission.value.descriptionAr,
+          description_ar: submission.value.description_ar,
           status: submission.value.status,
           price: submission.value.price,
           images: flattenUrls,
@@ -100,9 +100,9 @@ export async function editProduct(prevState: any, formData: FormData) {
         where: { id: productId },
         data: {
           name: submission.value.name,
-          name_ar: submission.value.nameAr,
+          name_ar: submission.value.name_ar,
           description: submission.value.description,
-          description_ar: submission.value.descriptionAr,
+          description_ar: submission.value.description_ar,
           category: submission.value.category,
           price: submission.value.price,
           isFeatured: submission.value.isFeatured === true,
@@ -155,7 +155,7 @@ export async function createBanner(prevState: any, formData: FormData) {
       await prisma.banner.create({
         data: {
           title: submission.value.title,
-          titleAr: submission.value.titleAr,
+          title_ar: submission.value.title_ar,
           imageString: submission.value.imageString,
         },
       });

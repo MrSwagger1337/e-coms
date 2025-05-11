@@ -22,21 +22,20 @@ import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
-interface iAppProps {
+interface ProductCardProps {
   data: {
     id: string;
     name: string;
-    nameAr?: string;
-    description: string;
-    descriptionAr?: string;
+    name_ar?: string;
     price: number;
-    images: string[];
-    category: string;
+    description: string;
+    description_ar?: string;
+    imageString: string;
   };
-  lang: "en" | "ar";
+  isRtl: boolean;
 }
 
-export function ProductCard({ data, lang }: iAppProps) {
+export function ProductCard({ data, lang }: ProductCardProps) {
   const { dictionary, isRtl } = useLanguage();
   const dict = dictionary || {};
   const isRtl = lang === "ar";
@@ -86,12 +85,12 @@ export function ProductCard({ data, lang }: iAppProps) {
         <div className="flex flex-col gap-2 w-full">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-lg">
-              {isRtl ? data.nameAr || data.name : data.name}
+              {isRtl ? data.name_ar || data.name : data.name}
             </h3>
             <Badge variant="secondary">{data.category}</Badge>
           </div>
           <p className="text-muted-foreground line-clamp-2">
-            {isRtl ? data.descriptionAr || data.description : data.description}
+            {isRtl ? data.description_ar || data.description : data.description}
           </p>
           <p className="font-semibold">
             {isRtl
