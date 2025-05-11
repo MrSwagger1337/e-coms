@@ -21,26 +21,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
+import type { Product } from "@/app/lib/interfaces";
+import { addItem } from "@/app/actions";
 
 interface ProductCardProps {
-  data: {
-    id: string;
-    name: string;
-    name_ar?: string;
-    price: number;
-    description: string;
-    description_ar?: string;
-    imageString: string;
-  };
-  isRtl: boolean;
+  data: Product;
 }
 
-export function ProductCard({ data, lang }: ProductCardProps) {
+export function ProductCard({ data }: ProductCardProps) {
   const { dictionary, isRtl } = useLanguage();
-  const dict = dictionary || {};
-  const addProducttoShoppingCart = addItem.bind(null, data.id);
 
   if (!dictionary) return null;
+
+  const addProducttoShoppingCart = addItem.bind(null, data.id);
 
   return (
     <Card className="group overflow-hidden">
@@ -80,23 +73,21 @@ export function ProductCard({ data, lang }: ProductCardProps) {
           </form>
         </div>
       </CardContent>
-      <CardFooter className="p-4">
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-lg">
-              {isRtl ? data.name_ar || data.name : data.name}
-            </h3>
-            <Badge variant="secondary">{data.category}</Badge>
-          </div>
-          <p className="text-muted-foreground line-clamp-2">
-            {isRtl ? data.description_ar || data.description : data.description}
-          </p>
-          <p className="font-semibold">
-            {isRtl
-              ? `${data.price} ${dict.product.price}`
-              : `${dict.product.price}${data.price}`}
-          </p>
+      <CardFooter className="flex flex-col gap-2 w-full">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-lg">
+            {isRtl ? data.name_ar || data.name : data.name}
+          </h3>
+          <Badge variant="secondary">{data.category}</Badge>
         </div>
+        <p className="text-muted-foreground line-clamp-2">
+          {isRtl ? data.description_ar || data.description : data.description}
+        </p>
+        <p className="font-semibold">
+          {isRtl
+            ? `${data.price} ${dictionary.product.price}`
+            : `${dictionary.product.price}${data.price}`}
+        </p>
       </CardFooter>
     </Card>
   );

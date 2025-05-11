@@ -4,17 +4,7 @@ import { useEffect, useState } from "react";
 import { LoadingProductCard, ProductCard } from "./ProductCard";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { cn } from "@/lib/utils";
-
-interface Product {
-  id: string;
-  name: string;
-  name_ar?: string;
-  description: string;
-  description_ar?: string;
-  images: string[];
-  price: number;
-  imageString: string;
-}
+import type { Product } from "@/app/lib/interfaces";
 
 function SaleHeading4({
   className,
@@ -86,7 +76,7 @@ export function FeaturedProducts() {
       />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {featuredProducts.map((item) => (
-          <ProductCard key={item.id} data={item} lang={lang} />
+          <ProductCard key={item.id} data={item} />
         ))}
       </div>
     </section>
