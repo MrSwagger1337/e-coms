@@ -38,7 +38,6 @@ interface ProductCardProps {
 export function ProductCard({ data, lang }: ProductCardProps) {
   const { dictionary, isRtl } = useLanguage();
   const dict = dictionary || {};
-  const isRtl = lang === "ar";
   const addProducttoShoppingCart = addItem.bind(null, data.id);
 
   if (!dictionary) return null;
