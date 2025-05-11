@@ -8,9 +8,12 @@ import { cn } from "@/lib/utils";
 interface Product {
   id: string;
   name: string;
+  name_ar?: string;
   description: string;
+  description_ar?: string;
   images: string[];
   price: number;
+  imageString: string;
 }
 
 function SaleHeading4({
