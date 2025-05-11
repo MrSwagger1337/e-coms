@@ -51,10 +51,12 @@ export function LandingHeader({ lang }: { lang: "en" | "ar" }) {
       >
         <div className="relative w-[80vw] h-[50vh] md:w-[42vh] md:h-[52vh]">
           <div className="absolute inset-0 bg-white rounded-3xl shadow-lg shadow-[#c5c5c5] transform rotate-3"></div>
-          <Image src="url(https://i.ibb.co/Dgv89hkX/header-img.png)" alt="Main Image" layout="fill" objectFit="cover" className="rounded-3xl z-10)" />
+          <img src="https://i.ibb.co/Dgv89hkX/header-img.png" alt="Main Image" className="rounded-3xl z-10 object-cover" />
         </div>
       </motion.div>
     </div>
   )
 }
+
+
 
