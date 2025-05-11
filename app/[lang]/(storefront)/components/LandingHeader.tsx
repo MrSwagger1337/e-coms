@@ -27,18 +27,18 @@ export function LandingHeader({ lang }: { lang: "en" | "ar" }) {
         transition={{ duration: 0.5 }}
       >
         <h1
-          className={`text-6xl md:text-8xl font-semibold text-center ${isRtl ? "md:text-right mr-12" : "md:text-left -ml-12"} mb-4`}
+          className={`text-3xl md:text-6xl font-semibold text-center ${isRtl ? "md:text-right mr-12" : "md:text-left -ml-12"} mb-4`}
         >
           {dict.landing.discover}
         </h1>
-        <span className={`block mt-2 text-5xl md:text-8xl font-bold text-[#ED008C] ${isRtl ? "-mr-12" : "ml-12"}`}>
+        <span className={`block mt-2 text-2xl md:text-6xl font-bold text-[#ED008C] ${isRtl ? "-mr-12" : "ml-12"}`}>
           {dict.landing.wonders}
         </span>
         <h2
-          className={`text-4xl md:text-6xl font-semibold text-center ${isRtl ? "md:text-right" : "md:text-left"} mt-4`}
+          className={`text-2xl md:text-4xl font-semibold text-center ${isRtl ? "md:text-right" : "md:text-left"} mt-4`}
         >
           {dict.landing.youWill}
-          <span className="block mt-2 text-5xl md:text-8xl font-bold">
+          <span className="block mt-2 text-3xl md:text-5xl font-bold">
             <span className="text-[#ED008C]">{dict.landing.fallInLove}</span> {dict.landing.with}
           </span>
         </h2>
