@@ -76,12 +76,14 @@ export function ProductCard({ data }: ProductCardProps) {
       <CardFooter className="flex flex-col gap-2 w-full">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-lg">
-            {isRtl ? data.name_ar || data.name : data.name}
+            {isRtl && data.name_ar ? data.name_ar : data.name}
           </h3>
           <Badge variant="secondary">{data.category}</Badge>
         </div>
         <p className="text-muted-foreground line-clamp-2">
-          {isRtl ? data.description_ar || data.description : data.description}
+          {isRtl && data.description_ar
+            ? data.description_ar
+            : data.description}
         </p>
         <p className="font-semibold">
           {isRtl

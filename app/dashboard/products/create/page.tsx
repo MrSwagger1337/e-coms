@@ -118,29 +118,26 @@ export default function ProductCreateRoute() {
                 <Label>Name in Arabic</Label>
                 <Input
                   type="text"
-                  key={fields.nameAr.key}
-                  name={fields.nameAr.name}
-                  defaultValue={fields.nameAr.initialValue}
+                  key={fields.name_ar.key}
+                  name={fields.name_ar.name}
+                  defaultValue={fields.name_ar.initialValue}
                   className="w-full"
                   placeholder="Product Name in Arabic"
                   dir="rtl"
                 />
-                <p className="text-red-500 text-sm">{fields.nameAr.errors}</p>
+                <p className="text-red-500">{fields.name_ar.errors}</p>
               </div>
 
               <div className="flex flex-col gap-3">
                 <Label>Description in Arabic</Label>
                 <Textarea
-                  key={fields.descriptionAr.key}
-                  name={fields.descriptionAr.name}
-                  defaultValue={fields.descriptionAr.initialValue}
+                  key={fields.description_ar.key}
+                  name={fields.description_ar.name}
+                  defaultValue={fields.description_ar.initialValue}
                   placeholder="Write your description in Arabic right here..."
-                  className="min-h-[100px]"
                   dir="rtl"
                 />
-                <p className="text-red-500 text-sm">
-                  {fields.descriptionAr.errors}
-                </p>
+                <p className="text-red-500">{fields.description_ar.errors}</p>
               </div>
             </div>
 

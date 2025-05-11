@@ -38,9 +38,9 @@ interface EditFormProps {
   data: {
     id: string;
     name: string;
-    name_ar?: string;
+    name_ar: string | null;
     description: string;
-    description_ar?: string;
+    description_ar: string | null;
     status: $Enums.ProductStatus;
     price: number;
     images: string[];
@@ -132,7 +132,7 @@ export function EditForm({ data }: EditFormProps) {
                   type="text"
                   key={fields.name_ar.key}
                   name={fields.name_ar.name}
-                  defaultValue={data.name_ar}
+                  defaultValue={data.name_ar || ""}
                   className="w-full"
                   placeholder="Product Name in Arabic"
                   dir="rtl"
@@ -145,7 +145,7 @@ export function EditForm({ data }: EditFormProps) {
                 <Textarea
                   key={fields.description_ar.key}
                   name={fields.description_ar.name}
-                  defaultValue={data.description_ar}
+                  defaultValue={data.description_ar || ""}
                   placeholder="Write your description in Arabic right here..."
                   dir="rtl"
                 />
