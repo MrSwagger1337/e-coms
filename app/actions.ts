@@ -193,84 +193,78 @@ export async function deleteBanner(formData: FormData) {
 }
 
 export async function addItem(productId: string) {
+  // — 1) AUTHENTICATE / SHORT-CIRCUIT —
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  if (!user) {
+    // will throw a NEXT_REDIRECT exception that Next.js handles
+    redirect("/");
+  }
+
+  // — 2) CART LOGIC in its own try/catch —
   try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
-
-    if (!user) {
-      return redirect("/");
-    }
-
+    // fetch existing cart
     const cart: Cart | null = await redis.get(`cart-${user.id}`);
 
-    const selectedProduct = await handleDatabaseOperation(async () => {
-      return await prisma.product.findUnique({
-        select: {
-          id: true,
-          name: true,
-          price: true,
-          images: true,
-        },
-        where: {
-          id: productId,
-        },
-      });
+    // fetch product
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { id: true, name: true, price: true, images: true },
     });
+    if (!product) throw new Error("Product not found");
 
-    if (!selectedProduct) {
-      throw new Error("No product with this id");
-    }
-
-    let myCart = {} as Cart;
-
-    if (!cart || !cart.items) {
-      myCart = {
+    // build new cart
+    let newCart: Cart;
+    if (!cart?.items?.length) {
+      newCart = {
         userId: user.id,
         items: [
           {
-            price: selectedProduct.price,
-            id: selectedProduct.id,
-            imageString: selectedProduct.images[0],
-            name: selectedProduct.name,
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            imageString: product.images[0],
             quantity: 1,
           },
         ],
       };
     } else {
-      myCart = { ...cart };
-      let itemFound = false;
-
-      myCart.items = cart.items.map((item) => {
-        if (item.id === productId) {
-          itemFound = true;
-          return { ...item, quantity: item.quantity + 1 };
+      // clone & update quantity or append
+      let found = false;
+      const items = cart.items.map((i) => {
+        if (i.id === product.id) {
+          found = true;
+          return { ...i, quantity: i.quantity + 1 };
         }
-        return item;
+        return i;
       });
-
-      if (!itemFound) {
-        myCart.items.push({
-          id: selectedProduct.id,
-          imageString: selectedProduct.images[0],
-          name: selectedProduct.name,
-          price: selectedProduct.price,
+      if (!found) {
+        items.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          imageString: product.images[0],
           quantity: 1,
         });
       }
+      newCart = { userId: user.id, items };
     }
 
-    await redis.set(`cart-${user.id}`, myCart);
-
-    const headers = new Headers();
-    const referer = headers.get("referer") || "";
-    const locale = locales.find((loc) => referer.includes(`/${loc}/`)) || "en";
-
-    revalidatePath("/", "layout");
-    redirect(`/${locale}/bag`);
-  } catch (error) {
-    console.error("Failed to add item to cart:", error);
+    // persist
+    await redis.set(`cart-${user.id}`, newCart);
+  } catch (err) {
+    console.error("Failed to add item to cart:", err);
+    // This will show your error page / be caught by your error boundary
     throw new Error("Failed to add item to cart");
   }
+
+  // — 3) REVALIDATE & REDIRECT outside the try/catch —
+  revalidatePath("/", "layout");
+
+  // TODO: you’ll need to figure out your locale –
+  // either pass it in from the client or derive it from route params.
+  const locale = "en";
+  redirect(`/${locale}/bag`);
 }
 
 export async function delItem(formData: FormData) {
