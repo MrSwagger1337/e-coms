@@ -18,7 +18,7 @@ async function checkAdminAccess() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if (!user || user.email !== "elsaady.eweeda@gmail.com") {
+  if (!user || user.email !== "eweeda12@gmail.com") {
     throw new Error("Unauthorized access");
   }
 
