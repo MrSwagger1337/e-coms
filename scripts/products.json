@@ -1,0 +1,166 @@
+{
+  "products": [
+    {
+      "english_name": "CLEANSING MILK “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "حليب التنظيف “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Cleansing milk with rich natural composition directed into three actions: delicately removes makeup and cleanses facial skin; optimally moisturizes and increases skin's barrier against dehydration; regenerates tissues and gives skin a healthy look. Face and neck are cleansed with a cotton swab with cleansing milk.",
+      "arabic_description": "حليب تنظيف بتركيبة طبيعية غنية موجهة لثلاثة إجراءات: يزيل المكياج بلطف وينظف بشرة الوجه؛ يرطب بشكل مثالي ويزيد من حاجز البشرة ضد الجفاف؛ يجدد الأنسجة ويعطي البشرة مظهرًا صحيًا. يتم تنظيف الوجه والرقبة بقطعة قطن مبللة بحليب التنظيف."
+    },
+    {
+      "english_name": "GENTLE FACE EXFOLIANT “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "مقشر الوجه اللطيف “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "A new formula combining enzymatic exfoliant and hydrating effect without microparticles, supplying the optimal amount of papain proteolytic enzyme in the skin. Gently removes dead cells and leaves a feeling of freshness, softness and comfort.",
+      "arabic_description": "تركيبة جديدة تجمع بين التقشير الأنزيمي والتأثير المرطب بدون جزيئات دقيقة، مما يوفر الكمية المثالية من إنزيم الباباين البروتيني في البشرة. يزيل الخلايا الميتة بلطف ويترك شعورًا بالانتعاش والنعومة والراحة."
+    },
+    {
+      "english_name": "FACE CREAM 24 HOURS HYDRATION “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "كريم ترطيب الوجه الفاخر 24 ساعة “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Light cream improving the level of hydration with a rapid-acting effect which lasts for 24 hours. Refreshes instantaneously and retains water in cells. Skin remains fresh, soft and supple. Forms a lipid barrier on the outer layer of the epidermis and increases skin resilience against aggressions.",
+      "arabic_description": "كريم خفيف يحسن مستوى الترطيب بتأثير سريع المفعول يدوم لمدة 24 ساعة. ينعش على الفور ويحتفظ بالماء في الخلايا. تبقى البشرة منتعشة وناعمة ومرنة. يشكل حاجزًا دهنيًا على الطبقة الخارجية من البشرة ويزيد من مرونة الجلد ضد العوامل العدوانية."
+    },
+    {
+      "english_name": "ANTI-AGING FACE CREAM “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "كريم الوجه الفاخر المضاد للشيخوخة “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Anti-aging light cream provides hydration and daily comfort. The combination of natural extracts and oils increases the skin's natural defenses and restores its elasticity and density. With its powerful antioxidant action it slows cell aging and reactivates the synthesis of collagen, decorin and hyaluronic acid.",
+      "arabic_description": "كريم خفيف مضاد للشيخوخة يوفر الترطيب والراحة اليومية. يعمل مزيج المستخلصات الطبيعية والزيوت على زيادة دفاعات البشرة الطبيعية واستعادة مرونتها وكثافتها. بتأثيره المضاد للأكسدة القوي، يبطئ شيخوخة الخلايا ويعيد تنشيط تخليق الكولاجين والديكورين وحمض الهيالورونيك."
+    },
+    {
+      "english_name": "FACE SERUM “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "سيروم الوجه الفاخر “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Effective 3 in 1 action improving synthesis of collagen in the skin. Rich in active ingredients, successfully controls the amount of collagen fibers and skin elasticity. Provides an optimal level of hydration and protects skin from premature aging.",
+      "arabic_description": "فعالية 3 في 1 تعمل على تحسين تخليق الكولاجين في البشرة. غني بالمكونات النشطة، يتحكم بنجاح في كمية ألياف الكولاجين ومرونة الجلد. يوفر مستوى مثالي من الترطيب ويحمي البشرة من الشيخوخة المبكرة."
+    },
+    {
+      "english_name": "EYE SERUM “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "سيروم العين الفاخر “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Gentle care for delicate skin around the eyes. Tenderly hydrates, refreshes and improves its elasticity, while effectively reducing wrinkles, dark circles and bags under the eyes.",
+      "arabic_description": "عناية لطيفة للبشرة الحساسة حول العينين. يرطب بلطف وينعش ويحسن مرونتها، مع تقليل التجاعيد والهالات السوداء والانتفاخات تحت العينين بشكل فعال."
+    },
+    {
+      "english_name": "CREAM AROUND EYES “LADY’S JOY LUXURY” skin care",
+      "arabic_name": "كريم حول العين “ليديز جوي لوكسري” للعناية بالبشرة",
+      "english_description": "Care for the delicate eye area. Effectively stimulates cell renewal, reduces wrinkles, erases dark circles and increases the density of skin. Stimulates the synthesis of collagen and elastin in the derma and reduces their degradation.",
+      "arabic_description": "عناية بمنطقة العين الحساسة. يحفز تجديد الخلايا بشكل فعال، ويقلل التجاعيد، ويزيل الهالات السوداء ويزيد من كثافة الجلد. يحفز تخليق الكولاجين والإيلاستين في الأدمة ويقلل من تدهورها."
+    },
+    {
+      "english_name": "CLEANSING FACE GEL \"BULGARIAN ROSE SIGNATURE SPA\"",
+      "arabic_name": "جل تنظيف الوجه \"الورد البلغاري\"",
+      "english_description": "Gel for everyday cleaning skin of the face from impurities and makeup. Refreshes and keeps its natural moisture level.",
+      "arabic_description": "جل لتنظيف بشرة الوجه يوميًا من الشوائب والمكياج. ينعشها ويحافظ على مستوى رطوبتها الطبيعية."
+    },
+    {
+      "english_name": "REGENERATING CREAM \"BULGARIAN ROSE SIGNATURE SPA\"",
+      "arabic_name": "كريم تجديد البشرة \"توقيع الوردة البلغارية\"",
+      "english_description": "Regenerating cream designed for nourishing and moisturizing facial skin. The complex of caviar containing carefully derived nutrients from caviar combined with oligopeptides from actin and seaweed extract, helps to soothe skin and stimulates the process of cell regeneration.",
+      "arabic_description": "كريم مجدد للخلايا، مصمم لتغذية وترطيب بشرة الوجه. يساعد مركب الكافيار مع العناصر الغذائية المشتقة بعناية والممزوجة مع الببتيدات القليلة من مستخلص الأكتين والأعشاب البحرية على تهدئة البشرة وتحفيز عملية تجديد الخلايا."
+    },
+    {
+      "english_name": "INTENSIVELY HYDRATING CREAM \"BULGARIAN ROSE SIGNATURE SPA\"",
+      "arabic_name": "كريم الترطيب المكثف \"توقيع الوردة البلغارية\"",
+      "english_description": "Formula specifically developed to hydrate skin and to protect it from the harmful effects of free radicals. The caviar complex, with its rich composition - amino acids, minerals and oligoelements, contributes to skin's moisturizing and soothing.",
+      "arabic_description": "تركيبة تم تطويرها خصيصًا لترطيب البشرة وحمايتها من الآثار الضارة للجذور الحرة. يساهم مركب الكافيار بتركيبته الغنية - الأحماض الأمينية والمعادن والعناصر القليلة - في ترطيب البشرة وتهدئتها."
+    },
+    {
+      "english_name": "Rose Original AQUA+ face mask",
+      "arabic_name": "قناع اكوابلس للوجه",
+      "english_description": "This cream mask moisturizes and softens facial skin. Helps smoothing fine wrinkles and removing traces of stress and fatigue. Charges skin with energy and freshness.",
+      "arabic_description": "قناع الكريم هذا يرطب وينعم بشرة الوجه. يساعد على تنعيم التجاعيد الدقيقة وإزالة آثار الإجهاد والتعب. يشحن البشرة بالطاقة والنضارة."
+    },
+    {
+      "english_name": "Rose Original face mask 2 in 1",
+      "arabic_name": "قناع تقشير الوجه 2 في 1",
+      "english_description": "Exfoliating face mask with soft foaming agents and natural ingredients, gently removes dead cells and cleanses skin from natural pollutants. Refreshes every type of skin.",
+      "arabic_description": "قناع تقشير للوجه يحتوي على مواد رغوية ناعمة ومكونات طبيعية، يزيل الخلايا الميتة بلطف وينظف البشرة من الملوثات الطبيعية. ينعش جميع أنواع البشرة."
+    },
+    {
+      "english_name": "Rose Original moisturizing tonic",
+      "arabic_name": "تونيك الورد البلغاري المرطب",
+      "english_description": "Moisturizes in depth and refreshes skin. Skin becomes soft and elastic.",
+      "arabic_description": "يعمل على تقليل اتساع مسام البشرة وذلك بسبب مكونات الانتوين وزيت الورد والباثينول، ويعمل فيتامين د على ترطيب البشرة ومرونتها."
+    },
+    {
+      "english_name": "Rose Original Q10 revitalizing face cream",
+      "arabic_name": "كريم روز الأصلي المنشط Q10",
+      "english_description": "Rich cream with moisturizing and nourishing ingredients, which prevent dehydration of the epidermis, stimulate regeneration and natural renewal of cells. Daily care for smooth, soft and elastic skin.",
+      "arabic_description": "كريم غني بمكونات مرطبة ومغذية تمنع جفاف البشرة وتحفز التجديد والتجديد الطبيعي للخلايا. عناية يومية لبشرة ناعمة وناعمة ومرنة."
+    },
+    {
+      "english_name": "Rose Original night cream",
+      "arabic_name": "كريم الليل",
+      "english_description": "The night cream moisturizes facial skin during the night, helps cellular renewal and smoothes wrinkles. Suitable for all skin types. When used regularly facial skin looks smooth and fresh.",
+      "arabic_description": "بفضل مكوناته الفعالة مثل فيتامين A، الأنتوين، زيت الورد، زيت بذور المشمش، ماء الورد، يعمل كريم الورد البلغاري الليلي على ترطيب بشرة الوجه أثناء الليل، ويساعد على تجديد الخلايا وإزالة التجاعيد تدريجياً، مناسب لجميع أنواع البشرة."
+    },
+    {
+      "english_name": "Rose Original day cream",
+      "arabic_name": "كريم النهار",
+      "english_description": "Well balanced cream with moisturizing and nourishing ingredients, bestows facial skin with energy and helps its to overcome daily stress. Absorbs fast, gives skin freshness, smoothness and softness.",
+      "arabic_description": "يمنح بشرة الوجه النضارة ويساعد البشرة في التغلب على الاجهاد اليومي فهو كريم متوازن جيد الترطيب والتغذية نتيجة مكونات زيت الجوجوبا وفيتامين أ، مع زيت الورد الطبيعي."
+    },
+    {
+      "english_name": "Rose Original cleasing milk",
+      "arabic_name": "حليب منظف للبشرة بالورد الأصلي",
+      "english_description": "Gently cleanses and refreshes facial and neck skin. Removes any make-up and impurities. Moisturizes improves elasticity and leaves sensation of freshness and elasticity skin.",
+      "arabic_description": "ينظف بلطف وينعش بشرة الوجه والرقبة. يزيل أي مكياج أو شوائب، يرطب البشرة ويحسن مرونتها ويترك إحساسًا بالانتعاش ومرونة البشرة."
+    },
+    {
+      "english_name": "Bulgarian Rose Signature SPA body cream scrub",
+      "arabic_name": "كريم الجسم - مقشر",
+      "english_description": "Body Cream - Scrub with natural exfoliating particles removes dead skin cells, cleans in depth and makes the skin soft and smooth.",
+      "arabic_description": "كريم الجسم - مقشر بجزيئات تقشير طبيعية يزيل خلايا الجلد الميتة وينظف بعمق ويجعل البشرة ناعمة وسلسة."
+    },
+    {
+      "english_name": "Rose Original lip balm",
+      "arabic_name": "مرطب الشفاه",
+      "english_description": "Softens and protects lips from harmful effects of the environment. Its enriched formula with rose concrete, cocoa oil, vitamins E and D-panthenol has a useful effect in revitalizing dried and chapped lips. Regains their tenderness and beauty, giving a delicate brilliance.",
+      "arabic_description": "تعمل تركيبتها الغنية بمستخلص الورد وزيت الكاكاو وفيتامين E و D-بانثينول من المكونات التي لها تأثير فعال في تنشيط وتنعيم الشفاه الجافة والمتشققة، مما يساعدها في استعادة اللمعان والنضارة."
+    },
+    {
+      "english_name": "Rose Original body butter",
+      "arabic_name": "زبدة الجسم روز الأصلية",
+      "english_description": "Body butter with natural vegetable oils which nourish the skin and act as a protective barrier. The combination of sunflower flower, rose and D-panthenol provides the skin with long-lasting and intense hydration.",
+      "arabic_description": "زبدة الجسم بالزيوت النباتية الطبيعية التي تغذي البشرة وتعمل كحاجز وقائي. يمنح مزيج زهرة عباد الشمس والورد والبانثينول للبشرة ترطيبًا مكثفًا يدوم طويلاً."
+    },
+    {
+      "english_name": "Rose Original glicerin soap-sponge",
+      "arabic_name": "إسفنجة صابون الجلسرين",
+      "english_description": "Glycerin soap with natural rose water and sponge is a combination form maximum comfort. Cleans skin without drying it. Leaves pleasant and fresh aroma of bulgarian rose.",
+      "arabic_description": "صابون الجلسرين مع ماء الورد الطبيعي والإسفنجة هو مزيج من الراحة القصوى. ينظف البشرة دون تجفيفها. يترك رائحة الورد البلغاري اللطيفة والمنعشة."
+    },
+    {
+      "english_name": "Rose Original hand cream",
+      "arabic_name": "كريم اليد",
+      "english_description": "Softening hand cream suitable for all skin types. Preserves hand skin from moisture loss and from external aggressive factors. Absorb fast, gives hand skin smoothness and softness.",
+      "arabic_description": "كريم مرطب لليدين مناسب لجميع أنواع البشرة. يحافظ على بشرة اليدين من فقدان الرطوبة ومن العوامل الخارجية العدوانية. يمتص بسرعة، يمنح بشرة اليدين نعومة وليونة."
+    },
+    {
+      "english_name": "HAIR MASK ROSE JOGHURT",
+      "arabic_name": "قناع الشعر",
+      "english_description": "Revitalizing active care for damaged and treated hair. The combination of active ingredients soothes, nourishes and moisturizes the scalp. Maintains the natural shine and beauty of the hair. Gives vitality and softness. Makes hair easy to comb.",
+      "arabic_description": "عناية فعالة منشطة للشعر التالف والمعالج. تعمل تركيبة المكونات الفعالة على تهدئة وتغذية وترطيب فروة الرأس. تحافظ على اللمعان الطبيعي وجمال الشعر. تمنح الشعر الحيوية والنعومة. تجعل الشعر سهل التمشيط."
+    },
+    {
+      "english_name": "SHAMPOO \"ROSE JOGHURT\"",
+      "arabic_name": "شامبو \"روز جوجورت\"",
+      "english_description": "Shampoo with mild cleansing action, suitable for dry and treated hair for everyday use. Facilitates combing, smoothes and adds volume. Contains a complex of active ingredients with nourishing and hydrating action, which help maintain a healthy scalp.",
+      "arabic_description": "شامبو بمفعول تنظيف خفيف، مناسب للشعر الجاف والمعالج للاستخدام اليومي. يسهل التمشيط، وينعم الشعر ويزيد من حجمه. يحتوي على مجموعة من المكونات النشطة ذات المفعول المغذي والمرطب، والتي تساعد في الحفاظ على فروة رأس صحية."
+    },
+    {
+      "english_name": "HAIR CONDITIONER \"ROSE JOGHURT\"",
+      "arabic_name": "بلسم الشعر \"روز جوجورت\"",
+      "english_description": "Hair conditioner for treated hair that needs intensive care. Restores the outer covering of the hair, regains normal moisture content in it and reinforces its strength. Gives hair softness, shine and pleasant fragrance.",
+      "arabic_description": "بلسم للشعر المعالج الذي يحتاج إلى عناية مكثفة. يعيد الغطاء الخارجي للشعر، ويعيد الرطوبة الطبيعية إليه ويعزز قوته. يمنح الشعر النعومة واللمعان ورائحة طيبة."
+    },
+    {
+      "english_name": "Herbal care shampoo nettle for oily hair",
+      "arabic_name": "شامبو العناية بالأعشاب بخاصة نبات القراص للشعر الدهني",
+      "english_description": "Shampoo with natural nettle extract with has been created for the specific needs of hair prone to quick oiliness. Effective care for the scalp for volume and brilliance of hair.",
+      "arabic_description": "شامبو بمستخلص نبات القراص الطبيعي تم ابتكاره خصيصًا للشعر المعرض للدهون بسرعة. عناية فعالة بفروة الرأس لكثافة الشعر ولمعانه."
+    },
+    {
+      "english_name": "Herbal care rosemary shampoo dandruff prone hair",
+      "arabic_name": "شامبو عشبي للعناية بالشعر المعرض للقشرة بخاصة إكليل الجبل",
+      "english_description": "Shampoo is enriched by with natural rosemary extract and octopirox with proven anti-dandruff action. With regular use helps to remove dandruff and preventive against its occurrence.",
+      "arabic_description": "شامبو غني بمستخلص إكليل الجبل الطبيعي ومادة أوكتوبيروكس التي أثبتت فعاليتها في مكافحة القشرة. يساعد الاستخدام المنتظم على إزالة القشرة والوقاية من ظهورها."
+    }
+  ]
+}
