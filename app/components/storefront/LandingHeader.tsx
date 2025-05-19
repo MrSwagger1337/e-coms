@@ -12,44 +12,46 @@ export function LandingHeader() {
       {/* Text Column */}
       <motion.div
         className={`
-          w-full md:w-1/2 flex flex-col
-          items-center md:items-${isRtl ? "end" : "end"}
-          text-center md:text-left
-        `}
+    w-full md:w-1/2 flex flex-col
+    px-4 sm:px-6 lg:px-8
+    overflow-hidden
+    items-center md:items-${isRtl ? "end" : "start"}
+    text-center md:text-${isRtl ? "right" : "left"}
+  `}
         initial={{ opacity: 0, x: isRtl ? 50 : -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >
         <h1
           className={`
-            font-semibold mb-4
-            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
-            ${isRtl ? "rtl" : ""}
-          `}
+      font-semibold mb-4
+      text-2xl sm:text-3xl md:text-4xl lg:text-5xl
+      break-words
+    `}
         >
           {dictionary.landing.discover}
         </h1>
 
         <span
           className={`
-            block font-bold text-[#ED008C]
-            text-3xl sm:text-4xl md:text-5xl lg:text-6xl
-            mb-2
-            ${isRtl ? "rtl" : ""}
-          `}
+      block font-bold text-[#ED008C]
+      text-3xl sm:text-4xl md:text-5xl lg:text-6xl
+      mb-2
+      break-words
+    `}
         >
           {dictionary.landing.wonders}
         </span>
 
         <h2
           className={`
-            font-semibold mt-4
-            text-xl sm:text-2xl md:text-3xl lg:text-4xl
-            ${isRtl ? "rtl" : ""}
-          `}
+      font-semibold mt-4
+      text-xl sm:text-2xl md:text-3xl lg:text-4xl
+      break-words
+    `}
         >
           {dictionary.landing.youWill}
-          <span className="block mt-2 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+          <span className="block mt-2 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl break-words">
             <span className="text-[#ED008C]">
               {dictionary.landing.fallInLove}
             </span>{" "}
