@@ -13,7 +13,7 @@ export function LandingHeader() {
       <motion.div
         className={`
           w-full md:w-1/2 flex flex-col
-          items-center md:items-${isRtl ? "end" : "start"}
+          items-center md:items-${isRtl ? "end" : "end"}
           text-center md:text-left
         `}
         initial={{ opacity: 0, x: isRtl ? 50 : -50 }}
