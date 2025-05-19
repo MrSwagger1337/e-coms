@@ -17,11 +17,9 @@ import { z } from "zod";
 async function checkAdminAccess() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-
   if (!user || user.email !== "eweeda12@gmail.com") {
-    throw new Error("Unauthorized access");
+    throw new Error("Unauthorized");
   }
-
   return user;
 }
 
@@ -37,44 +35,50 @@ async function handleDatabaseOperation<T>(
   }
 }
 
-export async function createProduct(prevState: unknown, formData: FormData) {
+export async function createProduct(_prev: unknown, formData: FormData) {
+  // 1) Auth
+  await checkAdminAccess();
+
+  // 2) Validation
+  const submission = parseWithZod(formData, { schema: productSchema });
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+  const {
+    name,
+    name_ar,
+    description,
+    description_ar,
+    status,
+    price,
+    images,
+    category,
+    isFeatured,
+  } = submission.value;
+
+  // 3) Persist
   try {
-    await checkAdminAccess();
-
-    const submission = parseWithZod(formData, {
-      schema: productSchema,
+    await prisma.product.create({
+      data: {
+        name,
+        name_ar, // undefined is fine for optional
+        description,
+        description_ar,
+        status,
+        price,
+        images, // already an array of strings
+        category,
+        isFeatured: Boolean(isFeatured),
+      },
     });
-
-    if (submission.status !== "success") {
-      return submission.reply();
-    }
-
-    const flattenUrls = submission.value.images.flatMap((urlString) =>
-      urlString.split(",").map((url) => url.trim())
-    );
-
-    await handleDatabaseOperation(async () => {
-      await prisma.product.create({
-        data: {
-          name: submission.value.name,
-          name_ar: submission.value.name_ar,
-          description: submission.value.description,
-          description_ar: submission.value.description_ar,
-          status: submission.value.status,
-          price: submission.value.price,
-          images: flattenUrls,
-          category: submission.value.category,
-          isFeatured: submission.value.isFeatured === true,
-        },
-      });
-    });
-
-    revalidatePath("/dashboard/products");
-    redirect("/dashboard/products");
-  } catch (error) {
-    console.error("Failed to create product:", error);
+  } catch (err) {
+    console.error("DB create failed:", err);
     throw new Error("Failed to create product");
   }
+
+  // 4) Revalidate & redirect
+  revalidatePath("/dashboard/products");
+  redirect("/dashboard/products");
 }
 
 export async function editProduct(prevState: any, formData: FormData) {

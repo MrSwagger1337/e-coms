@@ -39,11 +39,9 @@ export default function ProductCreateRoute() {
   const [lastResult, action] = useFormState(createProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
-
     onValidate({ formData }) {
       return parseWithZod(formData, { schema: productSchema });
     },
-
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
@@ -70,6 +68,7 @@ export default function ProductCreateRoute() {
             In this form you can create your product
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <div className="flex flex-col gap-8">
             {/* English Section */}
@@ -214,13 +213,16 @@ export default function ProductCreateRoute() {
 
               <div className="flex flex-col gap-3">
                 <Label>Images</Label>
-                <input
-                  type="hidden"
-                  value={images}
-                  key={fields.images.key}
-                  name={fields.images.name}
-                  defaultValue={fields.images.initialValue as any}
-                />
+                {/* one hidden input per image for proper serialization */}
+                {images.map((url, idx) => (
+                  <input
+                    key={idx}
+                    type="hidden"
+                    name={fields.images.name}
+                    value={url}
+                  />
+                ))}
+
                 {images.length > 0 ? (
                   <div className="flex gap-5">
                     {images.map((image, index) => (
@@ -246,12 +248,10 @@ export default function ProductCreateRoute() {
                 ) : (
                   <UploadDropzone
                     endpoint="imageUploader"
-                    onClientUploadComplete={(res) => {
-                      setImages(res.map((r) => r.url));
-                    }}
-                    onUploadError={() => {
-                      alert("Something went wrong");
-                    }}
+                    onClientUploadComplete={(res) =>
+                      setImages(res.map((r) => r.url))
+                    }
+                    onUploadError={() => alert("Something went wrong")}
                   />
                 )}
 
@@ -260,6 +260,7 @@ export default function ProductCreateRoute() {
             </div>
           </div>
         </CardContent>
+
         <CardFooter>
           <SubmitButton text="Create Product" />
         </CardFooter>
