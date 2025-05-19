@@ -19,33 +19,25 @@ export function LandingHeader({ lang }: { lang: "en" | "ar" }) {
   if (!dict) return null;
 
   return (
-    <div className="py-12 my-20 sm:py-32 w-full flex flex-col md:flex-row h-auto md:h-[600px]">
+    <div className="py-12 md:max-w-3xl lg:max-w-6xl my-20 sm:py-32 w-full flex flex-col md:flex-row h-auto md:h-[600px]">
       <motion.div
-        className={`w-full md:w-1/2 pb-11 flex flex-col items-center ${
-          isRtl ? "md:items-end" : "md:items-start"
-        } justify-center`}
+        className={`w-full md:w-1/2 pb-11 flex flex-col text-center justify-center item-center`}
         initial={{ opacity: 0, x: isRtl ? 50 : -50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
       >
         <h1
-          className={`text-3xl md:text-4xl font-semibold text-center ${
-            isRtl ? "md:text-right mr-12" : "md:text-left -ml-12"
-          } mb-4`}
+          className={`text-3xl md:text-4xl font-semibold  `}
         >
           {dict.landing.discover}
         </h1>
         <span
-          className={`block mt-2 text-2xl md:text-4xl font-bold text-[#ED008C] ${
-            isRtl ? "-mr-12" : "ml-12"
-          }`}
+          className={`block mt-2 text-2xl md:text-4xl -mx-5 font-bold text-[#ED008C] `}
         >
           {dict.landing.wonders}
         </span>
         <h2
-          className={`text-2xl md:text-3xl font-semibold text-center ${
-            isRtl ? "md:text-right" : "md:text-left"
-          } mt-4`}
+          className={`text-2xl md:text-3xl font-semibold text-center mx-6 mt-4`}
         >
           {dict.landing.youWill}
           <span className="block mt-2 text-3xl md:text-3xl font-bold">
