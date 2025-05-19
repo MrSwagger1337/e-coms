@@ -8,13 +8,14 @@ export function LandingHeader() {
   if (!dictionary) return null;
 
   return (
-    <div className="container mx-auto flex flex-col-reverse md:flex-row items-center py-12 sm:py-24 lg:py-32">
+    <div className="container flex flex-col-reverse md:flex-row items-center py-12 sm:py-24 lg:py-32">
       {/* Text Column */}
       <motion.div
         className={`
     w-full md:w-1/2 flex flex-col
-    px-4 sm:px-6 lg:px-8
-    overflow-hidden
+    box-border        /* make padding include the border box */
+    px-4 sm:px-6 lg:px-8  /* padding on both sides */
+    overflow-hidden    /* no spills */
     items-center md:items-${isRtl ? "end" : "start"}
     text-center md:text-${isRtl ? "right" : "left"}
   `}
@@ -27,6 +28,7 @@ export function LandingHeader() {
       font-semibold mb-4
       text-2xl sm:text-3xl md:text-4xl lg:text-5xl
       break-words
+      ${!isRtl ? "md:pl-12" : "md:pr-12"}  /* optional stagger inside padding */
     `}
         >
           {dictionary.landing.discover}
@@ -38,6 +40,7 @@ export function LandingHeader() {
       text-3xl sm:text-4xl md:text-5xl lg:text-6xl
       mb-2
       break-words
+      ${!isRtl ? "md:pl-12" : "md:pr-12"}
     `}
         >
           {dictionary.landing.wonders}
@@ -48,6 +51,7 @@ export function LandingHeader() {
       font-semibold mt-4
       text-xl sm:text-2xl md:text-3xl lg:text-4xl
       break-words
+      ${!isRtl ? "md:pl-12" : "md:pr-12"}
     `}
         >
           {dictionary.landing.youWill}
