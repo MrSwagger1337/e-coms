@@ -12,7 +12,7 @@ export default function IndexPage() {
 
   return (
     <div className={cn("max-w-7xl mx-auto px-4 py-8", isRtl ? "rtl" : "")}>
-      <LandingHeader />
+      {/* <LandingHeader /> */}
 
       <Card className="max-w-screen-2xl mx-auto hidden md:block my-12 overflow-hidden">
         <img
