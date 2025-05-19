@@ -9,7 +9,7 @@ export function LandingHeader() {
   if (!dictionary) return null;
 
   return (
-    <div className="py-12 my-20 sm:py-32 w-full flex flex-col md:flex-row h-auto md:h-[600px]">
+    <div className="py-12 sm:py-32 w-full flex flex-col md:flex-row h-auto md:h-[600px]">
       <motion.div
         className={`w-full md:w-1/2 pb-11 flex flex-col items-center ${
           isRtl ? "md:items-end" : "md:items-start"
