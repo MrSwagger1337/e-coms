@@ -1,7 +1,7 @@
 // bulkUploadProducts.ts (Node script)
 import fs from "fs";
 import path from "path";
-import { FormData, File } from "formdata-node";
+import { FormData } from "formdata-node";
 import { fileFromPath } from "formdata-node/file-from-path";
 import fetch from "node-fetch"; // from 'undici' if using native polyfill
 
