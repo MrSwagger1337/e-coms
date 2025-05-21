@@ -33,6 +33,7 @@ Features:
 - Server side implementation 
 - Performance Optimized
 
+# 
 
 Resources used:
 - Next.js: https://nextjs.org
