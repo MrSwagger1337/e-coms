@@ -25,8 +25,13 @@ export default async function DashboardLayout({
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if (!user || user.email !== "eweeda12@gmail.com") {
-    return redirect("/");
+  const adminEmails = [
+    "eweeda12@gmail.com",
+    "Business@zamzam-beauty.com",
+    "Elsaady.eweeda@gmail.com",
+  ];
+  if (!user || !adminEmails.includes(user.email as string)) {
+    throw new Error("Unauthorized");
   }
   return (
     <div className="flex w-full flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

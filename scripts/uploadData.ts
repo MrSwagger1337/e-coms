@@ -85,7 +85,7 @@ const productsData = {
     {
       english_name:
         'INTENSIVELY HYDRATING CREAM "BULGARIAN ROSE SIGNATURE SPA"',
-      arabic_name: 'كريم الترطيب المكثف "توقيع الوردة البلغارية"',
+      arabic_name: 'كريم التريب المكثف "توقيع الوردة البلغارية"',
       english_description:
         "Formula specifically developed to hydrate skin and to protect it from the harmful effects of free radicals. The caviar complex, with its rich composition - amino acids, minerals and oligoelements, contributes to skin's moisturizing and soothing.",
       arabic_description:
@@ -198,9 +198,9 @@ const productsData = {
     {
       english_name: 'SHAMPOO "ROSE JOGHURT"',
       arabic_name: 'شامبو "روز جوجورت"',
-      english_description:
-        "Shampoo with mild cleansing action, suitable for dry and treated hair for everyday use. Facilitates combing, smoothes and adds volume. Contains a complex of active ingredients with nourishing and hydrating action, which help maintain a healthy scalp.",
-      arabic_description:
+      english_description: 
+        "Shampoo with mild cleansing action, suitable for dry and treated  hair for everyday use. Facilitates combing, smoothes and adds volume. Contains a complex of active ingredients with nourishing and hydrating action, which help maintain a healthy scalp.",
+      arabic_description: 
         "شامبو بمفعول تنظيف خفيف، مناسب للشعر الجاف والمعالج للاستخدام اليومي. يسهل التمشيط، وينعم الشعر ويزيد من حجمه. يحتوي على مجموعة من المكونات النشطة ذات المفعول المغذي والمرطب، والتي تساعد في الحفاظ على فروة رأس صحية.",
     },
     {

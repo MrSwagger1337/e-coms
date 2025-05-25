@@ -17,7 +17,12 @@ import { z } from "zod";
 async function checkAdminAccess() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-  if (!user || user.email !== "eweeda12@gmail.com") {
+  const adminEmails = [
+    "eweeda12@gmail.com",
+    "Business@zamzam-beauty.com",
+    "Elsaady.eweeda@gmail.com",
+  ];
+  if (!user || !adminEmails.includes(user.email as string)) {
     throw new Error("Unauthorized");
   }
   return user;
