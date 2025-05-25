@@ -120,13 +120,12 @@ export async function editProduct(prevState: any, formData: FormData) {
         },
       });
     });
-
-    revalidatePath("/dashboard/products");
-    redirect("/dashboard/products");
   } catch (error) {
     console.error("Failed to edit product:", error);
     throw new Error("Failed to edit product");
   }
+  revalidatePath("/dashboard/products");
+  redirect("/dashboard/products");
 }
 
 export async function deleteProduct(formData: FormData) {
