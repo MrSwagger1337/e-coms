@@ -27,10 +27,13 @@ export default async function DashboardLayout({
 
   const adminEmails = [
     "eweeda12@gmail.com",
-    "Business@zamzam-beauty.com",
-    "Elsaady.eweeda@gmail.com",
+    "business@zamzam-beauty.com",
+    "elsaady.eweeda@gmail.com",
   ];
-  if (!user || !adminEmails.includes(user.email as string)) {
+  if (
+    !user ||
+    !adminEmails.includes(user.email?.toLocaleLowerCase() as string)
+  ) {
     throw new Error("Unauthorized");
   }
   return (
