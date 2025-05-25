@@ -50,7 +50,7 @@ export function LandingHeader({ lang }: { lang: "en" | "ar" }) {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="relative w-[80vw] h-[50vh] md:w-[42vh] md:h-[52vh]">
+        <div className="relative w-[80vw] h-[50vh] md:w-[42vh] md:h-[28vh]">
           <div className="absolute inset-0  rounded-3xl shadow-lg shadow-[#c5c5c5] transform rotate-3"></div>
           <img
             src="https://i.ibb.co/8JHpVj9/e79d5d0e-3421-4a1a-aafb-8e1714d78152.jpg"
