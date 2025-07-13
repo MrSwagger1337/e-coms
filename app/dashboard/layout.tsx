@@ -27,7 +27,7 @@ export default async function DashboardLayout({
 
   const adminEmails = [
     "eweeda12@gmail.com",
-    "business@zamzam-beauty.com",
+    "Saif10ghazi@gmail.com",
     "elsaady.eweeda@gmail.com",
   ];
   if (
