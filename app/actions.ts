@@ -19,7 +19,7 @@ async function checkAdminAccess() {
   const user = await getUser();
   const adminEmails = [
     "eweeda12@gmail.com",
-    "Business@zamzam-beauty.com",
+    "Saif10ghazi@gmail.com",
     "Elsaady.eweeda@gmail.com",
   ];
   if (!user || !adminEmails.includes(user.email as string)) {
