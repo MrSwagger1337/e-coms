@@ -19,6 +19,7 @@ async function checkAdminAccess() {
   const user = await getUser();
   const adminEmails = [
     "eweeda12@gmail.com",
+    "eweeda172@gmail.com",
     "ecomsrose@gmail.com",
     "Elsaady.eweeda@gmail.com",
   ];
@@ -300,70 +301,63 @@ export async function delItem(formData: FormData) {
 }
 
 export async function checkOut() {
-  try {
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
-    if (!user) {
-      return redirect("/");
-    }
-
-    const cart: Cart | null = await redis.get(`cart-${user.id}`);
-
-    if (!cart || !cart.items || cart.items.length === 0) {
-      throw new Error("Cart is empty");
-    }
-
-    const total = cart.items.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-
-    // First, ensure the user exists in the database
-    const dbUser = await prisma.user.upsert({
-      where: { id: user.id },
-      update: {},
-      create: {
-        id: user.id,
-        email: user.email || "",
-        firstName: user.given_name || "",
-        lastName: user.family_name || "",
-        profileImage: user.picture || "",
-      },
-    });
-
-    const order = await handleDatabaseOperation(async () => {
-      return await prisma.order.create({
-        data: {
-          userId: dbUser.id,
-          amount: total,
-          status: "pending",
-        },
-      });
-    });
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: cart.items.map((item) => ({
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: item.name,
-            images: [item.imageString],
-          },
-          unit_amount: item.price * 100,
-        },
-        quantity: item.quantity,
-      })),
-      mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/success?orderId=${order.id}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment/cancel`,
-    });
-
-    await redis.del(`cart-${user.id}`);
-    redirect(session.url as string);
-  } catch (error) {
-    console.error("Checkout failed:", error);
-    throw new Error("Checkout failed");
+  if (!user) {
+    return redirect("/");
   }
+
+  const cart: Cart | null = await redis.get(`cart-${user.id}`);
+
+  if (!cart || !cart.items || cart.items.length === 0) {
+    throw new Error("Cart is empty");
+  }
+
+  const total = cart.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  // First, ensure the user exists in the database
+  const dbUser = await prisma.user.upsert({
+    where: { id: user.id },
+    update: {},
+    create: {
+      id: user.id,
+      email: user.email || "",
+      firstName: user.given_name || "",
+      lastName: user.family_name || "",
+      profileImage: user.picture || "",
+    },
+  });
+
+  const order = await prisma.order.create({
+    data: {
+      userId: dbUser.id,
+      amount: total,
+      status: "pending",
+    },
+  });
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: cart.items.map((item) => ({
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: item.name,
+          images: [item.imageString],
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    })),
+    mode: "payment",
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/success?orderId=${order.id}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/cancel`,
+  });
+
+  await redis.del(`cart-${user.id}`);
+  redirect(session.url as string);
 }

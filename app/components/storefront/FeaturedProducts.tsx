@@ -20,18 +20,20 @@ function SaleHeading4({
   return (
     <h2
       className={cn(
-        "text-4xl font-extrabold tracking-tight mb-5 relative",
+        "text-5xl font-extrabold tracking-tight mb-8 relative leading-tight",
         className
       )}
     >
-      {title}{" "}
-      <span className="relative inline-block">
-        <span className="relative z-10 text-white px-4 py-1">{sale}</span>
-        <span className="absolute inset-0 bg-pink-500 transform skew-x-12"></span>
+      <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+        {title}{" "}
+      </span>
+      <span className="relative inline-block group">
+        <span className="relative z-10 text-white px-6 py-2 font-black tracking-wider">{sale}</span>
+        <span className="absolute inset-0 bg-gradient-to-r from-pink-500 to-pink-600 transform skew-x-12 shadow-lg group-hover:shadow-xl transition-shadow duration-300"></span>
         <span
           className={`absolute ${
-            isRtl ? "-right-2 -left-2" : "-left-2 -right-2"
-          } h-1/2 bg-pink-600 top-full`}
+            isRtl ? "-right-3 -left-3" : "-left-3 -right-3"
+          } h-1/2 bg-gradient-to-r from-pink-600 to-pink-700 top-full shadow-md`}
         ></span>
       </span>
     </h2>
@@ -68,15 +70,24 @@ export function FeaturedProducts() {
   if (featuredProducts.length === 0) return null;
 
   return (
-    <section aria-labelledby="featured-products-heading">
+    <section aria-labelledby="featured-products-heading" className="relative">
+      <div className="absolute -top-10 -left-10 w-32 h-32 bg-gradient-to-br from-pink-200/30 to-purple-200/30 rounded-full blur-3xl" />
+      <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-200/30 to-cyan-200/30 rounded-full blur-3xl" />
+      
       <SaleHeading4
         title={dictionary.featured.title}
         sale={dictionary.featured.sale}
         isRtl={isRtl}
       />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {featuredProducts.map((item) => (
-          <ProductCard key={item.id} data={item} />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {featuredProducts.map((item, index) => (
+          <div 
+            key={item.id} 
+            className="animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <ProductCard data={item} />
+          </div>
         ))}
       </div>
     </section>
@@ -85,7 +96,7 @@ export function FeaturedProducts() {
 
 function LoadingRows() {
   return (
-    <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <LoadingProductCard />
       <LoadingProductCard />
       <LoadingProductCard />

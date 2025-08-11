@@ -27,6 +27,7 @@ export default async function DashboardLayout({
 
   const adminEmails = [
     "eweeda12@gmail.com",
+    "eweeda172@gmail.com",
     "ecomsrose@gmail.com",
     "elsaady.eweeda@gmail.com",
   ];
