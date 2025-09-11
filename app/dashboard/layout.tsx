@@ -30,6 +30,7 @@ export default async function DashboardLayout({
     "eweeda172@gmail.com",
     "ecomsrose@gmail.com",
     "elsaady.eweeda@gmail.com",
+    "mohamed.elitegroup@gmail.com"
   ];
   if (
     !user ||
