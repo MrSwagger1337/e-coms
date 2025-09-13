@@ -42,7 +42,13 @@ export async function RecentSales() {
               <p className="text-sm font-medium">{item.User?.firstName}</p>
               <p className="text-sm text-muted-foreground">{item.User?.email}</p>
             </div>
-            <p className="ml-auto font-medium">+${new Intl.NumberFormat("en-US").format(item.amount / 100)}</p>
+            <p className="ml-auto font-medium">
+              +{new Intl.NumberFormat("en-AE", {
+                style: "currency",
+                currency: "AED",
+              }).format(item.amount / 100)}
+            </p>
+
           </div>
         ))}
       </CardContent>

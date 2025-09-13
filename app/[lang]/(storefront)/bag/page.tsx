@@ -44,9 +44,8 @@ export default async function BagRoute({
 
   return (
     <div
-      className={`max-w-4xl mx-auto px-4 py-12 min-h-[70vh] ${
-        isRtl ? "rtl" : ""
-      }`}
+      className={`max-w-4xl mx-auto px-4 py-12 min-h-[70vh] ${isRtl ? "rtl" : ""
+        }`}
     >
       <Card className="border-none shadow-none">
         <CardHeader>
@@ -77,9 +76,8 @@ export default async function BagRoute({
                   <Card key={item.id} className="overflow-hidden">
                     <CardContent className="p-0">
                       <div
-                        className={`flex items-center p-4 hover:bg-accent/5 transition-colors ${
-                          isRtl ? "flex-row-reverse" : ""
-                        }`}
+                        className={`flex items-center p-4 hover:bg-accent/5 transition-colors ${isRtl ? "flex-row-reverse" : ""
+                          }`}
                       >
                         <div className="w-24 h-24 sm:w-32 sm:h-32 relative rounded-lg overflow-hidden">
                           <Image
@@ -90,18 +88,16 @@ export default async function BagRoute({
                           />
                         </div>
                         <div
-                          className={`${
-                            isRtl ? "mr-6" : "ml-6"
-                          } flex justify-between w-full items-center`}
+                          className={`${isRtl ? "mr-6" : "ml-6"
+                            } flex justify-between w-full items-center`}
                         >
                           <div className="space-y-1">
                             <h3 className="font-semibold text-lg">
                               {item.name}
                             </h3>
                             <div
-                              className={`flex items-center gap-x-2 text-muted-foreground ${
-                                isRtl ? "flex-row-reverse" : ""
-                              }`}
+                              className={`flex items-center gap-x-2 text-muted-foreground ${isRtl ? "flex-row-reverse" : ""
+                                }`}
                             >
                               <p>{item.quantity} x</p>
                               <p>
@@ -133,19 +129,20 @@ export default async function BagRoute({
               <Card>
                 <CardContent className="p-6">
                   <div
-                    className={`flex items-center justify-between font-medium text-lg mb-6 ${
-                      isRtl ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-center justify-between font-medium text-lg mb-6 ${isRtl ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <p>{dict.cart.subtotal}</p>
                     <p className="font-bold">
                       {isRtl
-                        ? `${new Intl.NumberFormat("en-US").format(
-                            totalPrice
-                          )} ${dict.product.price}`
-                        : `${dict.product.price}${new Intl.NumberFormat(
-                            "en-US"
-                          ).format(totalPrice)}`}
+                        ? `${new Intl.NumberFormat("ar-AE", {
+                          style: "currency",
+                          currency: "AED",
+                        }).format(totalPrice)} ${dict.product.price}`
+                        : `${dict.product.price}${new Intl.NumberFormat("en-AE", {
+                          style: "currency",
+                          currency: "AED",
+                        }).format(totalPrice)}`}
                     </p>
                   </div>
                   <Separator className="my-4" />

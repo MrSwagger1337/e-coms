@@ -57,7 +57,10 @@ export default async function OrdersPage() {
                 <TableCell>{item.status}</TableCell>
                 <TableCell>{new Intl.DateTimeFormat("en-US").format(item.createdAt)}</TableCell>
                 <TableCell className="text-right">
-                  ${new Intl.NumberFormat("en-US").format(item.amount / 100)}
+                  {new Intl.NumberFormat("en-AE", {
+                    style: "currency",
+                    currency: "AED",
+                  }).format(item.amount / 100)}
                 </TableCell>
               </TableRow>
             ))}

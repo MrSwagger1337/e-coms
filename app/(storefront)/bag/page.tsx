@@ -83,20 +83,17 @@ export default function BagRoute() {
                 />
               </div>
               <div
-                className={`${
-                  isRtl ? "mr-5" : "ml-5"
-                } flex justify-between w-full font-medium`}
+                className={`${isRtl ? "mr-5" : "ml-5"
+                  } flex justify-between w-full font-medium`}
               >
                 <p>{item.name}</p>
                 <div
-                  className={`flex flex-col h-full justify-between ${
-                    isRtl ? "items-start" : "items-end"
-                  }`}
+                  className={`flex flex-col h-full justify-between ${isRtl ? "items-start" : "items-end"
+                    }`}
                 >
                   <div
-                    className={`flex items-center gap-x-2 ${
-                      isRtl ? "flex-row-reverse" : ""
-                    }`}
+                    className={`flex items-center gap-x-2 ${isRtl ? "flex-row-reverse" : ""
+                      }`}
                   >
                     <p>{item.quantity} x</p>
                     <p>
@@ -119,20 +116,22 @@ export default function BagRoute() {
           ))}
           <div className="mt-10">
             <div
-              className={`flex items-center justify-between font-medium ${
-                isRtl ? "flex-row-reverse" : ""
-              }`}
+              className={`flex items-center justify-between font-medium ${isRtl ? "flex-row-reverse" : ""
+                }`}
             >
               <p>{dictionary.cart.subtotal}</p>
               <p>
                 {isRtl
-                  ? `${new Intl.NumberFormat("en-US").format(totalPrice)} ${
-                      dictionary.product.price
-                    }`
-                  : `${dictionary.product.price}${new Intl.NumberFormat(
-                      "en-US"
-                    ).format(totalPrice)}`}
+                  ? `${new Intl.NumberFormat("ar-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(totalPrice)} ${dictionary.product.price}`
+                  : `${dictionary.product.price}${new Intl.NumberFormat("en-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(totalPrice)}`}
               </p>
+
             </div>
 
             <form action={checkOut}>
