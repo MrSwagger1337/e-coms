@@ -131,9 +131,21 @@ export async function editProduct(prevState: any, formData: FormData) {
 }
 
 export async function deleteProduct(formData: FormData) {
-  try {
-    await checkAdminAccess();
+  await checkAdminAccess();
+
     const productId = formData.get("productId") as string;
+
+    if (!productId) {
+      throw new Error("No product ID provided in formData");
+    }
+
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!existingProduct) {
+      throw new Error(`Product with ID ${productId} does not exist in the database`);
+    }
 
     await handleDatabaseOperation(async () => {
       await prisma.product.delete({
@@ -143,11 +155,8 @@ export async function deleteProduct(formData: FormData) {
 
     revalidatePath("/dashboard/products");
     redirect("/dashboard/products");
-  } catch (error) {
-    console.error("Failed to delete product:", error);
-    throw new Error("Failed to delete product");
-  }
 }
+
 
 export async function createBanner(prevState: any, formData: FormData) {
   try {
