@@ -28,7 +28,7 @@ export function Footer() {
           <Separator className="my-4" />
 
           <p className="text-sm text-muted-foreground">
-            &copy; 2024 Bulgarian Rose.{" "}
+            &copy; 2025 Bulgarian Rose.{" "}
             {isRtl ? "جميع الحقوق محفوظة." : "All Rights Reserved."}
           </p>
         </div>
