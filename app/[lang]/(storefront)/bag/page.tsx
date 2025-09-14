@@ -134,16 +134,18 @@ export default async function BagRoute({
                   >
                     <p>{dict.cart.subtotal}</p>
                     <p className="font-bold">
-                      {isRtl
-                        ? `${new Intl.NumberFormat("ar-AE", {
-                          style: "currency",
-                          currency: "AED",
-                        }).format(totalPrice)} ${dict.product.price}`
-                        : `${dict.product.price}${new Intl.NumberFormat("en-AE", {
-                          style: "currency",
-                          currency: "AED",
-                        }).format(totalPrice)}`}
-                    </p>
+  {isRtl
+    ? new Intl.NumberFormat("ar-AE", {
+        style: "currency",
+        currency: "AED",
+      }).format(totalPrice)
+    : new Intl.NumberFormat("en-AE", {
+        style: "currency",
+        currency: "AED",
+      }).format(totalPrice)}
+</p>
+
+
                   </div>
                   <Separator className="my-4" />
                   <form action={checkOut}>

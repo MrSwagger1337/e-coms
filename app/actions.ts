@@ -204,7 +204,8 @@ export async function addItem(productId: string) {
   const user = await getUser();
   if (!user) {
     // will throw a NEXT_REDIRECT exception that Next.js handles
-    redirect("/");
+    // redirect("/");
+    redirect("/api/auth/login");
   }
 
   // — 2) CART LOGIC in its own try/catch —
@@ -345,7 +346,7 @@ export async function checkOut() {
     payment_method_types: ["card"],
     line_items: cart.items.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "aed",
         product_data: {
           name: item.name,
           images: [item.imageString],

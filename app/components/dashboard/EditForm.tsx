@@ -161,7 +161,7 @@ export function EditForm({ data }: EditFormProps) {
               </div>
 
               <div className="flex flex-col gap-3">
-                <Label>Price</Label>
+                <Label>Price (AED)</Label>
                 <Input
                   key={fields.price.key}
                   name={fields.price.name}
