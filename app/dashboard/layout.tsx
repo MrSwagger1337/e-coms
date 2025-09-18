@@ -36,7 +36,7 @@ export default async function DashboardLayout({
     !user ||
     !adminEmails.includes(user.email?.toLocaleLowerCase() as string)
   ) {
-    throw new Error("Unauthorized");
+    redirect("/");
   }
   return (
     <div className="flex w-full flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
