@@ -1,8 +1,4 @@
-# Create an E-Commerce Store using Next.js, Kinde-Auth, Neon, Upstache, Prisma, Stripe and Tailwind
-
-
-
-🌟 Hey Everyone, Welcome back to the Channel. Today we are going to build an E-Commerce Store which has an admin dashboard and a storefront. To build/create this whole video we will use the newest tech on the market which means: Next.js, Kinde-Auth, Neon, Prisma, Stripe, Tailwindcss, Shadcn/UI, Vercel, Upstash and much more. This is a Full Stack tutorial, which means we will build everything from start to finish!
+### Developed By : @MrSwagger1337
 
 ### 🚀 Kinde Auth: https://dub.sh/xeU8r3v
 
