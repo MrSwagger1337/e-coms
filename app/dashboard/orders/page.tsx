@@ -60,7 +60,7 @@ export default async function OrdersPage() {
                   {new Intl.NumberFormat("en-AE", {
                     style: "currency",
                     currency: "AED",
-                  }).format(item.amount / 100)}
+                  }).format(item.amount)}
                 </TableCell>
               </TableRow>
             ))}

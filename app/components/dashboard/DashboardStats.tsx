@@ -48,7 +48,7 @@ export async function DashboardStats() {
             {new Intl.NumberFormat("en-AE", {
               style: "currency",
               currency: "AED",
-            }).format(totalAmount / 100)}
+            }).format(totalAmount)}
           </p>
 
           <p className="text-xs text-muted-foreground">Based on 100 Charges</p>
