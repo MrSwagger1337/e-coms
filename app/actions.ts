@@ -22,7 +22,7 @@ async function checkAdminAccess() {
     "eweeda172@gmail.com",
     "ecomsrose@gmail.com",
     "Elsaady.eweeda@gmail.com",
-    "mohamed.elitegroup@gmail.com"
+    "loveahlysc@gmail.com"
   ];
   if (!user || !adminEmails.includes(user.email as string)) {
     throw new Error("Unauthorized");
@@ -133,28 +133,28 @@ export async function editProduct(prevState: any, formData: FormData) {
 export async function deleteProduct(formData: FormData) {
   await checkAdminAccess();
 
-    const productId = formData.get("productId") as string;
+  const productId = formData.get("productId") as string;
 
-    if (!productId) {
-      throw new Error("No product ID provided in formData");
-    }
+  if (!productId) {
+    throw new Error("No product ID provided in formData");
+  }
 
-    const existingProduct = await prisma.product.findUnique({
+  const existingProduct = await prisma.product.findUnique({
+    where: { id: productId },
+  });
+
+  if (!existingProduct) {
+    throw new Error(`Product with ID ${productId} does not exist in the database`);
+  }
+
+  await handleDatabaseOperation(async () => {
+    await prisma.product.delete({
       where: { id: productId },
     });
+  });
 
-    if (!existingProduct) {
-      throw new Error(`Product with ID ${productId} does not exist in the database`);
-    }
-
-    await handleDatabaseOperation(async () => {
-      await prisma.product.delete({
-        where: { id: productId },
-      });
-    });
-
-    revalidatePath("/dashboard/products");
-    redirect("/dashboard/products");
+  revalidatePath("/dashboard/products");
+  redirect("/dashboard/products");
 }
 
 

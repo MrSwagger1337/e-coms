@@ -18,7 +18,7 @@ export const ourFileRouter = {
         "eweeda12@gmail.com",
         "ecomsrose@gmail.com",
         "Elsaady.eweeda@gmail.com",
-        "mohamed.elitegroup@gmail.com"
+        "loveahlysc@gmail.com"
       ];
       if (!user || !adminEmails.includes(user.email as string)) {
         throw new Error("Unauthorized");
