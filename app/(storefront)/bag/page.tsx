@@ -134,8 +134,14 @@ export default function BagRoute() {
 
             </div>
 
+            {totalPrice < 2 && (
+              <div className={`p-3 mt-4 rounded-md bg-destructive/10 text-destructive text-sm font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                {isRtl ? "الحد الأدنى للطلب هو 2 درهم للمحاسبة" : "Minimum order amount is 2 AED to checkout"}
+              </div>
+            )}
+
             <form action={checkOut}>
-              <ChceckoutButton />
+              <ChceckoutButton disabled={totalPrice < 2} />
             </form>
           </div>
         </div>

@@ -8,14 +8,14 @@ import { useLanguage } from "@/app/context/LanguageContext";
 interface buttonProps {
   text: string;
   variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link"
-    | null
-    | undefined;
+  | "default"
+  | "destructive"
+  | "outline"
+  | "secondary"
+  | "ghost"
+  | "link"
+  | null
+  | undefined;
 }
 
 export function SubmitButton({ text, variant }: buttonProps) {
@@ -86,7 +86,7 @@ export function DeleteItem() {
   );
 }
 
-export function ChceckoutButton() {
+export function ChceckoutButton({ disabled }: { disabled?: boolean }) {
   const { pending } = useFormStatus();
   const { dictionary, isRtl } = useLanguage();
 
@@ -102,7 +102,7 @@ export function ChceckoutButton() {
           {isRtl ? "يرجى الانتظار" : "Please Wait"}
         </Button>
       ) : (
-        <Button type="submit" size="lg" className="w-full mt-5">
+        <Button type="submit" size="lg" className="w-full mt-5" disabled={disabled}>
           {dictionary.cart.checkout}
         </Button>
       )}
