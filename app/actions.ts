@@ -355,7 +355,7 @@ export async function checkOut() {
     payment_method_types: ["card"],
     line_items: cart.items.map((item) => ({
       price_data: {
-        currency: "usd",
+        currency: "aed",
         product_data: {
           name: item.name,
           images: [item.imageString],
