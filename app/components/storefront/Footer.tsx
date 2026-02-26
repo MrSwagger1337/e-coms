@@ -28,7 +28,7 @@ export function Footer() {
           <Separator className="my-4" />
 
           <p className="text-sm text-muted-foreground">
-            &copy; 2025 Bulgarian Rose.{" "}
+            &copy; 2026 Bulgarian Rose. Developed by <a href="https://www.herculesprojects.net/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary transition-colors">Hercules Projects</a>{" "}
             {isRtl ? "جميع الحقوق محفوظة." : "All Rights Reserved."}
           </p>
         </div>

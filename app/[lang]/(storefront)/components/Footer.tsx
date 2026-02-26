@@ -6,7 +6,7 @@ export async function Footer({ lang }: { lang: "en" | "ar" }) {
     <footer className={`mt-16 mb-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ${textAlign}`}>
       <div className="border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
         <p className="text-xs leading-5 text-gray-700">
-          &copy; 2025 Bulgarian Rose. {lang === "en" ? "All Rights Reserved." : "جميع الحقوق محفوظة."}
+          &copy; 2026 Bulgarian Rose. Developed by <a href="https://www.herculesprojects.net/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary transition-colors">Hercules Projects</a> {lang === "en" ? "All Rights Reserved." : "جميع الحقوق محفوظة."}
         </p>
       </div>
     </footer>
