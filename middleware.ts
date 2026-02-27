@@ -38,9 +38,9 @@ export function middleware(request: NextRequest) {
   if (!pathnameHasLocale) {
     const locale = getLocale(request)
 
-    // e.g. incoming request is /products
-    // The new URL is now /en/products or /ar/products
-    return NextResponse.redirect(new URL(`/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`, request.url))
+    // Preserve query parameters during redirect
+    const search = request.nextUrl.search
+    return NextResponse.redirect(new URL(`/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${search}`, request.url))
   }
 
   return NextResponse.next()

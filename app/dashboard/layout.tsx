@@ -88,6 +88,13 @@ export default async function DashboardLayout({
         </div>
       </header>
       <main className="my-5">{children}</main>
+      <footer className="border-t py-4 mt-auto text-center text-sm text-muted-foreground">
+        Developed by{" "}
+        <a href="https://herculesprojects.net/" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary transition-colors">
+          Hercules Projects
+        </a>{" "}
+        &copy; All Rights Reserved {new Date().getFullYear()}
+      </footer>
     </div>
   );
 }

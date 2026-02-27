@@ -55,7 +55,7 @@ export async function RecentSales() {
         )}
         {data.map((item) => (
           <div className="flex items-center gap-4" key={item.id}>
-            <Avatar className="h-9 w-9">
+            <Avatar className="h-9 w-9 shrink-0">
               {isValidAvatar(item.User?.profileImage) ? (
                 <AvatarImage src={item.User?.profileImage || ""} alt={item.User?.firstName || "User"} />
               ) : null}
@@ -63,11 +63,11 @@ export async function RecentSales() {
                 {getInitials(item.User?.firstName)}
               </AvatarFallback>
             </Avatar>
-            <div className="grid gap-1">
-              <p className="text-sm font-medium leading-none">{item.User?.firstName || "Unknown"}</p>
-              <p className="text-sm text-muted-foreground">{item.User?.email || "No email"}</p>
+            <div className="grid gap-1 min-w-0">
+              <p className="text-sm font-medium leading-none truncate">{item.User?.firstName || "Unknown"}</p>
+              <p className="text-sm text-muted-foreground truncate">{item.User?.email || "No email"}</p>
             </div>
-            <p className="ml-auto font-medium text-green-600">
+            <p className="ml-auto font-medium text-green-600 shrink-0 text-sm">
               +{new Intl.NumberFormat("en-AE", {
                 style: "currency",
                 currency: "AED",
