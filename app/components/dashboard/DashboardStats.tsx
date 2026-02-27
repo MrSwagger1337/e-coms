@@ -19,6 +19,7 @@ async function getData() {
     prisma.order.findMany({
       select: {
         amount: true,
+        status: true,
       },
     }),
   ])
@@ -33,9 +34,14 @@ async function getData() {
 export async function DashboardStats() {
   const { products, user, order } = await getData()
 
-  const totalAmount = order.reduce((accumalator, currentValue) => {
+  // Only count paid, shipped, and delivered orders as revenue
+  const paidStatuses = ["paid", "shipped", "delivered"]
+  const paidOrders = order.filter((o) => paidStatuses.includes(o.status))
+
+  const totalAmount = paidOrders.reduce((accumalator, currentValue) => {
     return accumalator + currentValue.amount
   }, 0)
+
   return (
     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
       <Card>
@@ -51,7 +57,9 @@ export async function DashboardStats() {
             }).format(totalAmount)}
           </p>
 
-          <p className="text-xs text-muted-foreground">Based on 100 Charges</p>
+          <p className="text-xs text-muted-foreground">
+            Based on {paidOrders.length} paid {paidOrders.length === 1 ? "order" : "orders"}
+          </p>
         </CardContent>
       </Card>
       <Card>
@@ -60,8 +68,8 @@ export async function DashboardStats() {
           <ShoppingBag className="h-4 w-4 text-blue-500" />
         </CardHeader>
         <CardContent>
-          <p className="text-2xl font-bold">+{order.length}</p>
-          <p className="text-xs text-muted-foreground">Total Sales</p>
+          <p className="text-2xl font-bold">+{paidOrders.length}</p>
+          <p className="text-xs text-muted-foreground">Completed Sales</p>
         </CardContent>
       </Card>
       <Card>
@@ -87,4 +95,3 @@ export async function DashboardStats() {
     </div>
   )
 }
-

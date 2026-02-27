@@ -6,16 +6,15 @@ import { XCircle } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/app/context/LanguageContext"
 import { useSearchParams } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, Suspense } from "react"
 
-export default function CancelRoute() {
+function CancelContent() {
   const { dictionary, isRtl } = useLanguage()
   const searchParams = useSearchParams()
   const orderId = searchParams.get("orderId")
 
   useEffect(() => {
     if (orderId) {
-      // Call API to cancel the order
       fetch(`/api/cancel-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -45,5 +44,13 @@ export default function CancelRoute() {
         </div>
       </Card>
     </section>
+  )
+}
+
+export default function CancelRoute() {
+  return (
+    <Suspense>
+      <CancelContent />
+    </Suspense>
   )
 }

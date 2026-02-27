@@ -15,6 +15,9 @@ async function getData() {
       createdAt: {
         gte: sevenDaysAgo,
       },
+      status: {
+        in: ["paid", "shipped", "delivered"],
+      },
     },
     select: {
       amount: true,
@@ -44,7 +47,7 @@ export default async function Dashboard() {
         <Card className="xl:col-span-2">
           <CardHeader>
             <CardTitle>Transactions</CardTitle>
-            <CardDescription>Recent transactions from the last 7 days</CardDescription>
+            <CardDescription>Revenue from paid orders in the last 7 days</CardDescription>
           </CardHeader>
           <CardContent>
             <Chart data={data} />
@@ -56,4 +59,3 @@ export default async function Dashboard() {
     </>
   )
 }
-
