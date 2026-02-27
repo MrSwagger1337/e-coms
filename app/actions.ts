@@ -352,6 +352,10 @@ export async function checkOut() {
   });
 
   const session = await stripe.checkout.sessions.create({
+    metadata: {
+      orderId: order.id,
+      userId: dbUser.id,
+    },
     payment_method_types: ["card"],
     line_items: cart.items.map((item) => ({
       price_data: {
