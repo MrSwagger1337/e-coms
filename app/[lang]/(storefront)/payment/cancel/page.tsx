@@ -3,10 +3,30 @@ import { Card } from "@/components/ui/card"
 import { XCircle } from "lucide-react"
 import Link from "next/link"
 import { getDictionary } from "@/app/[lang]/dictionaries"
+import prisma from "@/app/lib/db"
 
-export default async function CancelRoute({ params }: { params: { lang: "en" | "ar" } }) {
+export default async function CancelRoute({
+  params,
+  searchParams,
+}: {
+  params: { lang: "en" | "ar" }
+  searchParams: { orderId?: string }
+}) {
   const dict = await getDictionary(params.lang)
   const isRtl = params.lang === "ar"
+
+  // Mark the order as cancelled if orderId is provided
+  if (searchParams.orderId) {
+    try {
+      await prisma.order.update({
+        where: { id: searchParams.orderId },
+        data: { status: "cancelled" },
+      })
+    } catch (error) {
+      // Order may not exist or already be updated
+      console.error("Failed to cancel order:", error)
+    }
+  }
 
   return (
     <section className="w-full min-h-[80vh] flex items-center justify-center">
@@ -29,4 +49,3 @@ export default async function CancelRoute({ params }: { params: { lang: "en" | "
     </section>
   )
 }
-

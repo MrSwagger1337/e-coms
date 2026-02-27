@@ -5,9 +5,24 @@ import { Card } from "@/components/ui/card"
 import { XCircle } from "lucide-react"
 import Link from "next/link"
 import { useLanguage } from "@/app/context/LanguageContext"
+import { useSearchParams } from "next/navigation"
+import { useEffect } from "react"
 
 export default function CancelRoute() {
   const { dictionary, isRtl } = useLanguage()
+  const searchParams = useSearchParams()
+  const orderId = searchParams.get("orderId")
+
+  useEffect(() => {
+    if (orderId) {
+      // Call API to cancel the order
+      fetch(`/api/cancel-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      }).catch(console.error)
+    }
+  }, [orderId])
 
   if (!dictionary) return null
 
@@ -32,4 +47,3 @@ export default function CancelRoute() {
     </section>
   )
 }
-
