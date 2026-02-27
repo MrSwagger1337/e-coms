@@ -12,6 +12,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components"
 import { useLanguage } from "@/app/context/LanguageContext"
+import Link from "next/link"
+import { Settings } from "lucide-react"
+
+const adminEmails = [
+  "eweeda12@gmail.com",
+  "eweeda172@gmail.com",
+  "ecomsrose@gmail.com",
+  "elsaady.eweeda@gmail.com",
+  "loveahlysc@gmail.com",
+]
 
 interface iAppProps {
   email: string
@@ -21,6 +31,7 @@ interface iAppProps {
 
 export function UserDropdown({ email, name, userImage }: iAppProps) {
   const { isRtl } = useLanguage()
+  const isAdmin = adminEmails.includes(email.toLowerCase())
 
   return (
     <DropdownMenu>
@@ -38,6 +49,14 @@ export function UserDropdown({ email, name, userImage }: iAppProps) {
           <p className="text-xs leading-none text-muted-foreground">{email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        {isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              {isRtl ? "لوحة التحكم" : "Admin Panel"}
+            </Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem asChild>
           <LogoutLink>{isRtl ? "تسجيل الخروج" : "Log out"}</LogoutLink>
         </DropdownMenuItem>
@@ -45,4 +64,3 @@ export function UserDropdown({ email, name, userImage }: iAppProps) {
     </DropdownMenu>
   )
 }
-

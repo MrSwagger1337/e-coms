@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { DashboardNavigation } from "../components/dashboard/DasboardNavigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { CircleUser, MenuIcon } from "lucide-react";
+import { CircleUser, MenuIcon, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,20 +63,29 @@ export default async function DashboardLayout({
           </SheetContent>
         </Sheet>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUser className="w-5 h-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <LogoutLink>Logout</LogoutLink>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-3">
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/" target="_blank" className="flex items-center gap-2">
+              <ExternalLink className="h-4 w-4" />
+              Visit Website
+            </Link>
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <CircleUser className="w-5 h-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <LogoutLink>Logout</LogoutLink>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </header>
       <main className="my-5">{children}</main>
     </div>
