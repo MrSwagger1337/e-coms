@@ -376,3 +376,47 @@ export async function checkOut() {
   await redis.del(`cart-${user.id}`);
   redirect(session.url as string);
 }
+
+export async function updateOrderStatus(formData: FormData) {
+  await checkAdminAccess();
+
+  const orderId = formData.get("orderId") as string;
+  const status = formData.get("status") as string;
+
+  if (!orderId || !status) {
+    throw new Error("Order ID and status are required");
+  }
+
+  const validStatuses = ["pending", "paid", "shipped", "delivered", "cancelled", "failed"];
+  if (!validStatuses.includes(status)) {
+    throw new Error("Invalid status");
+  }
+
+  await handleDatabaseOperation(async () => {
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { status },
+    });
+  });
+
+  revalidatePath("/dashboard/orders");
+}
+
+export async function deleteOrder(formData: FormData) {
+  await checkAdminAccess();
+
+  const orderId = formData.get("orderId") as string;
+
+  if (!orderId) {
+    throw new Error("No order ID provided");
+  }
+
+  await handleDatabaseOperation(async () => {
+    await prisma.order.delete({
+      where: { id: orderId },
+    });
+  });
+
+  revalidatePath("/dashboard/orders");
+  redirect("/dashboard/orders");
+}
