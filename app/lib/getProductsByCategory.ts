@@ -36,9 +36,11 @@ export async function getProductsByCategory(
     select: {
       id: true,
       name: true,
+      name_ar: true,
       images: true,
       price: true,
       description: true,
+      description_ar: true,
       category: true,
     },
   });

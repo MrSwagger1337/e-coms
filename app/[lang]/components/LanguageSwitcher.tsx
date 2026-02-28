@@ -49,22 +49,24 @@ export function LanguageSwitcher({ currentLang }: { currentLang: string }) {
       </DropdownMenuTrigger>
 
       {/* Dropdown Content */}
-      <DropdownMenuContent align="end" dir="ltr" className="p-2 min-w-[120px]">
-        {locales.map((locale) => {
-          const details = getLanguageDetails(locale);
-          return (
-            <DropdownMenuItem
-              key={locale}
-              onClick={() => handleLanguageChange(locale)}
-              className={`flex items-center gap-3 cursor-pointer rounded-md p-2 m-1 ${currentLang === locale ? "bg-primary/10 font-bold text-primary" : "text-muted-foreground"
-                }`}
-            >
-              <span className={`text-xl leading-none rounded-sm overflow-hidden ${details.flagClass}`} />
-              <span>{details.name}</span>
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
+      <DropdownMenu dir="ltr">
+        <DropdownMenuContent align="end" className="p-2 min-w-[120px]">
+          {locales.map((locale) => {
+            const details = getLanguageDetails(locale);
+            return (
+              <DropdownMenuItem
+                key={locale}
+                onClick={() => handleLanguageChange(locale)}
+                className={`flex items-center gap-3 cursor-pointer rounded-md p-2 m-1 ${currentLang === locale ? "bg-primary/10 font-bold text-primary" : "text-muted-foreground"
+                  }`}
+              >
+                <span className={`text-xl leading-none rounded-sm overflow-hidden ${details.flagClass}`} />
+                <span>{details.name}</span>
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </DropdownMenu>
   );
 }
