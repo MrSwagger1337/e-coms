@@ -30,7 +30,6 @@ export function LanguageSwitcher() {
   const locales = ["en", "ar"];
 
   return (
-  return (
     <DropdownMenu dir="ltr">
       {/* Desktop Trigger */}
       <DropdownMenuTrigger asChild className="hidden md:flex">

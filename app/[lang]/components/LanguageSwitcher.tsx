@@ -33,7 +33,6 @@ export function LanguageSwitcher({ currentLang }: { currentLang: string }) {
   const currentDetails = getLanguageDetails(currentLang);
 
   return (
-  return (
     <DropdownMenu dir="ltr">
       {/* Desktop Trigger */}
       <DropdownMenuTrigger asChild className="hidden md:flex">
