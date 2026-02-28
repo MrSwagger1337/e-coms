@@ -94,12 +94,6 @@ async function FeaturedProductsContent({ lang }: { lang: "en" | "ar" }) {
         )}
       >
         {data.map((item) => {
-          // choose localized fields
-          const displayName = isRtl && item.name_ar ? item.name_ar : item.name;
-          const displayDescription =
-            isRtl && item.description_ar
-              ? item.description_ar
-              : item.description;
           // reverse images for RTL so UI flows correctly
           const displayImages = isRtl
             ? [...item.images].reverse()
@@ -109,11 +103,8 @@ async function FeaturedProductsContent({ lang }: { lang: "en" | "ar" }) {
             <ProductCard
               key={item.id}
               item={{
-                id: item.id,
-                name: displayName,
-                description: displayDescription,
+                ...item,
                 images: displayImages,
-                price: item.price,
               }}
               lang={lang}
             />

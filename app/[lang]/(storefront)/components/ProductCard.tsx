@@ -12,9 +12,9 @@ interface iAppProps {
   item: {
     id: string
     name: string
-    name_ar?: string
+    name_ar: string | null
     description: string
-    description_ar?: string
+    description_ar: string | null
     price: number
     images: string[]
   }
