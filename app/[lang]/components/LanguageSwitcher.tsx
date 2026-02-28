@@ -49,7 +49,7 @@ export function LanguageSwitcher({ currentLang }: { currentLang: string }) {
       </DropdownMenuTrigger>
 
       {/* Dropdown Content */}
-      <DropdownMenuContent align="center" className="p-2 min-w-[120px]">
+      <DropdownMenuContent align="end" dir="ltr" className="p-2 min-w-[120px]">
         {locales.map((locale) => {
           const details = getLanguageDetails(locale);
           return (
