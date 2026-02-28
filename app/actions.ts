@@ -415,9 +415,9 @@ export async function checkOut() {
     },
   });
 
-  // Require phone and delivery address
+  // Require phone and delivery address — redirect to profile if incomplete
   if (!dbUser.phone || !dbUser.deliveryAddress || !dbUser.deliveryEmirate) {
-    throw new Error("PROFILE_INCOMPLETE");
+    redirect("/en/profile?incomplete=1");
   }
 
   const total = cart.items.reduce(

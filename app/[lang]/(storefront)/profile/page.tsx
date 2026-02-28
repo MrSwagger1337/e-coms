@@ -40,7 +40,7 @@ function getStatusBadge(status: string) {
     return { config }
 }
 
-export default async function ProfilePage({ params }: { params: { lang: "en" | "ar" } }) {
+export default async function ProfilePage({ params, searchParams }: { params: { lang: "en" | "ar" }; searchParams: { incomplete?: string } }) {
     noStore()
     const { getUser } = getKindeServerSession()
     const kindeUser = await getUser()
@@ -51,6 +51,7 @@ export default async function ProfilePage({ params }: { params: { lang: "en" | "
 
     const dict = await getDictionary(params.lang)
     const isRtl = params.lang === "ar"
+    const showIncompleteWarning = searchParams.incomplete === "1"
 
     const dbUser = await getUserData(kindeUser.id)
     const orders = await getUserOrders(kindeUser.id)
@@ -68,6 +69,16 @@ export default async function ProfilePage({ params }: { params: { lang: "en" | "
 
     return (
         <div className={`max-w-4xl mx-auto px-4 py-8 ${isRtl ? "rtl" : ""}`}>
+            {showIncompleteWarning && (
+                <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-yellow-800 font-medium">
+                        {isRtl
+                            ? "⚠️ يرجى إكمال معلوماتك الشخصية وعنوان التوصيل قبل الدفع"
+                            : "⚠️ Please complete your phone number and delivery address before checkout"}
+                    </p>
+                </div>
+            )}
+
             <h1 className="text-3xl font-bold mb-8">
                 {isRtl ? "ملفي الشخصي" : "My Profile"}
             </h1>
