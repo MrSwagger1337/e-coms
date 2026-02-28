@@ -12,7 +12,12 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Bulgarian rose",
   description: "Cosmetics and perfumes Store",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/favicon.ico?v=2',
+    shortcut: '/favicon.ico?v=2',
+    apple: '/favicon.ico?v=2'
+  }
 }
 
 export default function RootLayout({
