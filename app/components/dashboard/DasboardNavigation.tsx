@@ -14,6 +14,10 @@ const links = [
     href: "/dashboard/orders",
   },
   {
+    name: "Users",
+    href: "/dashboard/users",
+  },
+  {
     name: "Products",
     href: "/dashboard/products",
   },
