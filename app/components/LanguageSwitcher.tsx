@@ -17,11 +17,11 @@ export function LanguageSwitcher() {
   const getLanguageDetails = (locale: string) => {
     switch (locale) {
       case "en":
-        return { name: dictionary.language?.english || "English", flag: "🇬🇧" };
+        return { name: dictionary.language?.english || "English", flagClass: "fi fi-gb" };
       case "ar":
-        return { name: dictionary.language?.arabic || "العربية", flag: "🇦🇪" };
+        return { name: dictionary.language?.arabic || "العربية", flagClass: "fi fi-ae" };
       default:
-        return { name: locale, flag: "🌐" };
+        return { name: locale, flagClass: "fi fi-un" };
     }
   };
 
@@ -31,19 +31,22 @@ export function LanguageSwitcher() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="hidden md:flex gap-2 px-2 hover:bg-accent/80 transition-colors shrink-0">
-          <span className="text-lg leading-none">{currentDetails.flag}</span>
+      {/* Desktop Trigger */}
+      <DropdownMenuTrigger asChild className="hidden md:flex">
+        <Button variant="ghost" size="sm" className="gap-2 px-2 hover:bg-accent/80 transition-colors shrink-0">
+          <span className={`text-lg leading-none rounded-sm overflow-hidden ${currentDetails.flagClass}`} />
           <span className="text-sm font-medium">{currentDetails.name}</span>
         </Button>
       </DropdownMenuTrigger>
       {/* Mobile Trigger */}
       <DropdownMenuTrigger asChild className="md:hidden">
         <Button variant="ghost" size="icon" className="px-0 shrink-0">
-          <span className="text-xl leading-none">{currentDetails.flag}</span>
+          <span className={`text-xl leading-none rounded-sm overflow-hidden ${currentDetails.flagClass}`} />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="p-2">
+
+      {/* Dropdown Content */}
+      <DropdownMenuContent align="center" className="p-2 min-w-[120px]">
         {locales.map((locale) => {
           const details = getLanguageDetails(locale);
           return (
@@ -53,7 +56,7 @@ export function LanguageSwitcher() {
               className={`flex items-center gap-3 cursor-pointer rounded-md p-2 m-1 ${language === locale ? "bg-primary/10 font-bold text-primary" : "text-muted-foreground"
                 }`}
             >
-              <span className="text-xl leading-none">{details.flag}</span>
+              <span className={`text-xl leading-none rounded-sm overflow-hidden ${details.flagClass}`} />
               <span>{details.name}</span>
             </DropdownMenuItem>
           );

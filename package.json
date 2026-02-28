@@ -47,6 +47,7 @@
     "cmdk": "^1.1.1",
     "cookies-next": "^4.3.0",
     "embla-carousel-react": "^8.1.5",
+    "flag-icons": "^7.5.0",
     "formatjs": "^0.1.1",
     "formdata-node": "^6.0.3",
     "framer-motion": "^11.13.5",
