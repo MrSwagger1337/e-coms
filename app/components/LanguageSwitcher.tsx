@@ -31,17 +31,11 @@ export function LanguageSwitcher() {
 
   return (
     <DropdownMenu dir="ltr">
-      {/* Desktop Trigger */}
-      <DropdownMenuTrigger asChild className="hidden md:flex">
-        <Button variant="ghost" size="sm" className="gap-2 px-2 hover:bg-accent/80 transition-colors shrink-0">
-          <span className={`text-lg leading-none rounded-sm overflow-hidden ${currentDetails.flagClass}`} />
-          <span className="text-sm font-medium">{currentDetails.name}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      {/* Mobile Trigger */}
-      <DropdownMenuTrigger asChild className="md:hidden">
-        <Button variant="ghost" size="icon" className="px-0 shrink-0">
-          <span className={`text-xl leading-none rounded-sm overflow-hidden ${currentDetails.flagClass}`} />
+      {/* Responsive Trigger */}
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="gap-2 px-0 md:px-2 hover:bg-accent/80 transition-colors shrink-0">
+          <span className={`text-xl md:text-lg leading-none rounded-sm overflow-hidden ${currentDetails.flagClass}`} />
+          <span className="hidden md:block text-sm font-medium">{currentDetails.name}</span>
         </Button>
       </DropdownMenuTrigger>
 
