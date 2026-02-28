@@ -9,6 +9,7 @@ import { redis } from "@/app/lib/redis"
 import type { Cart } from "@/app/lib/interfaces"
 import { getDictionary } from "@/app/[lang]/dictionaries"
 import { LanguageSwitcher } from "@/app/[lang]/components/LanguageSwitcher"
+import { MobileMenu } from "./MobileMenu"
 
 export async function Navbar({ lang }: { lang: "en" | "ar" }) {
   const { getUser } = getKindeServerSession()
@@ -25,9 +26,10 @@ export async function Navbar({ lang }: { lang: "en" | "ar" }) {
       dir={isRtl ? "rtl" : "ltr"}
       className="w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between border-lg rounded-xl shadow-xl shadow-[#c5c5c5] border-red-500"
     >
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
+        <MobileMenu lang={lang} isAuth={!!user} />
         <Link href={`/${lang}`}>
-          <img src="https://i.ibb.co/Y08jgCb/Logo.png" width="60%" />
+          <img src="https://i.ibb.co/Y08jgCb/Logo.png" alt="Bulgarian Rose Logo" className="w-28 md:w-36 shrink-0" />
         </Link>
         <NavbarLinks lang={lang} />
       </div>
