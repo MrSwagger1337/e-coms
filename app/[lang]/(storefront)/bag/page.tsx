@@ -44,8 +44,8 @@ export default async function BagRoute({
 
   return (
     <div
-      className={`max-w-4xl mx-auto px-4 py-12 min-h-[70vh] ${isRtl ? "rtl" : ""
-        }`}
+      dir={isRtl ? "rtl" : "ltr"}
+      className="max-w-4xl mx-auto px-4 py-12 min-h-[70vh]"
     >
       <Card className="border-none shadow-none">
         <CardHeader>
@@ -54,7 +54,7 @@ export default async function BagRoute({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {!cart || !cart.items ? (
+          {!cart || !cart.items || cart.items.length === 0 ? (
             <Card className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed p-12 text-center bg-muted/5">
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10">
                 <ShoppingBag className="w-12 h-12 text-primary" />
@@ -70,107 +70,101 @@ export default async function BagRoute({
               </Button>
             </Card>
           ) : (
-            <div className="flex flex-col gap-y-8">
-              <div className="space-y-6">
+            <div className="flex flex-col gap-y-6">
+              {/* Cart Items */}
+              <div className="space-y-4">
                 {cart?.items.map((item) => (
                   <Card key={item.id} className="overflow-hidden">
                     <CardContent className="p-0">
-                      <div
-                        className={`flex items-center p-4 hover:bg-accent/5 transition-colors ${isRtl ? "flex-row-reverse" : ""
-                          }`}
-                      >
-                        <div className="w-24 h-24 sm:w-32 sm:h-32 relative rounded-lg overflow-hidden">
+                      <div className="flex items-center gap-4 p-4 hover:bg-accent/5 transition-colors">
+                        {/* Image */}
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 relative rounded-lg overflow-hidden flex-shrink-0">
                           <Image
                             className="object-cover"
                             fill
                             src={item.imageString || "/placeholder.svg"}
-                            alt="Product image"
+                            alt={item.name}
                           />
                         </div>
-                        <div
-                          className={`${isRtl ? "mr-6" : "ml-6"
-                            } flex justify-between w-full items-center`}
-                        >
-                          <div className="space-y-1">
-                            <h3 className="font-semibold text-lg">
-                              {item.name}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                              {isRtl
-                                ? `${item.price} ${dict.product.price}`
-                                : `${dict.product.price}${item.price}`}
-                            </p>
-                          </div>
 
-                          <div className="flex items-center gap-3">
-                            <div className={`flex items-center gap-1 ${isRtl ? "flex-row-reverse" : ""}`}>
-                              <form action={updateCartQuantity}>
-                                <input type="hidden" name="productId" value={item.id} />
-                                <input type="hidden" name="action" value="decrement" />
-                                <button
-                                  type="submit"
-                                  className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
-                                >
-                                  <Minus className="h-3 w-3" />
-                                </button>
-                              </form>
-
-                              <span className="w-8 text-center font-medium text-sm">{item.quantity}</span>
-
-                              <form action={updateCartQuantity}>
-                                <input type="hidden" name="productId" value={item.id} />
-                                <input type="hidden" name="action" value="increment" />
-                                <button
-                                  type="submit"
-                                  className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
-                                >
-                                  <Plus className="h-3 w-3" />
-                                </button>
-                              </form>
-                            </div>
-
-                            <form
-                              action={delItem}
-                              className={isRtl ? "text-start" : "text-end"}
-                            >
-                              <input
-                                type="hidden"
-                                name="productId"
-                                value={item.id}
-                              />
-                              <DeleteItem />
-                            </form>
-                          </div>
+                        {/* Item Details */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-base sm:text-lg truncate">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
+                              style: "currency",
+                              currency: "AED",
+                            }).format(item.price)}
+                          </p>
                         </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center gap-1">
+                          <form action={updateCartQuantity}>
+                            <input type="hidden" name="productId" value={item.id} />
+                            <input type="hidden" name="action" value="decrement" />
+                            <button
+                              type="submit"
+                              className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
+                            >
+                              <Minus className="h-3 w-3" />
+                            </button>
+                          </form>
+
+                          <span className="w-8 text-center font-medium text-sm">
+                            {item.quantity}
+                          </span>
+
+                          <form action={updateCartQuantity}>
+                            <input type="hidden" name="productId" value={item.id} />
+                            <input type="hidden" name="action" value="increment" />
+                            <button
+                              type="submit"
+                              className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
+                            >
+                              <Plus className="h-3 w-3" />
+                            </button>
+                          </form>
+                        </div>
+
+                        {/* Item Total */}
+                        <div className="text-end min-w-[80px]">
+                          <p className="font-bold text-sm sm:text-base">
+                            {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
+                              style: "currency",
+                              currency: "AED",
+                            }).format(item.price * item.quantity)}
+                          </p>
+                        </div>
+
+                        {/* Delete */}
+                        <form action={delItem}>
+                          <input type="hidden" name="productId" value={item.id} />
+                          <DeleteItem />
+                        </form>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
 
+              {/* Summary */}
               <Card>
                 <CardContent className="p-6">
-                  <div
-                    className={`flex items-center justify-between font-medium text-lg mb-6 ${isRtl ? "flex-row-reverse" : ""
-                      }`}
-                  >
+                  <div className="flex items-center justify-between font-medium text-lg mb-4">
                     <p>{dict.cart.subtotal}</p>
                     <p className="font-bold">
-                      {isRtl
-                        ? new Intl.NumberFormat("ar-AE", {
-                          style: "currency",
-                          currency: "AED",
-                        }).format(totalPrice)
-                        : new Intl.NumberFormat("en-AE", {
-                          style: "currency",
-                          currency: "AED",
-                        }).format(totalPrice)}
+                      {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
+                        style: "currency",
+                        currency: "AED",
+                      }).format(totalPrice)}
                     </p>
-
                   </div>
                   <Separator className="my-4" />
                   {totalPrice < 2 && (
-                    <div className={`p-3 mb-4 rounded-md bg-destructive/10 text-destructive text-sm font-medium ${isRtl ? "text-right" : "text-left"}`}>
+                    <div className="p-3 mb-4 rounded-md bg-destructive/10 text-destructive text-sm font-medium">
                       {isRtl ? "الحد الأدنى للطلب هو 2 درهم للمحاسبة" : "Minimum order amount is 2 AED to checkout"}
                     </div>
                   )}
