@@ -13,6 +13,7 @@ import type { Cart } from "@/app/lib/interfaces";
 import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { headers } from "next/headers";
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
@@ -21,9 +22,15 @@ export async function Navbar() {
   const cart: Cart | null = await redis.get(`cart-${user?.id}`);
 
   const total = cart?.items.reduce((sum, item) => sum + item.quantity, 0) || 0;
+  const headersList = headers();
+  const pathname = headersList.get("x-invoke-path") || headersList.get("referer") || "";
+  const isRtl = pathname.includes("/ar") || pathname.endsWith("/ar");
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
+    <nav
+      dir={isRtl ? "rtl" : "ltr"}
+      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-8">
@@ -31,7 +38,10 @@ export async function Navbar() {
               <img
                 src="https://i.ibb.co/Y08jgCb/Logo.png"
                 alt="Logo"
-                className="h-10 w-auto transition-transform duration-200 group-hover:scale-105"
+                className={cn(
+                  "h-10 w-auto transition-transform duration-200 group-hover:scale-105",
+                  isRtl && "-scale-x-100" // Flip logo horizontally for Arabic layout matching the original site's RTL style if needed, or remove if the logo shouldn't flip
+                )}
               />
             </Link>
             <NavbarLinks />
