@@ -278,9 +278,8 @@ export async function addItem(productId: string) {
   // — 3) REVALIDATE & REDIRECT outside the try/catch —
   revalidatePath("/", "layout");
 
-  // TODO: you’ll need to figure out your locale –
-  // either pass it in from the client or derive it from route params.
-  const locale = "en";
+  const referer = headers().get("referer") || "";
+  const locale = referer.includes("/ar") ? "ar" : "en";
   redirect(`/${locale}/bag`);
 }
 
