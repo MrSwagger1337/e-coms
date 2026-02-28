@@ -61,11 +61,15 @@ export function ProfileForm({ userData, lang }: ProfileFormProps) {
         }
 
         try {
-            await updateProfile(formData)
-            setSaved(true)
-            setTimeout(() => setSaved(false), 3000)
+            const result = await updateProfile(formData)
+            if (result && "error" in result && result.error) {
+                setError(result.error)
+            } else {
+                setSaved(true)
+                setTimeout(() => setSaved(false), 3000)
+            }
         } catch (e: any) {
-            setError(e.message || "Something went wrong")
+            setError("Something went wrong. Please try again.")
         }
     }
 

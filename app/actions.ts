@@ -339,47 +339,50 @@ export async function updateProfile(formData: FormData) {
   const deliveryAddress = formData.get("deliveryAddress") as string;
   const deliveryEmirate = formData.get("deliveryEmirate") as string;
 
-  // Validate UAE phone
-  if (phone && !UAE_PHONE_REGEX.test(phone.replace(/\s/g, "").replace(/^(\+971)(\d{2})(\d{3})(\d{4})$/, "+971 $2 $3 $4").trim())) {
-    // Also accept without spaces
-    const cleaned = phone.replace(/\s/g, "");
+  // Validate UAE phone — accept +971 followed by 9 digits (with or without spaces)
+  if (phone) {
+    const cleaned = phone.replace(/[\s\-]/g, "");
     if (!cleaned.match(/^\+971\d{9}$/)) {
-      throw new Error("Invalid UAE phone number. Format: +971 XX XXX XXXX");
+      return { success: false, error: "Invalid UAE phone number. Format: +971 XX XXX XXXX" };
     }
   }
 
   if (emirate && !UAE_EMIRATES.includes(emirate)) {
-    throw new Error("Invalid emirate");
+    return { success: false, error: "Invalid emirate" };
   }
 
   if (deliveryEmirate && !UAE_EMIRATES.includes(deliveryEmirate)) {
-    throw new Error("Invalid delivery emirate");
+    return { success: false, error: "Invalid delivery emirate" };
   }
 
-  await prisma.user.upsert({
-    where: { id: user.id },
-    update: {
-      firstName: firstName || undefined,
-      lastName: lastName || undefined,
-      phone: phone || undefined,
-      address: address || undefined,
-      emirate: emirate || undefined,
-      deliveryAddress: deliveryAddress || undefined,
-      deliveryEmirate: deliveryEmirate || undefined,
-    },
-    create: {
-      id: user.id,
-      email: user.email || "",
-      firstName: firstName || user.given_name || "",
-      lastName: lastName || user.family_name || "",
-      profileImage: user.picture || "",
-      phone,
-      address,
-      emirate,
-      deliveryAddress,
-      deliveryEmirate,
-    },
-  });
+  try {
+    await prisma.user.upsert({
+      where: { id: user.id },
+      update: {
+        firstName: firstName || undefined,
+        lastName: lastName || undefined,
+        phone: phone || undefined,
+        address: address || undefined,
+        emirate: emirate || undefined,
+        deliveryAddress: deliveryAddress || undefined,
+        deliveryEmirate: deliveryEmirate || undefined,
+      },
+      create: {
+        id: user.id,
+        email: user.email || "",
+        firstName: firstName || user.given_name || "",
+        lastName: lastName || user.family_name || "",
+        profileImage: user.picture || "",
+        phone,
+        address,
+        emirate,
+        deliveryAddress,
+        deliveryEmirate,
+      },
+    });
+  } catch (e) {
+    return { success: false, error: "Failed to save profile. Please try again." };
+  }
 
   revalidatePath("/profile");
   return { success: true };
