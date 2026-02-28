@@ -8,6 +8,7 @@ import prisma from "./lib/db";
 import { redis } from "./lib/redis";
 import type { Cart } from "./lib/interfaces";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { stripe } from "./lib/stripe";
 import type Stripe from "stripe";
 import { locales } from "@/middleware";
@@ -451,7 +452,9 @@ export async function checkOut() {
 
   // Require phone and delivery address — redirect to profile if incomplete
   if (!dbUser.phone || !dbUser.deliveryAddress || !dbUser.deliveryEmirate) {
-    redirect("/profile?incomplete=1");
+    const referer = headers().get("referer") || "";
+    const lang = referer.includes("/ar") ? "ar" : "en";
+    redirect(`/${lang}/profile?incomplete=1`);
   }
 
   const total = cart.items.reduce(
