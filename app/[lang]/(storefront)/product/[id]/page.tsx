@@ -45,9 +45,8 @@ export default async function ProductIdRoute({
 
   return (
     <div
-      className={`max-w-7xl mx-auto bg-white/80 border border-t-gray-200 mt-10 p-5 ${
-        isRtl ? "rtl" : ""
-      }`}
+      className={`max-w-7xl mx-auto bg-white/80 border border-t-gray-200 mt-10 p-5 ${isRtl ? "rtl" : ""
+        }`}
     >
       <div className="grid grid-cols-1 max-w-7xl mx-auto md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
         <ImageSlider images={data.images} lang={params.lang} />
@@ -61,9 +60,8 @@ export default async function ProductIdRoute({
               : `${dict.product.price}${data.price}`}
           </p>
           <div
-            className={`mt-3 flex items-center gap-1 ${
-              isRtl ? "flex-row-reverse" : ""
-            }`}
+            className={`mt-3 flex items-center gap-1 ${isRtl ? "flex-row-reverse" : ""
+              }`}
           >
             <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
             <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
@@ -76,7 +74,7 @@ export default async function ProductIdRoute({
           </p>
 
           <form action={addProducttoShoppingCart}>
-            <ShoppingBagButton />
+            <ShoppingBagButton text={dict.product.addToCart} isRtlServer={isRtl} />
           </form>
         </div>
       </div>

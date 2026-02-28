@@ -22,21 +22,22 @@ export async function Navbar({ lang }: { lang: "en" | "ar" }) {
 
   return (
     <nav
-      className={`w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between border-lg rounded-xl shadow-xl shadow-[#c5c5c5] border-red-500 ${isRtl ? "flex-row-reverse" : ""}`}
+      dir={isRtl ? "rtl" : "ltr"}
+      className="w-full mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between border-lg rounded-xl shadow-xl shadow-[#c5c5c5] border-red-500"
     >
-      <div className={`flex items-center ${isRtl ? "flex-row-reverse" : ""}`}>
+      <div className="flex items-center">
         <Link href={`/${lang}`}>
           <img src="https://i.ibb.co/Y08jgCb/Logo.png" width="60%" />
         </Link>
         <NavbarLinks lang={lang} />
       </div>
 
-      <div className={`flex items-center ${isRtl ? "flex-row-reverse" : ""}`}>
+      <div className="flex items-center">
         <LanguageSwitcher currentLang={lang} />
 
         {user ? (
           <>
-            <Link href={`/${lang}/bag`} className={`group p-2 flex items-center ${isRtl ? "mr-0 ml-2" : "mr-2"}`}>
+            <Link href={`/${lang}/bag`} className={`group p-2 flex items-center ${isRtl ? "ml-2" : "mr-2"}`}>
               <ShoppingBagIcon className="h-6 w-6 text-gray-400 group-hover:text-gray-500" />
               <span
                 className={`${isRtl ? "mr-2" : "ml-2"} text-sm font-medium text-gray-700 group-hover:text-gray-800`}
@@ -53,9 +54,7 @@ export async function Navbar({ lang }: { lang: "en" | "ar" }) {
             />
           </>
         ) : (
-          <div
-            className={`hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-2 ${isRtl ? "md:space-x-reverse" : ""}`}
-          >
+          <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-2 rtl:space-x-reverse">
             <Button variant="ghost" asChild>
               <LoginLink>{lang === "en" ? "Sign in" : "تسجيل الدخول"}</LoginLink>
             </Button>

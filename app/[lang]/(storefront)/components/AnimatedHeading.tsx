@@ -16,7 +16,10 @@ export function AnimatedHeading({ title, className, lang }: AnimatedHeadingProps
   const restOfTitle = words.join(" ")
 
   return (
-    <h2 className={cn("text-4xl font-extrabold tracking-tight mb-5 relative", className)}>
+    <h2
+      dir={isRtl ? "rtl" : "ltr"}
+      className={cn("text-4xl font-extrabold tracking-tight mb-5 relative", className)}
+    >
       <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         {restOfTitle}{" "}
       </motion.span>

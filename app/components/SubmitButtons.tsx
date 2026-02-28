@@ -40,11 +40,18 @@ export function SubmitButton({ text, variant }: buttonProps) {
   );
 }
 
-export function ShoppingBagButton() {
-  const { pending } = useFormStatus();
-  const { dictionary, isRtl } = useLanguage();
+interface ShoppingBagButtonProps {
+  text?: string;
+  isRtlServer?: boolean;
+}
 
-  if (!dictionary) return null;
+export function ShoppingBagButton({ text, isRtlServer }: ShoppingBagButtonProps) {
+  const { pending } = useFormStatus();
+  const context = useLanguage();
+
+  // Use server props if provided, otherwise fallback to context
+  const isRtl = isRtlServer ?? context.isRtl;
+  const buttonText = text || context.dictionary?.product?.addToCart || (isRtl ? "اضافة المنتج الي السلة" : "Add to Cart");
 
   return (
     <>
@@ -58,7 +65,7 @@ export function ShoppingBagButton() {
       ) : (
         <Button size="lg" className="w-full mt-5" type="submit">
           <ShoppingBag className={`${isRtl ? "ml-4" : "mr-4"} h-5 w-5`} />
-          {dictionary.product.addToCart}
+          {buttonText}
         </Button>
       )}
     </>
