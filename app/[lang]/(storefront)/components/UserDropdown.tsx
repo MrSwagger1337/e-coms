@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components"
 import Link from "next/link"
-import { Settings } from "lucide-react"
+import { Settings, User } from "lucide-react"
 
 const adminEmails = [
   "eweeda12@gmail.com",
@@ -46,6 +46,12 @@ export function UserDropdown({ email, name, userImage, lang }: iAppProps) {
           <p className="text-xs leading-none text-muted-foreground">{email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={`/${lang}/profile`} className="flex items-center gap-2">
+            <User className="h-4 w-4" />
+            {lang === "en" ? "My Profile" : "ملفي الشخصي"}
+          </Link>
+        </DropdownMenuItem>
         {isAdmin && (
           <DropdownMenuItem asChild>
             <Link href="/dashboard" className="flex items-center gap-2">

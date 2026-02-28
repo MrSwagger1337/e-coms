@@ -35,6 +35,9 @@ export function OrderActions({ orderId, currentStatus }: { orderId: string; curr
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                    <Link href={`/dashboard/orders/${orderId}`}>View Details</Link>
+                </DropdownMenuItem>
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger>Update Status</DropdownMenuSubTrigger>
                     <DropdownMenuSubContent>

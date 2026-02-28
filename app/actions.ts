@@ -311,6 +311,80 @@ export async function delItem(formData: FormData) {
   }
 }
 
+const UAE_PHONE_REGEX = /^\+971\s?\d{2}\s?\d{3}\s?\d{4}$/;
+
+const UAE_EMIRATES = [
+  "Abu Dhabi",
+  "Dubai",
+  "Sharjah",
+  "Ajman",
+  "Umm Al Quwain",
+  "Ras Al Khaimah",
+  "Fujairah",
+];
+
+export async function updateProfile(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/");
+  }
+
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const phone = formData.get("phone") as string;
+  const address = formData.get("address") as string;
+  const emirate = formData.get("emirate") as string;
+  const deliveryAddress = formData.get("deliveryAddress") as string;
+  const deliveryEmirate = formData.get("deliveryEmirate") as string;
+
+  // Validate UAE phone
+  if (phone && !UAE_PHONE_REGEX.test(phone.replace(/\s/g, "").replace(/^(\+971)(\d{2})(\d{3})(\d{4})$/, "+971 $2 $3 $4").trim())) {
+    // Also accept without spaces
+    const cleaned = phone.replace(/\s/g, "");
+    if (!cleaned.match(/^\+971\d{9}$/)) {
+      throw new Error("Invalid UAE phone number. Format: +971 XX XXX XXXX");
+    }
+  }
+
+  if (emirate && !UAE_EMIRATES.includes(emirate)) {
+    throw new Error("Invalid emirate");
+  }
+
+  if (deliveryEmirate && !UAE_EMIRATES.includes(deliveryEmirate)) {
+    throw new Error("Invalid delivery emirate");
+  }
+
+  await prisma.user.upsert({
+    where: { id: user.id },
+    update: {
+      firstName: firstName || undefined,
+      lastName: lastName || undefined,
+      phone: phone || undefined,
+      address: address || undefined,
+      emirate: emirate || undefined,
+      deliveryAddress: deliveryAddress || undefined,
+      deliveryEmirate: deliveryEmirate || undefined,
+    },
+    create: {
+      id: user.id,
+      email: user.email || "",
+      firstName: firstName || user.given_name || "",
+      lastName: lastName || user.family_name || "",
+      profileImage: user.picture || "",
+      phone,
+      address,
+      emirate,
+      deliveryAddress,
+      deliveryEmirate,
+    },
+  });
+
+  revalidatePath("/profile");
+  return { success: true };
+}
+
 export async function checkOut() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -325,12 +399,7 @@ export async function checkOut() {
     throw new Error("Cart is empty");
   }
 
-  const total = cart.items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  // First, ensure the user exists in the database
+  // Ensure the user exists in the database
   const dbUser = await prisma.user.upsert({
     where: { id: user.id },
     update: {},
@@ -343,11 +412,32 @@ export async function checkOut() {
     },
   });
 
+  // Require phone and delivery address
+  if (!dbUser.phone || !dbUser.deliveryAddress || !dbUser.deliveryEmirate) {
+    throw new Error("PROFILE_INCOMPLETE");
+  }
+
+  const total = cart.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   const order = await prisma.order.create({
     data: {
       userId: dbUser.id,
       amount: total,
       status: "pending",
+      phone: dbUser.phone,
+      deliveryAddress: dbUser.deliveryAddress,
+      deliveryEmirate: dbUser.deliveryEmirate,
+      items: {
+        create: cart.items.map((item) => ({
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          imageUrl: item.imageString,
+        })),
+      },
     },
   });
 
