@@ -142,7 +142,7 @@ export default async function BagRoute({
                         {/* Delete */}
                         <form action={delItem}>
                           <input type="hidden" name="productId" value={item.id} />
-                          <DeleteItem />
+                          <DeleteItem text={dict.cart.delete} removingText={dict.cart.removing} />
                         </form>
                       </div>
                     </CardContent>
@@ -165,11 +165,11 @@ export default async function BagRoute({
                   <Separator className="my-4" />
                   {totalPrice < 2 && (
                     <div className="p-3 mb-4 rounded-md bg-destructive/10 text-destructive text-sm font-medium">
-                      {isRtl ? "الحد الأدنى للطلب هو 2 درهم للمحاسبة" : "Minimum order amount is 2 AED to checkout"}
+                      {isRtl ? "الحد الادني لعملية الشراء هي 2 درهم" : "Minimum order amount is 2 AED to checkout"}
                     </div>
                   )}
                   <form action={checkOut}>
-                    <ChceckoutButton disabled={totalPrice < 2} />
+                    <ChceckoutButton disabled={totalPrice < 2} text={dict.cart.checkout} isRtlServer={isRtl} />
                   </form>
                 </CardContent>
               </Card>

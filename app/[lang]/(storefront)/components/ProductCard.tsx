@@ -12,7 +12,9 @@ interface iAppProps {
   item: {
     id: string
     name: string
+    name_ar?: string
     description: string
+    description_ar?: string
     price: number
     images: string[]
   }
@@ -54,7 +56,9 @@ export function ProductCard({ item, lang }: iAppProps) {
         <CarouselNext className={`${isRtl ? "ml-16" : "mr-16"}`} />
       </Carousel>
       <div className="px-5 pb-5">
-        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{item.name}</h5>
+        <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          {isRtl && item.name_ar ? item.name_ar : item.name}
+        </h5>
         <div className="flex items-center mt-2.5 mb-5">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             {/* Placeholder for Ratings */}
@@ -86,7 +90,9 @@ export function ProductCard({ item, lang }: iAppProps) {
             </Link>
           </Button>
         </div>
-        <p className="text-gray-600 text-sm mt-2 line-clamp-2">{item.description}</p>
+        <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+          {isRtl && item.description_ar ? item.description_ar : item.description}
+        </p>
       </div>
     </div>
   )

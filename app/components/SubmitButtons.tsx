@@ -72,32 +72,45 @@ export function ShoppingBagButton({ text, isRtlServer }: ShoppingBagButtonProps)
   );
 }
 
-export function DeleteItem() {
-  const { pending } = useFormStatus();
-  const { dictionary } = useLanguage();
+interface DeleteItemProps {
+  text?: string;
+  removingText?: string;
+}
 
-  if (!dictionary) return null;
+export function DeleteItem({ text, removingText }: DeleteItemProps) {
+  const { pending } = useFormStatus();
+  const context = useLanguage();
+
+  const removing = removingText || context.dictionary?.cart?.removing || "Removing...";
+  const del = text || context.dictionary?.cart?.delete || "Delete";
 
   return (
     <>
       {pending ? (
         <button disabled className="font-medium text-primary text-end">
-          {dictionary.cart.removing}
+          {removing}
         </button>
       ) : (
         <button type="submit" className="font-medium text-primary text-end">
-          {dictionary.cart.delete}
+          {del}
         </button>
       )}
     </>
   );
 }
 
-export function ChceckoutButton({ disabled }: { disabled?: boolean }) {
-  const { pending } = useFormStatus();
-  const { dictionary, isRtl } = useLanguage();
+interface CheckoutButtonProps {
+  disabled?: boolean;
+  text?: string;
+  isRtlServer?: boolean;
+}
 
-  if (!dictionary) return null;
+export function ChceckoutButton({ disabled, text, isRtlServer }: CheckoutButtonProps) {
+  const { pending } = useFormStatus();
+  const context = useLanguage();
+
+  const isRtl = isRtlServer ?? context.isRtl;
+  const checkoutText = text || context.dictionary?.cart?.checkout || (isRtl ? "إتمام عمليه الدفع" : "Checkout");
 
   return (
     <>
@@ -110,7 +123,7 @@ export function ChceckoutButton({ disabled }: { disabled?: boolean }) {
         </Button>
       ) : (
         <Button type="submit" size="lg" className="w-full mt-5" disabled={disabled}>
-          {dictionary.cart.checkout}
+          {checkoutText}
         </Button>
       )}
     </>
