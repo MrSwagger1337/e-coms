@@ -311,6 +311,40 @@ export async function delItem(formData: FormData) {
   }
 }
 
+export async function updateCartQuantity(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/");
+  }
+
+  const productId = formData.get("productId") as string;
+  const action = formData.get("action") as string; // "increment" or "decrement"
+  const cart: Cart | null = await redis.get(`cart-${user.id}`);
+
+  if (cart && cart.items) {
+    const updatedItems = cart.items
+      .map((item) => {
+        if (item.id === productId) {
+          const newQty = action === "increment" ? item.quantity + 1 : item.quantity - 1;
+          return { ...item, quantity: newQty };
+        }
+        return item;
+      })
+      .filter((item) => item.quantity > 0);
+
+    const updateCart: Cart = {
+      userId: user.id,
+      items: updatedItems,
+    };
+
+    await redis.set(`cart-${user.id}`, updateCart);
+  }
+
+  revalidatePath("/bag");
+}
+
 const UAE_PHONE_REGEX = /^\+971\s?\d{2}\s?\d{3}\s?\d{4}$/;
 
 const UAE_EMIRATES = [

@@ -1,4 +1,4 @@
-import { checkOut, delItem } from "@/app/actions";
+import { checkOut, delItem, updateCartQuantity } from "@/app/actions";
 import { ChceckoutButton, DeleteItem } from "@/app/components/SubmitButtons";
 import type { Cart } from "@/app/lib/interfaces";
 import { redis } from "@/app/lib/redis";
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { ShoppingBag } from "lucide-react";
+import { Minus, Plus, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { unstable_noStore as noStore } from "next/cache";
@@ -95,30 +95,52 @@ export default async function BagRoute({
                             <h3 className="font-semibold text-lg">
                               {item.name}
                             </h3>
-                            <div
-                              className={`flex items-center gap-x-2 text-muted-foreground ${isRtl ? "flex-row-reverse" : ""
-                                }`}
-                            >
-                              <p>{item.quantity} x</p>
-                              <p>
-                                {isRtl
-                                  ? `${item.price} ${dict.product.price}`
-                                  : `${dict.product.price}${item.price}`}
-                              </p>
-                            </div>
+                            <p className="text-sm text-muted-foreground">
+                              {isRtl
+                                ? `${item.price} ${dict.product.price}`
+                                : `${dict.product.price}${item.price}`}
+                            </p>
                           </div>
 
-                          <form
-                            action={delItem}
-                            className={isRtl ? "text-start" : "text-end"}
-                          >
-                            <input
-                              type="hidden"
-                              name="productId"
-                              value={item.id}
-                            />
-                            <DeleteItem />
-                          </form>
+                          <div className="flex items-center gap-3">
+                            <div className={`flex items-center gap-1 ${isRtl ? "flex-row-reverse" : ""}`}>
+                              <form action={updateCartQuantity}>
+                                <input type="hidden" name="productId" value={item.id} />
+                                <input type="hidden" name="action" value="decrement" />
+                                <button
+                                  type="submit"
+                                  className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
+                                >
+                                  <Minus className="h-3 w-3" />
+                                </button>
+                              </form>
+
+                              <span className="w-8 text-center font-medium text-sm">{item.quantity}</span>
+
+                              <form action={updateCartQuantity}>
+                                <input type="hidden" name="productId" value={item.id} />
+                                <input type="hidden" name="action" value="increment" />
+                                <button
+                                  type="submit"
+                                  className="h-8 w-8 rounded-md border flex items-center justify-center hover:bg-accent transition-colors"
+                                >
+                                  <Plus className="h-3 w-3" />
+                                </button>
+                              </form>
+                            </div>
+
+                            <form
+                              action={delItem}
+                              className={isRtl ? "text-start" : "text-end"}
+                            >
+                              <input
+                                type="hidden"
+                                name="productId"
+                                value={item.id}
+                              />
+                              <DeleteItem />
+                            </form>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
