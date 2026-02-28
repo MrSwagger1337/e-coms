@@ -417,7 +417,7 @@ export async function checkOut() {
 
   // Require phone and delivery address — redirect to profile if incomplete
   if (!dbUser.phone || !dbUser.deliveryAddress || !dbUser.deliveryEmirate) {
-    redirect("/en/profile?incomplete=1");
+    redirect("/profile?incomplete=1");
   }
 
   const total = cart.items.reduce(
