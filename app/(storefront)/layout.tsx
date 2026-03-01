@@ -2,6 +2,21 @@ import type { ReactNode } from "react";
 import { Navbar } from "../components/storefront/Navbar";
 import { Footer } from "../components/storefront/Footer";
 import { cn } from "@/lib/utils";
+import type { Metadata } from 'next';
+import { cookies } from "next/headers";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = cookies();
+  const language = cookieStore.get("language")?.value || "en";
+  const isAr = language === "ar";
+
+  return {
+    title: isAr ? "متجر الوردة البلغارية" : "Bulgarian rose Store",
+    description: isAr
+      ? "تصفح مجموعتنا الفاخرة من مستحضرات التجميل والعطور."
+      : "Browse our premium selection of cosmetics and perfumes.",
+  };
+}
 
 export default function StoreFrontLayout({
   children,
