@@ -44,11 +44,11 @@ export function CountdownGuard({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <div className="space-y-3">
-                    <h1 className="text-3xl md:text-5xl text-stone-800 tracking-wider font-light">
-                        SOFT OPENING
+                    <h1 className="text-3xl md:text-5xl text-stone-800 tracking-wider font-light uppercase">
+                        UNDER MAINTENANCE
                     </h1>
                     <p className="text-lg md:text-xl text-stone-500 font-light tracking-[0.2em] uppercase">
-                        Coming Soon
+                        Please come back later
                     </p>
                 </div>
 
@@ -88,6 +88,10 @@ export function CountdownGuard({ children }: { children: React.ReactNode }) {
                         </div>
                         <span className="text-[10px] md:text-xs text-stone-400 uppercase tracking-widest mt-3 font-medium">Seconds</span>
                     </div>
+                </div>
+
+                <div className="mt-16 text-sm text-stone-400/80 tracking-widest uppercase flex flex-col items-center justify-center font-medium">
+                    <p>Developer: @MrSwagger1337</p>
                 </div>
             </div>
         </div>
