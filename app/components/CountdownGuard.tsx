@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-// Target: 2026-02-28 17:00:00 Cairo time (UTC+2)
-const TARGET_DATE = new Date("2026-02-28T17:00:00+02:00").getTime();
+// Target: 2026-03-01 17:00:00 Cairo time (UTC+2)
+const TARGET_DATE = new Date("2026-03-01T17:00:00+02:00").getTime();
 
 export function CountdownGuard({ children }: { children: React.ReactNode }) {
     const [now, setNow] = useState<number | null>(null);
