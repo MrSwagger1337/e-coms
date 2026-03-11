@@ -26,6 +26,8 @@ export type Dictionary = {
     checkout: string;
     delete: string;
     removing: string;
+    deliveryFee: string;
+    total: string;
   };
   payment: {
     success: {

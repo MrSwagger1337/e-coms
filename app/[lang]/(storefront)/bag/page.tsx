@@ -153,16 +153,34 @@ export default async function BagRoute({
               {/* Summary */}
               <Card>
                 <CardContent className="p-6">
-                  <div className="flex items-center justify-between font-medium text-lg mb-4">
+                  <div className="flex items-center justify-between font-medium text-lg mb-2">
                     <p>{dict.cart.subtotal}</p>
-                    <p className="font-bold">
+                    <p>
                       {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
                         style: "currency",
                         currency: "AED",
                       }).format(totalPrice)}
                     </p>
                   </div>
+                  <div className="flex items-center justify-between font-medium text-lg mb-2">
+                    <p>{dict.cart.deliveryFee}</p>
+                    <p>
+                      {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
+                        style: "currency",
+                        currency: "AED",
+                      }).format(15)}
+                    </p>
+                  </div>
                   <Separator className="my-4" />
+                  <div className="flex items-center justify-between font-bold text-xl mb-4">
+                    <p>{dict.cart.total}</p>
+                    <p>
+                      {new Intl.NumberFormat(isRtl ? "ar-AE" : "en-AE", {
+                        style: "currency",
+                        currency: "AED",
+                      }).format(totalPrice + 15)}
+                    </p>
+                  </div>
                   {totalPrice < 2 && (
                     <div className="p-3 mb-4 rounded-md bg-destructive/10 text-destructive text-sm font-medium">
                       {isRtl ? "الحد الادني لعملية الشراء هي 2 درهم" : "Minimum order amount is 2 AED to checkout"}

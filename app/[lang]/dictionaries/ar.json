@@ -25,7 +25,9 @@
     "subtotal": "المجموع:",
     "checkout": "إتمام عملية الدفع",
     "delete": "حذف",
-    "removing": "جاري الحذف..."
+    "removing": "جاري الحذف...",
+    "deliveryFee": "رسوم التوصيل:",
+    "total": "الإجمالي:"
   },
   "payment": {
     "success": {

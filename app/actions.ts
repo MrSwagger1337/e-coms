@@ -14,6 +14,9 @@ import type Stripe from "stripe";
 import { locales } from "@/middleware";
 import { z } from "zod";
 
+// Flat delivery fee in AED applied to every order
+const DELIVERY_FEE = 15;
+
 // Helper function to check admin access
 async function checkAdminAccess() {
   const { getUser } = getKindeServerSession();
@@ -456,10 +459,11 @@ export async function checkOut() {
     redirect(`/${lang}/profile?incomplete=1`);
   }
 
-  const total = cart.items.reduce(
+  const subtotal = cart.items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  const total = subtotal + DELIVERY_FEE;
 
   const order = await prisma.order.create({
     data: {
@@ -486,17 +490,29 @@ export async function checkOut() {
       userId: dbUser.id,
     },
     payment_method_types: ["card"],
-    line_items: cart.items.map((item) => ({
-      price_data: {
-        currency: "aed",
-        product_data: {
-          name: item.name,
-          images: [item.imageString],
+    line_items: [
+      ...cart.items.map((item) => ({
+        price_data: {
+          currency: "aed",
+          product_data: {
+            name: item.name,
+            images: [item.imageString],
+          },
+          unit_amount: item.price * 100,
         },
-        unit_amount: item.price * 100,
+        quantity: item.quantity,
+      })),
+      {
+        price_data: {
+          currency: "aed",
+          product_data: {
+            name: "Delivery Fee",
+          },
+          unit_amount: DELIVERY_FEE * 100,
+        },
+        quantity: 1,
       },
-      quantity: item.quantity,
-    })),
+    ],
     mode: "payment",
     success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://bulgarianrose.ae'}/payment/success?orderId=${order.id}`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://bulgarianrose.ae'}/payment/cancel?orderId=${order.id}`,

@@ -131,7 +131,44 @@ export default function BagRoute() {
                     currency: "AED"
                   }).format(totalPrice)}`}
               </p>
+            </div>
 
+            <div
+              className={`flex items-center justify-between font-medium mt-2 ${isRtl ? "flex-row-reverse" : ""
+                }`}
+            >
+              <p>{dictionary.cart.deliveryFee || (isRtl ? "رسوم التوصيل:" : "Delivery Fee:")}</p>
+              <p>
+                {isRtl
+                  ? `${new Intl.NumberFormat("ar-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(15)} ${dictionary.product.price}`
+                  : `${dictionary.product.price}${new Intl.NumberFormat("en-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(15)}`}
+              </p>
+            </div>
+
+            <hr className="my-4 border-border" />
+
+            <div
+              className={`flex items-center justify-between font-bold text-lg ${isRtl ? "flex-row-reverse" : ""
+                }`}
+            >
+              <p>{dictionary.cart.total || (isRtl ? "الإجمالي:" : "Total:")}</p>
+              <p>
+                {isRtl
+                  ? `${new Intl.NumberFormat("ar-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(totalPrice + 15)} ${dictionary.product.price}`
+                  : `${dictionary.product.price}${new Intl.NumberFormat("en-AE", {
+                    style: "currency",
+                    currency: "AED"
+                  }).format(totalPrice + 15)}`}
+              </p>
             </div>
 
             {totalPrice < 2 && (

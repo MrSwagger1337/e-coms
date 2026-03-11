@@ -25,7 +25,9 @@
     "subtotal": "Subtotal:",
     "checkout": "Checkout",
     "delete": "Delete",
-    "removing": "Removing..."
+    "removing": "Removing...",
+    "deliveryFee": "Delivery Fee:",
+    "total": "Total:"
   },
   "payment": {
     "success": {
@@ -55,4 +57,3 @@
     "shopNow": "Shop Now"
   }
 }
-
