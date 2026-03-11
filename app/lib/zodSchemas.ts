@@ -11,7 +11,7 @@ export const productSchema = z.object({
   status: z.enum(["draft", "published", "archived"]),
   price: z.coerce.number().min(1, "Price must be greater than 0"),
   images: z.array(z.string()).min(1, "At least one image is required"),
-  category: z.enum(["cosmetics", "perfume", "beauty"]),
+  category: z.string().min(1, "Category is required"),
   isFeatured: z.boolean().optional(),
 });
 
@@ -19,4 +19,11 @@ export const bannerSchema = z.object({
   title: z.string().min(1, "Title is required"),
   title_ar: z.string().min(1, "Arabic title is required").optional(),
   imageString: z.string().min(1, "Image is required"),
+});
+
+export const categorySchema = z.object({
+  name: z.string().min(1, "Category name (slug) is required"),
+  title: z.string().min(1, "Display title is required"),
+  title_ar: z.string().optional(),
+  imageString: z.string().optional(),
 });

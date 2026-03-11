@@ -3,7 +3,7 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { parseWithZod } from "@conform-to/zod";
-import { bannerSchema, productSchema } from "./lib/zodSchemas";
+import { bannerSchema, categorySchema, productSchema } from "./lib/zodSchemas";
 import prisma from "./lib/db";
 import { redis } from "./lib/redis";
 import type { Cart } from "./lib/interfaces";
@@ -564,4 +564,107 @@ export async function deleteOrder(formData: FormData) {
 
   revalidatePath("/dashboard/orders");
   redirect("/dashboard/orders");
+}
+
+export async function createCategory(prevState: any, formData: FormData) {
+  try {
+    await checkAdminAccess();
+
+    const submission = parseWithZod(formData, {
+      schema: categorySchema,
+    });
+
+    if (submission.status !== "success") {
+      return submission.reply();
+    }
+
+    await handleDatabaseOperation(async () => {
+      await prisma.categoryInfo.create({
+        data: {
+          name: submission.value.name,
+          title: submission.value.title,
+          title_ar: submission.value.title_ar,
+          imageString: submission.value.imageString,
+        },
+      });
+    });
+
+    revalidatePath("/dashboard/categories");
+    redirect("/dashboard/categories");
+  } catch (error) {
+    console.error("Failed to create category:", error);
+    throw error;
+  }
+}
+
+export async function editCategory(prevState: any, formData: FormData) {
+  try {
+    await checkAdminAccess();
+
+    const submission = parseWithZod(formData, {
+      schema: categorySchema,
+    });
+
+    if (submission.status !== "success") {
+      return submission.reply();
+    }
+
+    const categoryId = formData.get("categoryId") as string;
+
+    await handleDatabaseOperation(async () => {
+      await prisma.categoryInfo.update({
+        where: { id: categoryId },
+        data: {
+          name: submission.value.name,
+          title: submission.value.title,
+          title_ar: submission.value.title_ar,
+          imageString: submission.value.imageString,
+        },
+      });
+    });
+
+    revalidatePath("/dashboard/categories");
+    redirect("/dashboard/categories");
+  } catch (error) {
+    console.error("Failed to edit category:", error);
+    throw error;
+  }
+}
+
+export async function deleteCategory(formData: FormData) {
+  try {
+    await checkAdminAccess();
+    const categoryId = formData.get("categoryId") as string;
+
+    // Check if any products use this category
+    const category = await prisma.categoryInfo.findUnique({
+      where: { id: categoryId },
+    });
+
+    if (!category) {
+      throw new Error("Category not found");
+    }
+
+    const productCount = await prisma.product.count({
+      where: { category: category.name },
+    });
+
+    if (productCount > 0) {
+      throw new Error(
+        `Cannot delete category "${category.title}" — ${productCount} product(s) still use it.`
+      );
+    }
+
+    await handleDatabaseOperation(async () => {
+      await prisma.categoryInfo.delete({
+        where: { id: categoryId },
+      });
+    });
+
+    revalidatePath("/dashboard/categories");
+    redirect("/dashboard/categories");
+  } catch (error) {
+    console.error("Failed to delete category:", error);
+    throw error;
+  }
 }

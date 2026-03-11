@@ -40,8 +40,18 @@ model Product {
   status      ProductStatus
   price       Int
   images      String[]
-  category    Category
+  category    String        @default("cosmetics")
   isFeatured  Boolean       @default(false)
+
+  createdAt DateTime @default(now())
+}
+
+model CategoryInfo {
+  id          String   @id @default(uuid())
+  name        String   @unique   // slug, e.g. "cosmetics"
+  title       String              // English display name
+  title_ar    String?             // Arabic display name
+  imageString String?             // Category image URL
 
   createdAt DateTime @default(now())
 }
@@ -87,10 +97,4 @@ enum ProductStatus {
   draft
   published
   archived
-}
-
-enum Category {
-  cosmetics
-  perfume
-  beauty
 }

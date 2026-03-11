@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import prisma from "@/app/lib/db"
 import { unstable_noStore as noStore } from "next/cache"
-import type { Prisma } from "@prisma/client"
 
 export async function GET(request: Request, { params }: { params: { name: string } }) {
   noStore()
@@ -9,23 +8,26 @@ export async function GET(request: Request, { params }: { params: { name: string
   try {
     const categoryName = params.name
 
-    const categories: { [key: string]: string } = {
-      all: "All Products",
-      cosmetics: "Cosmetics",
-      perfume: "Perfumes",
-      beauty: "Beauty products",
-    }
+    // Fetch dynamic categories from DB
+    const dbCategories = await prisma.categoryInfo.findMany({
+      select: { name: true, title: true },
+    })
 
-    if (!(categoryName in categories)) {
+    const categoryMap: Record<string, string> = { all: "All Products" }
+    dbCategories.forEach((cat) => {
+      categoryMap[cat.name] = cat.title
+    })
+
+    if (!(categoryName in categoryMap)) {
       return NextResponse.json({ error: "Category not found" }, { status: 404 })
     }
 
-    const whereClause: Prisma.ProductWhereInput = {
+    const whereClause: any = {
       status: "published",
     }
 
     if (categoryName !== "all") {
-      whereClause.category = categoryName as Prisma.EnumCategoryFilter<"Product">
+      whereClause.category = categoryName
     }
 
     const products = await prisma.product.findMany({
@@ -41,7 +43,7 @@ export async function GET(request: Request, { params }: { params: { name: string
     })
 
     return NextResponse.json({
-      title: categories[categoryName],
+      title: categoryMap[categoryName],
       products: products,
     })
   } catch (error) {
@@ -49,4 +51,3 @@ export async function GET(request: Request, { params }: { params: { name: string
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 })
   }
 }
-

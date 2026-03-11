@@ -3,10 +3,17 @@
 import Image from "next/image"
 import Link from "next/link"
 import all from "@/public/all.jpeg"
-import men from "@/public/men.jpeg"
-import women from "@/public/women.jpeg"
 import { useLanguage } from "@/app/context/LanguageContext"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
+
+type CategoryData = {
+  id: string
+  name: string
+  title: string
+  title_ar: string | null
+  imageString: string | null
+}
 
 function SaleHeading4({ className, category, isRtl }: { className?: string; category: string; isRtl: boolean }) {
   return (
@@ -27,6 +34,14 @@ function SaleHeading4({ className, category, isRtl }: { className?: string; cate
 
 export function CategoriesSelection() {
   const { dictionary, isRtl } = useLanguage()
+  const [categories, setCategories] = useState<CategoryData[]>([])
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => { })
+  }, [])
 
   if (!dictionary) return null
 
@@ -34,7 +49,7 @@ export function CategoriesSelection() {
     <div className="py-24 sm:py-32 relative">
       <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-purple-200/20 to-pink-200/20 rounded-full blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-gradient-to-br from-blue-200/20 to-cyan-200/20 rounded-full blur-3xl" />
-      
+
       <div className={`flex justify-between items-center ${isRtl ? "flex-row-reverse" : ""}`}>
         <SaleHeading4 category={dictionary.shopBy.category} isRtl={isRtl} />
 
@@ -46,7 +61,8 @@ export function CategoriesSelection() {
         </Link>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-8 lg:gap-10">
+      <div className={`mt-10 grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-8 lg:gap-10 ${categories.length > 0 ? "sm:grid-rows-2" : ""}`}>
+        {/* "All Products" card — always first */}
         <div className="group aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden sm:aspect-w-1 sm:row-span-2 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
           <Image src={all || "/placeholder.svg"} alt="All Products Image" className="object-cover object-center transition-transform duration-700 group-hover:scale-110" />
           <div className="bg-gradient-to-b from-transparent via-transparent to-black/70 group-hover:to-black/80 transition-all duration-300" />
@@ -58,37 +74,32 @@ export function CategoriesSelection() {
           </div>
         </div>
 
-        <div className="group aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden sm:relative sm:aspect-none sm:h-full shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-          <Image
-            src={men || "/placeholder.svg"}
-            alt="Products for men Image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black/70 sm:absolute sm:inset-0 group-hover:to-black/80 transition-all duration-300" />
-          <div className={`p-8 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
-            <Link href="/products/cosmetics" className="group/link">
-              <h3 className="text-white font-bold text-xl mb-2 group-hover/link:text-pink-200 transition-colors duration-200">{dictionary.categories.cosmetics}</h3>
-              <p className="text-white/90 group-hover/link:text-white transition-colors duration-200">{dictionary.shopBy.shopNow}</p>
-            </Link>
+        {/* Dynamic category cards */}
+        {categories.map((cat) => (
+          <div key={cat.id} className="group aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden sm:relative sm:aspect-none sm:h-full shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+            {cat.imageString ? (
+              <Image
+                src={cat.imageString}
+                alt={`${cat.title} Image`}
+                width={600}
+                height={400}
+                className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full transition-transform duration-700 group-hover:scale-110"
+              />
+            ) : (
+              <div className="bg-gradient-to-br from-pink-400 to-purple-500 sm:absolute sm:inset-0 sm:w-full sm:h-full" />
+            )}
+            <div className="bg-gradient-to-b from-transparent to-black/70 sm:absolute sm:inset-0 group-hover:to-black/80 transition-all duration-300" />
+            <div className={`p-8 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
+              <Link href={`/products/${cat.name}`} className="group/link">
+                <h3 className="text-white font-bold text-xl mb-2 group-hover/link:text-pink-200 transition-colors duration-200">
+                  {isRtl && cat.title_ar ? cat.title_ar : cat.title}
+                </h3>
+                <p className="text-white/90 group-hover/link:text-white transition-colors duration-200">{dictionary.shopBy.shopNow}</p>
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <div className="group aspect-w-2 aspect-h-1 rounded-2xl overflow-hidden sm:relative sm:aspect-none sm:h-full shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-          <Image
-            src={women || "/placeholder.svg"}
-            alt="Women product image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black/70 sm:absolute sm:inset-0 group-hover:to-black/80 transition-all duration-300" />
-          <div className={`p-8 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
-            <Link href="/products/perfume" className="group/link">
-              <h3 className="text-white font-bold text-xl mb-2 group-hover/link:text-pink-200 transition-colors duration-200">{dictionary.categories.perfume}</h3>
-              <p className="text-white/90 group-hover/link:text-white transition-colors duration-200">{dictionary.shopBy.shopNow}</p>
-            </Link>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   )
 }
-

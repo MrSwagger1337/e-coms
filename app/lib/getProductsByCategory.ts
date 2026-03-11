@@ -11,14 +11,17 @@ export type CategoryData = {
 export async function getProductsByCategory(
   productCategory: string
 ): Promise<CategoryData> {
-  const categories: { [key: string]: string } = {
-    all: "All Products",
-    cosmetics: "Cosmetics",
-    perfume: "Perfumes",
-    beauty: "Beauty products",
-  };
+  // Fetch dynamic categories from DB
+  const dbCategories = await prisma.categoryInfo.findMany({
+    select: { name: true, title: true },
+  });
 
-  if (!(productCategory in categories)) {
+  const categoryMap: Record<string, string> = { all: "All Products" };
+  dbCategories.forEach((cat) => {
+    categoryMap[cat.name] = cat.title;
+  });
+
+  if (!(productCategory in categoryMap)) {
     notFound();
   }
 
@@ -27,8 +30,7 @@ export async function getProductsByCategory(
   };
 
   if (productCategory !== "all") {
-    whereClause.category =
-      productCategory as Prisma.EnumCategoryFilter<"Product">;
+    whereClause.category = productCategory;
   }
 
   const data = await prisma.product.findMany({
@@ -46,7 +48,7 @@ export async function getProductsByCategory(
   });
 
   return {
-    title: categories[productCategory],
+    title: categoryMap[productCategory],
     data: data as Product[],
   };
 }

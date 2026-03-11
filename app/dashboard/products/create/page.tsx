@@ -28,14 +28,14 @@ import { useFormState } from "react-dom";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { productSchema } from "@/app/lib/zodSchemas";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Image from "next/image";
-import { categories } from "@/app/lib/categories";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 
 export default function ProductCreateRoute() {
   const [images, setImages] = useState<string[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name: string; title: string }[]>([]);
   const [lastResult, action] = useFormState(createProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
@@ -45,6 +45,13 @@ export default function ProductCreateRoute() {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => { });
+  }, []);
 
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));

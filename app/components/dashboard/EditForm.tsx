@@ -25,8 +25,7 @@ import { SubmitButton } from "../SubmitButtons";
 import { Switch } from "@/components/ui/switch";
 import Image from "next/image";
 import { UploadDropzone } from "@/app/lib/uplaodthing";
-import { categories } from "@/app/lib/categories";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { editProduct } from "@/app/actions";
 import { useForm } from "@conform-to/react";
@@ -44,13 +43,14 @@ interface EditFormProps {
     status: $Enums.ProductStatus;
     price: number;
     images: string[];
-    category: $Enums.Category;
+    category: string;
     isFeatured: boolean;
   };
 }
 
 export function EditForm({ data }: EditFormProps) {
   const [images, setImages] = useState<string[]>(data.images);
+  const [categories, setCategories] = useState<{ id: string; name: string; title: string }[]>([]);
   const [lastResult, action] = useFormState(editProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
@@ -62,6 +62,13 @@ export function EditForm({ data }: EditFormProps) {
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
   });
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => { });
+  }, []);
 
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
