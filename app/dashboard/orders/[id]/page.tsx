@@ -164,6 +164,20 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                                     </div>
                                 ))}
 
+                                <div className="border-t pt-3 space-y-2">
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-muted-foreground">Subtotal</span>
+                                        <span>
+                                            {new Intl.NumberFormat("en-AE", { style: "currency", currency: "AED" }).format(order.amount - 15)}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-sm">
+                                        <span className="text-muted-foreground">Delivery Fee</span>
+                                        <span>
+                                            {new Intl.NumberFormat("en-AE", { style: "currency", currency: "AED" }).format(15)}
+                                        </span>
+                                    </div>
+                                </div>
                                 <div className="border-t pt-3 flex justify-between font-bold">
                                     <span>Total</span>
                                     <span className="text-green-600">

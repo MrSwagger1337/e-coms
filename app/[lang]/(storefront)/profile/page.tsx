@@ -139,6 +139,12 @@ export default async function ProfilePage({ params, searchParams }: { params: { 
                                                         <span className="text-sm font-medium">{item.price} AED</span>
                                                     </div>
                                                 ))}
+                                                <div className="border-t pt-2 mt-2 space-y-1">
+                                                    <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                                        <span>{isRtl ? "رسوم التوصيل" : "Delivery Fee"}</span>
+                                                        <span>15 AED</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         )}
                                     </div>
