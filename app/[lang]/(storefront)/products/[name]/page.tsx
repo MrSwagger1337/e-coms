@@ -3,6 +3,7 @@ import { getProductsByCategory } from "@/app/lib/getProductsByCategory"
 import { AnimatedHeading } from "@/app/[lang]/(storefront)/components/AnimatedHeading"
 import { ProductList } from "@/app/[lang]/(storefront)/components/ProductList"
 import { getDictionary } from "@/app/[lang]/dictionaries"
+import prisma from "@/app/lib/db"
 
 export default async function CategoriesPage({
   params,
@@ -13,16 +14,21 @@ export default async function CategoriesPage({
   const dict = await getDictionary(params.lang)
   const isRtl = params.lang === "ar"
 
-  // Map the English title to the localized title
+  // Map the English/default title to the localized title
   let localizedTitle = title
+
   if (params.name === "all") {
     localizedTitle = dict.categories.all
-  } else if (params.name === "cosmetics") {
-    localizedTitle = dict.categories.cosmetics
-  } else if (params.name === "perfume") {
-    localizedTitle = dict.categories.perfume
-  } else if (params.name === "beauty") {
-    localizedTitle = dict.categories.beauty
+  } else {
+    // Attempt to find the specific category's Arabic title from DB if needed
+    const catData = await prisma.categoryInfo.findUnique({
+      where: { name: params.name },
+      select: { title: true, title_ar: true }
+    })
+
+    if (catData) {
+      localizedTitle = isRtl && catData.title_ar ? catData.title_ar : catData.title
+    }
   }
 
   return (
@@ -36,4 +42,3 @@ export default async function CategoriesPage({
     </div>
   )
 }
-

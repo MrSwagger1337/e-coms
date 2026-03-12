@@ -6,6 +6,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { unstable_noStore as noStore } from "next/cache"
 import { SubmitButton } from "@/app/components/SubmitButtons"
+import { DeleteCategoryForm } from "./DeleteCategoryForm"
 
 async function getData(categoryId: string) {
     const data = await prisma.categoryInfo.findUnique({
@@ -54,16 +55,8 @@ export default async function DeleteCategoryRoute({
                     <Button variant="secondary" asChild>
                         <Link href="/dashboard/categories">Cancel</Link>
                     </Button>
-                    {data.productCount === 0 ? (
-                        <form action={deleteCategory}>
-                            <input type="hidden" name="categoryId" value={data.id} />
-                            <SubmitButton text="Delete Category" variant="destructive" />
-                        </form>
-                    ) : (
-                        <Button variant="destructive" disabled>
-                            Cannot Delete (Has Products)
-                        </Button>
-                    )}
+
+                    <DeleteCategoryForm categoryId={data.id} hasProducts={data.productCount > 0} />
                 </CardFooter>
             </Card>
         </div>

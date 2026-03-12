@@ -15,11 +15,12 @@ export function ProductList({
   const [products] = useState<Product[]>(initialProducts);
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(initialProducts);
-  const { dictionary, isRtl } = useLanguage();
+  const { dictionary } = useLanguage();
 
   if (!dictionary) return null;
 
-  const categories = [
+  // The categories actually present in the products on this page
+  const categoriesInUse = [
     "all",
     ...Array.from(new Set(products.map((product) => product.category))),
   ];
@@ -37,7 +38,7 @@ export function ProductList({
   return (
     <>
       <ProductFilter
-        categories={categories}
+        categories={categoriesInUse}
         onFilterChange={handleFilterChange}
       />
       <AnimatePresence>

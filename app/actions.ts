@@ -631,7 +631,7 @@ export async function editCategory(prevState: any, formData: FormData) {
   }
 }
 
-export async function deleteCategory(formData: FormData) {
+export async function deleteCategory(prevState: any, formData: FormData) {
   try {
     await checkAdminAccess();
     const categoryId = formData.get("categoryId") as string;
@@ -642,7 +642,7 @@ export async function deleteCategory(formData: FormData) {
     });
 
     if (!category) {
-      throw new Error("Category not found");
+      return { error: "Category not found" };
     }
 
     const productCount = await prisma.product.count({
@@ -650,9 +650,7 @@ export async function deleteCategory(formData: FormData) {
     });
 
     if (productCount > 0) {
-      throw new Error(
-        `Cannot delete category "${category.title}" — ${productCount} product(s) still use it.`
-      );
+      return { error: `Cannot delete category "${category.title}" — ${productCount} product(s) still use it. Please remove or reassign these products first.` };
     }
 
     await handleDatabaseOperation(async () => {
@@ -665,6 +663,7 @@ export async function deleteCategory(formData: FormData) {
     redirect("/dashboard/categories");
   } catch (error) {
     console.error("Failed to delete category:", error);
-    throw error;
+    return { error: "Failed to delete category due to an unexpected error." };
   }
 }
+

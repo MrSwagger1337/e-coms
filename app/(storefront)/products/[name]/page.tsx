@@ -21,16 +21,18 @@ export default function CategoriesPage() {
         const data = await response.json();
         setProducts(data.products);
 
+        // Fetch dynamic category info to get potential localized titles
+        const catRes = await fetch(`/api/categories`);
+        const catData = await catRes.json();
+
+        const currentCategory = catData.find((c: any) => c.name === params.name);
+
         // Set localized category title
         if (dictionary) {
           if (params.name === "all") {
             setCategoryTitle(dictionary.categories.all);
-          } else if (params.name === "cosmetics") {
-            setCategoryTitle(dictionary.categories.cosmetics);
-          } else if (params.name === "perfume") {
-            setCategoryTitle(dictionary.categories.perfume);
-          } else if (params.name === "beauty") {
-            setCategoryTitle(dictionary.categories.beauty);
+          } else if (currentCategory) {
+            setCategoryTitle(isRtl && currentCategory.title_ar ? currentCategory.title_ar : currentCategory.title);
           } else {
             setCategoryTitle(data.title);
           }
@@ -45,7 +47,7 @@ export default function CategoriesPage() {
     if (params.name && dictionary) {
       fetchProducts();
     }
-  }, [params.name, dictionary]);
+  }, [params.name, dictionary, isRtl]);
 
   if (!dictionary || loading) {
     return (
@@ -58,9 +60,8 @@ export default function CategoriesPage() {
   return (
     <div className="bg-white">
       <section
-        className={`max-w-7xl mx-auto min-h-screen py-12 px-4 sm:px-6 lg:px-8 ${
-          isRtl ? "rtl" : ""
-        }`}
+        className={`max-w-7xl mx-auto min-h-screen py-12 px-4 sm:px-6 lg:px-8 ${isRtl ? "rtl" : ""
+          }`}
       >
         <AnimatedHeading title={categoryTitle} />
         <Suspense
