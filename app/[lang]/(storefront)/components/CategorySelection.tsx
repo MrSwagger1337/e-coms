@@ -1,10 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
 import all from "@/public/all.jpeg"
-import men from "@/public/men.jpeg"
-import women from "@/public/women.jpeg"
 import { getDictionary } from "@/app/[lang]/dictionaries"
 import { cn } from "@/lib/utils"
+import prisma from "@/app/lib/db"
 
 async function SaleHeading4({ className, category, isRtl }: { className?: string; category: string; isRtl: boolean }) {
   return (
@@ -25,6 +24,11 @@ export async function CategoriesSelection({ lang }: { lang: "en" | "ar" }) {
   const dict = await getDictionary(lang)
   const isRtl = lang === "ar"
 
+  // Fetch dynamic categories
+  const categories = await prisma.categoryInfo.findMany({
+    orderBy: { createdAt: "asc" },
+  })
+
   return (
     <div className="py-24 sm:py-32">
       <div className={`flex justify-between items-center ${isRtl ? "flex-row-reverse" : ""}`}>
@@ -35,7 +39,8 @@ export async function CategoriesSelection({ lang }: { lang: "en" | "ar" }) {
         </Link>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:grid-rows-2 sm:gap-x-6 lg:gap-8">
+      <div className={`mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:gap-8 ${categories.length > 0 ? "sm:grid-rows-2" : ""}`}>
+        {/* All Products Card */}
         <div className="group aspect-w-2 aspect-h-1 rounded-xl overflow-hidden sm:aspect-w-1 sm:row-span-2">
           <Image src={all || "/placeholder.svg"} alt="All Products Image" className="object-cover object-center " />
           <div className="bg-gradient-to-b from-transparent to-black opacity-55" />
@@ -47,37 +52,32 @@ export async function CategoriesSelection({ lang }: { lang: "en" | "ar" }) {
           </div>
         </div>
 
-        <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
-          <Image
-            src={men || "/placeholder.svg"}
-            alt="Products for men Image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
-          <div className={`p-6 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
-            <Link href={`/${lang}/products/cosmetics`}>
-              <h3 className="text-white font-semibold">{dict.categories.cosmetics}</h3>
-              <p className="mt-1 text-sm text-white">{dict.shopBy.shopNow}</p>
-            </Link>
+        {/* Dynamic Category Cards */}
+        {categories.map((cat) => (
+          <div key={cat.id} className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full shadow-md">
+            {cat.imageString ? (
+              <Image
+                src={cat.imageString}
+                alt={`${cat.title} Image`}
+                width={600}
+                height={400}
+                className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
+              />
+            ) : (
+              <div className="bg-gradient-to-br from-pink-400 to-purple-500 sm:absolute sm:inset-0 sm:w-full sm:h-full" />
+            )}
+            <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
+            <div className={`p-6 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
+              <Link href={`/${lang}/products/${cat.name}`}>
+                <h3 className="text-white font-semibold">
+                  {isRtl && cat.title_ar ? cat.title_ar : cat.title}
+                </h3>
+                <p className="mt-1 text-sm text-white">{dict.shopBy.shopNow}</p>
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <div className="group aspect-w-2 aspect-h-1 rounded-lg overflow-hidden sm:relative sm:aspect-none sm:h-full">
-          <Image
-            src={women || "/placeholder.svg"}
-            alt="Women product image"
-            className="object-bottom object-cover sm:absolute sm:inset-0 sm:w-full sm:h-full"
-          />
-          <div className="bg-gradient-to-b from-transparent to-black opacity-55 sm:absolute sm:inset-0" />
-          <div className={`p-6 flex items-end sm:absolute sm:inset-0 ${isRtl ? "text-right" : ""}`}>
-            <Link href={`/${lang}/products/perfume`}>
-              <h3 className="text-white font-semibold">{dict.categories.perfume}</h3>
-              <p className="mt-1 text-sm text-white">{dict.shopBy.shopNow}</p>
-            </Link>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   )
 }
-

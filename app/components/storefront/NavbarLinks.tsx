@@ -5,40 +5,42 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 export function NavbarLinks() {
   const location = usePathname();
   const { dictionary, isRtl } = useLanguage();
+  const [categories, setCategories] = useState<{ id: string; name: string; title: string; title_ar: string | null }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => { });
+  }, []);
 
   if (!dictionary) return null;
 
-  const navbarLinks = [
+  const baseLinks = [
     {
-      id: 0,
+      id: "home",
       name: dictionary.navigation.home,
       href: "/",
     },
     {
-      id: 1,
+      id: "all",
       name: dictionary.navigation.allProducts,
       href: "/products/all",
     },
-    {
-      id: 2,
-      name: dictionary.navigation.cosmetics,
-      href: "/products/cosmetics",
-    },
-    {
-      id: 3,
-      name: dictionary.navigation.perfume,
-      href: "/products/perfume",
-    },
-    {
-      id: 4,
-      name: dictionary.navigation.beauty,
-      href: "/products/beauty",
-    },
   ];
+
+  const categoryLinks = categories.map((cat) => ({
+    id: cat.id,
+    name: isRtl && cat.title_ar ? cat.title_ar : cat.title,
+    href: `/products/${cat.name}`,
+  }));
+
+  const navbarLinks = [...baseLinks, ...categoryLinks];
 
   return (
     <div

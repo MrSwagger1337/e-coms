@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 export function NavbarLinks({ lang }: { lang: "en" | "ar" }) {
   const location = usePathname()
   const [dict, setDict] = useState<Dictionary | null>(null)
+  const [categories, setCategories] = useState<{ id: string; name: string; title: string; title_ar: string | null }[]>([])
   const isRtl = lang === "ar"
 
   useEffect(() => {
@@ -17,37 +18,35 @@ export function NavbarLinks({ lang }: { lang: "en" | "ar" }) {
       setDict(dictionary)
     }
     loadDictionary()
+
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => { })
   }, [lang])
 
   if (!dict) return null
 
-  const navbarLinks = [
+  const baseLinks = [
     {
-      id: 0,
+      id: "home",
       name: dict.navigation.home,
       href: `/${lang}`,
     },
     {
-      id: 1,
+      id: "all",
       name: dict.navigation.allProducts,
       href: `/${lang}/products/all`,
     },
-    {
-      id: 2,
-      name: dict.navigation.cosmetics,
-      href: `/${lang}/products/cosmetics`,
-    },
-    {
-      id: 3,
-      name: dict.navigation.perfume,
-      href: `/${lang}/products/perfume`,
-    },
-    {
-      id: 4,
-      name: dict.navigation.beauty,
-      href: `/${lang}/products/beauty`,
-    },
   ]
+
+  const categoryLinks = categories.map((cat) => ({
+    id: cat.id,
+    name: isRtl && cat.title_ar ? cat.title_ar : cat.title,
+    href: `/${lang}/products/${cat.name}`,
+  }))
+
+  const navbarLinks = [...baseLinks, ...categoryLinks]
 
   return (
     <div className={`hidden md:flex justify-center items-center gap-x-2 ${isRtl ? "mr-8" : "ml-8"}`}>
@@ -66,4 +65,3 @@ export function NavbarLinks({ lang }: { lang: "en" | "ar" }) {
     </div>
   )
 }
-
